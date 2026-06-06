@@ -1,0 +1,58 @@
+name: 🧮 Magic Formula Analysis
+
+on:
+  push:
+    paths:
+      - 'data/statusinvest-busca-avancada.csv'   # dispara ao commitar CSV novo
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: 'Candidatos para analisar (ex: 30)'
+        default: '30'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  magic-formula:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Calcular Magic Formula ranking
+        run: python src/main.py --top ${{ github.event.inputs.top_n || '30' }}
+
+      - name: Analisar candidatos com Claude (API)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/ci_magic_formula.py
+
+      - name: Gerar relatório HTML
+        run: |
+          python src/report.py \
+            --json output/candidates.json \
+            --analysis-file output/analyses.json \
+            --top 15
+          cp output/relatorio.html docs/index.html
+
+      - name: Commit e push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html output/candidates.json output/analyses.json
+          git diff --staged --quiet && echo "Sem mudanças" || \
+            git commit -m "🧮 Magic Formula atualizada $(date +'%Y-%m-%d')" && git push
