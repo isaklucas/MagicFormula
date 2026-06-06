@@ -10,6 +10,7 @@ import sys
 import io
 import json
 import time
+import logging
 import warnings
 import argparse
 from pathlib import Path
@@ -20,6 +21,7 @@ import numpy as np
 import yfinance as yf
 
 warnings.filterwarnings("ignore")
+logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 ROOT = Path(__file__).parent.parent
