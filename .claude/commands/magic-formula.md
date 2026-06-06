@@ -22,7 +22,7 @@ Leia `output/candidates.json`. Extraia os primeiros 30 da lista `candidatos`.
 
 ## Passo 3 — Disparar agentes de análise em paralelo (um por ticker)
 
-Para cada ticker nos 20 candidatos, dispare **um Agent em paralelo** (subagent_type: "claude").
+Para cada ticker nos 30 candidatos, dispare **um Agent em paralelo** (subagent_type: "claude").
 Todos disparados **em uma única mensagem** (bloco simultâneo de tool calls).
 
 **PROMPT DO AGENTE** (substitua os valores reais de cada empresa — use o campo `contexto_agente` do JSON para tendências trimestrais):
@@ -112,7 +112,7 @@ sys.exit(invalidas)
 ## Passo 5 — Selecionar top 15
 
 Com análises validadas:
-1. Ordene os 20 candidatos por `score_compra` (desc)
+1. Ordene os 30 candidatos por `score_compra` (desc)
 2. Máximo 3 empresas por setor (use o campo `setor` do candidates.json)
 3. Selecione os 15 com maior score respeitando diversificação
 
@@ -148,3 +148,19 @@ Clique no ticker no relatório para ver detalhes + abrir StatusInvest.
 ```
 
 2-3 linhas de observação geral: diversificação setorial, perfil de risco, destaques.
+
+---
+
+## Passo 8 — Deploy GitHub Pages
+
+Copia o relatório para `docs/index.html` e faz push:
+
+```bash
+cd D:\Diana\MagicFormula && copy /Y output\relatorio.html docs\index.html
+```
+
+```bash
+cd D:\Diana\MagicFormula && git add docs/index.html && git commit -m "Magic Formula BR — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
+```
+
+Após o push, o site atualiza em ~1 minuto em: https://isaklucas.github.io/MagicFormula/
