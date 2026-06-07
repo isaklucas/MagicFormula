@@ -8,6 +8,8 @@ import urllib.request
 from pathlib import Path
 from datetime import datetime
 
+from navbar import get_navbar
+
 
 def _fetch_cdi_monthly(start_ym: str, end_ym: str) -> dict:
     """Busca CDI mensal do BCB (serie 4390). Retorna dict {"YYYY-MM": taxa_pct}."""
@@ -292,15 +294,7 @@ def generate_backtest_html(data: dict, output_path: str):
 </head>
 <body>
 
-<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
-  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
-    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
-    <a href="index.html"       class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
-    <a href="us.html"          class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
-    <a href="backtest.html"    class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest BR</a>
-    <a href="backtest_us.html" class="nav-link px-2" style="font-size:.85rem">&#128201; Backtest US</a>
-  </div>
-</nav>
+{get_navbar("backtest_br")}
 <script>
 document.querySelectorAll('nav a').forEach(a => {{
   if (location.pathname.endsWith(a.getAttribute('href'))) {{

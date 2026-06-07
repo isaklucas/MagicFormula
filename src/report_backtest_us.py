@@ -8,6 +8,8 @@ import json
 from pathlib import Path
 from datetime import datetime
 
+from navbar import get_navbar
+
 
 def _track_performance(monthly: list) -> tuple:
     entry_tracker = {}
@@ -57,12 +59,13 @@ def _track_performance(monthly: list) -> tuple:
 def generate_backtest_html(data: dict, output_path: str,
                            title: str = "Magic Formula US",
                            accent: str = "#3b82f6",
-                           hero_gradient: str = "135deg, #0c1a2e 0%, #1e3a5f 50%, #1a4a7a 100%"):
+                           hero_gradient: str = "135deg, #0c1a2e 0%, #1e3a5f 50%, #1a4a7a 100%",
+                           active: str = "backtest_us"):
     stats = data.get("stats", {})
     monthly = data.get("monthly", [])
-    bm_acc = data.get("benchmark_acumulado", [])
+    bm_acc = data.get("benchmark_acumulado") or data.get("spx_acumulado", [])
     tbill_acc = data.get("tbill_acumulado", [])
-    bm_name = stats.get("benchmark_name", "Benchmark")
+    bm_name = stats.get("benchmark_name") or stats.get("spx_name", "S&P 500")
 
     now = datetime.now().strftime("%d/%m/%Y %H:%M")
 
@@ -91,7 +94,7 @@ def generate_backtest_html(data: dict, output_path: str,
     carteira_data_ref = active_monthly[-1]["data"][:7] if active_monthly else ""
 
     total_ret  = stats.get("retorno_total_pct", 0)
-    bm_total   = stats.get("benchmark_total_pct", 0)
+    bm_total   = stats.get("benchmark_total_pct") or stats.get("spx_total_pct", 0)
     tbill_total = stats.get("tbill_total_pct", 0)
     alpha      = stats.get("alpha_pct", 0)
     max_dd     = stats.get("max_drawdown_pct", 0)
@@ -213,17 +216,7 @@ def generate_backtest_html(data: dict, output_path: str,
 </head>
 <body>
 
-<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
-  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
-    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
-    <a href="index.html"         class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
-    <a href="us.html"            class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
-    <a href="smallcap.html"      class="nav-link px-2" style="font-size:.85rem">&#128202; Small Cap</a>
-    <a href="backtest.html"      class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest BR</a>
-    <a href="backtest_us.html"   class="nav-link px-2" style="font-size:.85rem">&#128201; Backtest US</a>
-    <a href="backtest_sc.html"   class="nav-link px-2" style="font-size:.85rem">&#127381; Backtest SC</a>
-  </div>
-</nav>
+{get_navbar(active)}
 <script>
 document.querySelectorAll('nav a').forEach(a => {{
   if (location.pathname.endsWith(a.getAttribute('href'))) {{
@@ -370,10 +363,10 @@ if __name__ == "__main__":
     with open(args.json, encoding="utf-8") as f:
         data = json.load(f)
 
-    # Detecta título automaticamente se não passado
     title = args.title or "Magic Formula US"
     accent = "#3b82f6"
     gradient = "135deg, #0c1a2e 0%, #1e3a5f 50%, #1a4a7a 100%"
+    active = "backtest_sc" if "sc" in Path(args.json).stem else "backtest_us"
 
     out = args.output or str(Path(args.json).parent / "relatorio_backtest_us.html")
-    generate_backtest_html(data, out, title=title, accent=accent, hero_gradient=gradient)
+    generate_backtest_html(data, out, title=title, accent=accent, hero_gradient=gradient, active=active)

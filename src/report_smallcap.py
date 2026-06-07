@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from report import (
     _fmt, _color_roic, _color_ev, _color_div, _motivo, _badge_rec,
 )
+from navbar import get_navbar
 from report_us import _fmt_usd
 
 
@@ -240,17 +241,7 @@ def generate_html_sc(data: dict, analyses: dict, output_path: str, top_n: int = 
 </head>
 <body>
 
-<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
-  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
-    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
-    <a href="index.html"         class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
-    <a href="us.html"            class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
-    <a href="smallcap.html"      class="nav-link px-2" style="font-size:.85rem;color:#e6edf3;font-weight:700">&#128202; Small Cap</a>
-    <a href="backtest.html"      class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest BR</a>
-    <a href="backtest_us.html"   class="nav-link px-2" style="font-size:.85rem">&#128201; Backtest US</a>
-    <a href="backtest_sc.html"   class="nav-link px-2" style="font-size:.85rem">&#127381; Backtest SC</a>
-  </div>
-</nav>
+{get_navbar("smallcap")}
 
 <div class="hero">
   <div class="container-fluid px-3 px-md-4">
