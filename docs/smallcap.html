@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Formula Small Cap US</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  [data-bs-theme=dark] { --bs-body-bg: #0d1117; --bs-body-color: #e6edf3; --bs-card-bg: #161b22; --bs-border-color: #30363d; }
+  body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }
+  .hero { background: linear-gradient(135deg, #1c0a00 0%, #431407 50%, #7c2d12 100%); padding: 2rem 0 1.5rem; }
+  .hero h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: -.5px; }
+  .hero h1 em { font-style: normal; color: #fb923c; }
+  .stat-pill { background: rgba(255,255,255,.1); border-radius: .75rem; padding: .6rem 1.1rem; text-align: center; }
+  .stat-pill .val { font-size: 1.4rem; font-weight: 700; color: #fff; line-height: 1.2; }
+  .stat-pill .lbl { font-size: .68rem; color: #fed7aa; }
+  .stat-pill.green { background: rgba(249,115,22,.2); }
+  .stat-pill.amber { background: rgba(210,153,34,.2); }
+  .section-title { font-size: .85rem; font-weight: 600; color: #fb923c; border-left: 3px solid #9a3412; padding-left: .6rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: .5px; }
+  .section-sep { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 1rem; }
+  .section-sep::before, .section-sep::after { content: ""; flex: 1; height: 1px; background: var(--bs-border-color); }
+  .sep-badge { font-size: .78rem; font-weight: 700; padding: .3rem 1rem; border-radius: 20px; white-space: nowrap; }
+  .sep-orange { background: rgba(249,115,22,.12); color: #f97316; border: 1px solid #f9731644; }
+  .sep-amber  { background: rgba(210,153,34,.12); color: #d29922; border: 1px solid #d2992244; }
+  .chart-card { background: #161b22; border: 1px solid #30363d; border-radius: .75rem; padding: 1.25rem; }
+  .chart-card h3 { font-size: .82rem; color: #8b949e; margin-bottom: 1rem; }
+  .table-dark { --bs-table-bg: #161b22; --bs-table-hover-bg: #1f2937; --bs-table-border-color: #30363d; }
+  .table th { font-size: .72rem; white-space: nowrap; color: #fb923c; }
+  .table td { vertical-align: middle; }
+  .card { --bs-card-border-color: #30363d; }
+  .modal-content { background: #161b22; border: 1px solid #30363d; }
+  .modal-header { border-bottom: 1px solid #30363d; background: #0d1117; }
+  .modal-footer { border-top: 1px solid #30363d; background: #0d1117; }
+  .modal-metric { background: #0d1117; border-radius: .5rem; padding: .6rem .9rem; }
+  .modal-metric label { display: block; font-size: .65rem; color: #6e7681; margin-bottom: .2rem; }
+  .modal-metric span { font-size: .95rem; font-weight: 600; }
+  footer { font-size: .75rem; color: #6e7681; padding: 1.5rem; text-align: center; border-top: 1px solid #30363d; }
+  @media (max-width: 576px) { .hero { padding: 1.25rem 0 1rem; } .stat-pill .val { font-size: 1.1rem; } .table { font-size: .75rem; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
+  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
+    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
+    <a href="index.html"         class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
+    <a href="us.html"            class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
+    <a href="smallcap.html"      class="nav-link px-2" style="font-size:.85rem;color:#e6edf3;font-weight:700">&#128202; Small Cap</a>
+    <a href="backtest.html"      class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest BR</a>
+    <a href="backtest_us.html"   class="nav-link px-2" style="font-size:.85rem">&#128201; Backtest US</a>
+    <a href="backtest_sc.html"   class="nav-link px-2" style="font-size:.85rem">&#127381; Backtest SC</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container-fluid px-3 px-md-4">
+    <h1>Magic Formula <em>Small Cap US</em> &#128202; — S&amp;P 600</h1>
+    <p class="text-light opacity-75 mb-3" style="font-size:.85rem">
+      07/06/2026 16:28 · yfinance · S&amp;P 600 (~600 ações) · Metodologia Greenblatt · Análise Claude AI
+    </p>
+    <div class="d-flex flex-wrap gap-2">
+      <div class="stat-pill"><div class="val">530</div><div class="lbl">S&amp;P 600 total</div></div>
+      <div class="stat-pill"><div class="val">216</div><div class="lbl">Após filtros</div></div>
+      <div class="stat-pill"><div class="val">16</div><div class="lbl">Após setor limit</div></div>
+      <div class="stat-pill"><div class="val">0</div><div class="lbl">Analisadas</div></div>
+      <div class="stat-pill green"><div class="val">0</div><div class="lbl">✓ Comprar</div></div>
+      <div class="stat-pill amber"><div class="val">0</div><div class="lbl">⚠ Neutro</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid px-3 px-md-4 py-4">
+
+  <section class="mb-5">
+    <div class="section-title">Tabela resumo — clique no ticker para abrir Yahoo Finance</div>
+    <div class="table-responsive rounded-3" style="border:1px solid #30363d">
+      <table class="table table-dark table-hover table-sm mb-0">
+        <thead>
+          <tr>
+            <th>#</th><th>Ticker</th><th>Setor</th><th>EV/EBIT</th><th>ROIC</th>
+            <th>Score MF</th><th>Score IA</th><th>Rec.</th>
+            <th>Mg EBIT</th><th>ROE</th><th>Dív/EBIT</th>
+            <th>Liq Diária</th><th>CAGR Rec.</th><th>CAGR Luc.</th>
+            <th>Mkt Cap</th><th>Motivo</th>
+          </tr>
+        </thead>
+        <tbody><tr style="background:#1a0800"><td colspan="16" class="py-2 px-3 fw-bold" style="color:#f97316;font-size:.75rem;letter-spacing:.5px">▼ COMPRAR — 0 ações</td></tr><tr style="background:#1a1000"><td colspan="16" class="py-2 px-3 fw-bold" style="color:#d29922;font-size:.75rem;letter-spacing:.5px">▼ NEUTRO / CAUTELA — 0 ações</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="section-title">Gráficos</div>
+    <div class="row g-3">
+      <div class="col-12 col-lg-6">
+        <div class="chart-card">
+          <h3>ROIC — ações COMPRAR (%)</h3>
+          <canvas id="chartRoic" style="max-height:280px"></canvas>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="chart-card">
+          <h3>EV/EBIT vs ROIC · <span style="color:#f97316">●</span> COMPRAR <span style="color:#d29922">●</span> NEUTRO</h3>
+          <canvas id="chartScatter" style="max-height:280px"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="section-title">Análise detalhada</div>
+    <div class="section-sep"><span class="sep-badge sep-orange">✓ COMPRAR — 0 ações</span></div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3"></div>
+    <div class="section-sep mt-5"><span class="sep-badge sep-amber">⚠ NEUTRO / CAUTELA — 0 ações</span></div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3"></div>
+  </section>
+
+</div>
+
+<footer>Magic Formula Small Cap US (S&amp;P 600) · 07/06/2026 16:28 · Não é recomendação de investimento.</footer>
+
+<div class="modal fade" id="tickerModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span id="modalTicker" class="fw-bold" style="font-size:1.4rem;color:#fb923c">—</span>
+          <span id="modalSetor" class="badge" style="background:#21262d;color:#8b949e;font-weight:400">—</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex align-items-center gap-3 p-3 mb-3 rounded-2" style="background:#0d1117;border:1px solid #30363d;flex-wrap:wrap">
+          <span id="modalRecBadge" class="badge fs-6">—</span>
+          <span id="modalScore" class="text-secondary" style="font-size:.85rem">—</span>
+          <span id="modalMotivo" class="text-secondary ms-auto" style="font-size:.82rem;max-width:320px;text-align:right">—</span>
+        </div>
+        <div class="row g-2" id="modalMetrics"></div>
+      </div>
+      <div class="modal-footer py-2">
+        <a id="modalYFBtn" href="#" target="_blank" rel="noopener"
+           class="btn w-100 fw-bold" style="background:#f97316;color:#fff">↗ Abrir no Yahoo Finance</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TICKER_DATA = {};
+const palette = ['#f97316','#fb923c','#fdba74','#fed7aa','#ea580c',
+                 '#c2410c','#9a3412','#7c2d12','#f59e0b','#d97706'];
+
+new Chart(document.getElementById('chartRoic'), {
+  type: 'bar',
+  data: { labels: [], datasets: [{ label: 'ROIC (%)', data: [], backgroundColor: palette, borderRadius: 6 }] },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.parsed.y.toFixed(1)}%` } } },
+    scales: { x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { color: '#21262d' } }, y: { ticks: { color: '#8b949e', callback: v => v + '%' }, grid: { color: '#30363d' } } }
+  }
+});
+
+new Chart(document.getElementById('chartScatter'), {
+  type: 'scatter',
+  data: { datasets: [{ data: [].map((t,i) => ({ x: [][i], y: [][i], label: t })), backgroundColor: [], pointRadius: 8, pointHoverRadius: 11 }] },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.raw.label} · EV/EBIT ${c.raw.x} · ROIC ${c.raw.y}%` } } },
+    scales: { x: { title: { display: true, text: 'EV/EBIT', color: '#6e7681' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }, y: { title: { display: true, text: 'ROIC %', color: '#6e7681' }, ticks: { color: '#8b949e', callback: v => v + '%' }, grid: { color: '#30363d' } } }
+  }
+});
+
+function colorRec(r) { return r === 'COMPRAR' ? '#f97316' : r === 'CAUTELA' ? '#f85149' : '#d29922'; }
+function colorROIC(v) { return v >= 20 ? '#3fb950' : v >= 10 ? '#d29922' : '#f85149'; }
+function colorEV(v)   { return v <= 5  ? '#3fb950' : v <= 12  ? '#d29922' : '#f85149'; }
+function colorDiv(v)  { return v < 0   ? '#3fb950' : v < 2    ? '#d29922' : '#f85149'; }
+function fmt(v,d=2)   { return (v == null || isNaN(v)) ? '—' : Number(v).toFixed(d); }
+function fmtUSD(v) {
+  if (v == null || isNaN(v)) return '—';
+  if (v >= 1e12) return '$' + (v/1e12).toFixed(1) + 'T';
+  if (v >= 1e9)  return '$' + (v/1e9).toFixed(1) + 'B';
+  if (v >= 1e6)  return '$' + (v/1e6).toFixed(1) + 'M';
+  return '$' + v.toLocaleString();
+}
+
+function openModal(ticker) {
+  const d = TICKER_DATA[ticker];
+  if (!d) return;
+  $('#modalTicker').text(ticker);
+  $('#modalSetor').text(d.setor || '—');
+  const c = colorRec(d.recomendacao);
+  $('#modalRecBadge').text(d.recomendacao || '—').css('background', c);
+  $('#modalScore').html(`Score IA: <strong style="color:#fb923c">${d.score_ia ?? '—'}/10</strong>`);
+  $('#modalMotivo').text(d.motivo || '');
+  const metrics = [
+    ['EV/EBIT', fmt(d.ev_ebit)+'x', colorEV(d.ev_ebit)],
+    ['ROIC', fmt(d.roic)+'%', colorROIC(d.roic)],
+    ['Mg EBIT', fmt(d.margem)+'%', ''],
+    ['ROE', fmt(d.roe)+'%', ''],
+    ['Dív/EBIT', fmt(d.div_ebit)+'x', colorDiv(d.div_ebit)],
+    ['CAGR Receita', fmt(d.cagr_r)+'%', ''],
+    ['CAGR Lucro', fmt(d.cagr_l)+'%', ''],
+    ['Mkt Cap', fmtUSD(d.vm), ''],
+    ['Liq Diária', fmtUSD(d.liq), ''],
+    ['Preço', d.preco ? '$'+fmt(d.preco) : '—', ''],
+  ];
+  $('#modalMetrics').html(metrics.map(([l,v,c]) =>
+    `<div class="col-6 col-sm-4 col-md-3"><div class="modal-metric"><label>${l}</label><span style="color:${c||'#e6edf3'}">${v}</span></div></div>`
+  ).join(''));
+  $('#modalYFBtn').attr('href', `https://finance.yahoo.com/quote/${ticker}`);
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('tickerModal')).show();
+}
+</script>
+</body>
+</html>

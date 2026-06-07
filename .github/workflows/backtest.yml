@@ -75,12 +75,38 @@ jobs:
       - name: Copiar US para docs/
         run: cp output/relatorio_backtest_us.html docs/backtest_us.html
 
+      # ── Backtest Small Cap ─────────────────────────────────────────────────
+
+      - name: Exportar universo de tickers Small Cap
+        run: python src/export_tickers_smallcap.py
+
+      - name: Rodar backtest Small Cap
+        run: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "^SP600" --benchmark-name "S&P 600 Small Cap" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
+
+      - name: Gerar relatório HTML Small Cap
+        run: python src/report_backtest_us.py --json output/backtest_sc.json --output output/relatorio_backtest_sc.html --title "Magic Formula Small Cap"
+
+      - name: Injetar data de atualização — Small Cap
+        run: |
+          DATA=$(date '+%d/%m/%Y %H:%M UTC')
+          python3 -c "
+          with open('output/relatorio_backtest_sc.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#0d1117;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;font-family:monospace;z-index:9999\">Updated $DATA</div>'
+          html = html.replace('</body>', badge + '</body>')
+          with open('output/relatorio_backtest_sc.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          "
+
+      - name: Copiar Small Cap para docs/
+        run: cp output/relatorio_backtest_sc.html docs/backtest_sc.html
+
       # ── Commit e push ──────────────────────────────────────────────────────
 
       - name: Commit e push
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add docs/backtest.html docs/backtest_us.html
-          git diff --staged --quiet || git commit -m "Backtest BR + US — $(date '+%Y-%m-%d')"
+          git add docs/backtest.html docs/backtest_us.html docs/backtest_sc.html
+          git diff --staged --quiet || git commit -m "Backtest BR + US + SC — $(date '+%Y-%m-%d')"
           git push

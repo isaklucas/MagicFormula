@@ -1,5 +1,6 @@
 """
-Carrega dados do S&P 500 via yfinance com cache diário.
+Carrega dados do S&P 600 Small Cap via yfinance com cache diário.
+Mesmo schema do pipeline US (loader_sp500.py) — universo diferente.
 """
 
 import io
@@ -17,26 +18,27 @@ import yfinance as yf
 warnings.filterwarnings("ignore")
 logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 
-CACHE_DIR = Path("output/sp500_cache")
-SP500_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+CACHE_DIR = Path("output/smallcap_cache")
+SP600_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies"
 _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
 
 
-def _get_sp500_tickers() -> list:
+def _get_sp600_tickers() -> list:
     try:
-        req = urllib.request.Request(SP500_URL, headers={"User-Agent": _UA})
+        req = urllib.request.Request(SP600_URL, headers={"User-Agent": _UA})
         with urllib.request.urlopen(req, timeout=15) as r:
             html = r.read().decode("utf-8")
         tables = pd.read_html(io.StringIO(html))
-        tickers = tables[0]["Symbol"].tolist()
-        return [t.replace(".", "-") for t in tickers]
+        df = tables[0]
+        symbol_col = next((c for c in df.columns if "Symbol" in str(c) or "Ticker" in str(c)), df.columns[0])
+        tickers = df[symbol_col].tolist()
+        return [str(t).replace(".", "-") for t in tickers]
     except Exception as e:
-        print(f"[loader_sp500] Erro ao buscar lista S&P 500: {e}")
+        print(f"[loader_smallcap] Erro ao buscar lista S&P 600: {e}")
         return []
 
 
 def _cagr(series: list) -> float | None:
-    """CAGR de uma série ordenada do mais antigo ao mais recente."""
     clean = [v for v in series if v and v == v and v != 0]
     if len(clean) < 2:
         return None
@@ -51,7 +53,7 @@ def _fetch_ticker(ticker: str) -> dict | None:
     try:
         t = yf.Ticker(ticker)
         info = t.info or {}
-        fin = t.financials  # colunas = datas (mais recente primeiro)
+        fin = t.financials
 
         def _row(label):
             try:
@@ -66,10 +68,8 @@ def _fetch_ticker(ticker: str) -> dict | None:
 
         ebit = ebit_series[0] if ebit_series else None
         revenue = rev_series[0] if rev_series else None
-        total_assets = info.get("totalAssets")
-        current_liab = info.get("currentLiabilities") or info.get("totalCurrentLiabilities")
-        cash = info.get("cash") or info.get("totalCash") or 0
         total_debt = info.get("totalDebt") or 0
+        cash = info.get("totalCash") or 0
         mkt_cap = info.get("marketCap")
         price = info.get("currentPrice") or info.get("regularMarketPrice")
         avg_vol = info.get("averageVolume") or info.get("averageDailyVolume10Day") or 0
@@ -79,24 +79,21 @@ def _fetch_ticker(ticker: str) -> dict | None:
         if not ebit or not revenue:
             return None
 
+        # ROIC via balance_sheet (totalAssets não está mais no info)
         try:
             bs = t.balance_sheet
-            ic_row = bs.loc["Invested Capital"].dropna()
-            invested_capital = float(ic_row.iloc[0]) if len(ic_row) > 0 else None
+            ic_row = bs.loc["Invested Capital"].dropna() if "Invested Capital" in bs.index else None
+            invested_capital = float(ic_row.iloc[0]) if ic_row is not None and len(ic_row) > 0 else None
         except Exception:
             invested_capital = None
-        roic = round(ebit * 0.75 / invested_capital * 100, 2) if invested_capital and invested_capital > 0 else None
-        ev_ebit = None
-        ev = info.get("enterpriseValue")
-        if ev and ebit and ebit != 0:
-            ev_ebit = round(ev / ebit, 2)
 
+        roic = round(ebit * 0.75 / invested_capital * 100, 2) if invested_capital and invested_capital > 0 else None
+        ev = info.get("enterpriseValue")
+        ev_ebit = round(ev / ebit, 2) if ev and ebit and ebit != 0 else None
         margem_ebit = round(ebit / revenue * 100, 2) if revenue else None
         div_ebit = round((total_debt - cash) / ebit, 2) if ebit else None
-
         cagr_rev = _cagr(list(reversed(rev_series[:5])))
         cagr_ni = _cagr(list(reversed(ni_series[:5])))
-
         liq_diaria = round(avg_vol * price, 2) if avg_vol and price else None
 
         return {
@@ -118,24 +115,20 @@ def _fetch_ticker(ticker: str) -> dict | None:
         return None
 
 
-def load_sp500(force_refresh: bool = False) -> list[dict]:
-    """
-    Carrega dados do S&P 500. Usa cache diário se disponível.
-    Retorna lista de dicts com campos normalizados (mesmo schema do pipeline BR).
-    """
+def load_smallcap(force_refresh: bool = False) -> list[dict]:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_file = CACHE_DIR / f"{date.today()}.json"
 
     if not force_refresh and cache_file.exists():
-        print(f"[loader_sp500] Cache hit: {cache_file}")
+        print(f"[loader_smallcap] Cache hit: {cache_file}")
         with open(cache_file, encoding="utf-8") as f:
             return json.load(f)
 
-    tickers = _get_sp500_tickers()
+    tickers = _get_sp600_tickers()
     if not tickers:
-        raise RuntimeError("Não foi possível obter lista do S&P 500")
+        raise RuntimeError("Não foi possível obter lista do S&P 600")
 
-    print(f"[loader_sp500] Buscando {len(tickers)} tickers via yfinance (pode demorar 10-15 min)...")
+    print(f"[loader_smallcap] Buscando {len(tickers)} tickers S&P 600 via yfinance...")
     results = []
     failed = 0
     for i, ticker in enumerate(tickers, 1):
@@ -149,10 +142,10 @@ def load_sp500(force_refresh: bool = False) -> list[dict]:
             print(f"  {i}/{len(tickers)} ({pct:.0f}%) — OK: {len(results)} | Falhas: {failed}")
             time.sleep(0.5)
 
-    print(f"[loader_sp500] Concluído: {len(results)} tickers com dados completos, {failed} falhas")
+    print(f"[loader_smallcap] Concluído: {len(results)} tickers com dados, {failed} falhas")
 
     with open(cache_file, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False)
-    print(f"[loader_sp500] Cache salvo: {cache_file}")
+    print(f"[loader_smallcap] Cache salvo: {cache_file}")
 
     return results
