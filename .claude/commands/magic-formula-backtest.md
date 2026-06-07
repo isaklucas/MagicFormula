@@ -9,7 +9,7 @@ Simula o portfolio Magic Formula mês a mês, calcula retorno acumulado vs IBOV 
 ## Passo 1 — Exportar universo de tickers
 
 ```bash
-cd D:\Diana\MagicFormula && python src/export_tickers.py
+python src/export_tickers.py
 ```
 
 Gera `output/universe_tickers.json` com todas as empresas elegíveis do CSV.
@@ -19,7 +19,7 @@ Gera `output/universe_tickers.json` com todas as empresas elegíveis do CSV.
 ## Passo 2 — Rodar backtest
 
 ```bash
-cd D:\Diana\MagicFormula && python src/backtester.py --tickers output/universe_tickers.json --start 2023-01-01 --top 15
+python src/backtester.py --tickers output/universe_tickers.json --start 2023-01-01 --top 15
 ```
 
 Parâmetros ajustáveis:
@@ -35,7 +35,7 @@ Salva resultado em `output/backtest.json`.
 ## Passo 3 — Gerar relatório HTML
 
 ```bash
-cd D:\Diana\MagicFormula && python src/report_backtest.py --json output/backtest.json
+python src/report_backtest.py --json output/backtest.json
 ```
 
 ---
@@ -43,7 +43,7 @@ cd D:\Diana\MagicFormula && python src/report_backtest.py --json output/backtest
 ## Passo 4 — Abrir no browser
 
 ```bash
-start D:\Diana\MagicFormula\output\relatorio_backtest.html
+start output\relatorio_backtest.html
 ```
 
 ---
@@ -75,7 +75,7 @@ Empresas que mais apareceram no top 15:
   1. TICKER — X meses (XX%)
   2. ...
 
-Relatório: D:\Diana\MagicFormula\output\relatorio_backtest.html
+Relatório: output\relatorio_backtest.html
 ```
 
 Além do resumo, analise os padrões: quais setores dominaram, qual foi o turnover médio mensal (entradas+saídas), se alpha foi consistente ou concentrado em poucos meses.

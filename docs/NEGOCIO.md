@@ -156,7 +156,7 @@ Quando a mesma empresa tem múltiplos tickers (ex: PETR3, PETR4), o sistema esco
 2. Vá em **Busca Avançada**
 3. Clique em **Exportar** (botão verde no canto superior direito)
 4. Salve o arquivo como `statusinvest-busca-avancada.csv`
-5. Substitua o arquivo em `D:\Diana\MagicFormula\data\`
+5. Substitua o arquivo em `<diretório-do-projeto>\data\`
 
 > **Importante:** exporte com todos os filtros em branco para incluir todas as ações. O sistema faz a filtragem internamente.
 
@@ -164,10 +164,7 @@ Quando a mesma empresa tem múltiplos tickers (ex: PETR3, PETR4), o sistema esco
 
 ### Passo 2 — Abrir o Claude Code
 
-Abra o terminal Claude Code no diretório do projeto:
-```
-D:\Diana\MagicFormula
-```
+Abra o terminal Claude Code no diretório do projeto (onde está o `README.md`).
 
 ---
 

@@ -23,7 +23,7 @@ $status = git diff --staged --name-only
 if ($status) {
     git commit -m "Relatorios atualizados $hoje"
     git push
-    Write-Host "[deploy] Push realizado. Site: https://isaklucas.github.io/MagicFormula/"
+    Write-Host "[deploy] Push realizado. Verifique seu GitHub Pages."
 } else {
     Write-Host "[deploy] Sem mudancas para commitar."
 }

@@ -70,7 +70,6 @@ numpy                # Cálculos numéricos (backtest)
 ### Instalação
 
 ```powershell
-cd D:\Diana\MagicFormula
 pip install -r requirements.txt
 ```
 
@@ -86,7 +85,7 @@ pip install -r requirements.txt
 ## 3. Estrutura de Arquivos
 
 ```
-D:\Diana\MagicFormula\
+MagicFormula/
 │
 ├── data/
 │   └── statusinvest-busca-avancada.csv   # INPUT — exportado do StatusInvest
@@ -374,7 +373,7 @@ Skills são arquivos `.md` em `.claude/commands/`. Disparadas com `/nome-da-skil
 
 **Invalidação manual:**
 ```powershell
-Remove-Item "D:\Diana\MagicFormula\output\backtest_cache\*.json"
+Remove-Item "output\backtest_cache\*.json"
 ```
 
 ---
@@ -507,5 +506,5 @@ EV/EBIT(t) = EV(t) / (EBIT trimestral × 4)
 ### Cache de fundamentals desatualizado
 **Solução:**
 ```powershell
-Remove-Item "D:\Diana\MagicFormula\output\backtest_cache\*.json"
+Remove-Item "output\backtest_cache\*.json"
 ```

@@ -7,7 +7,7 @@ Pipeline: Python quantitativo → agentes paralelos por ticker → EVAL anti-alu
 ## Passo 1 — Executar pipeline Python
 
 ```bash
-cd D:\Diana\MagicFormula && python src/main.py
+python src/main.py
 ```
 
 Aguarda finalizar. Salva `output/candidates.json` com candidatos + resultado do guardrail RJ por ticker.
@@ -128,7 +128,7 @@ cd D:\Diana\MagicFormula && python src/report.py --json output/candidates.json -
 
 Abra no browser:
 ```bash
-start D:\Diana\MagicFormula\output\relatorio.html
+start output\relatorio.html
 ```
 
 ---
@@ -143,7 +143,7 @@ TOP 15 MAGIC FORMULA BR — [data]
  1  | WIZC3  |  2.04x  | 23.5% |   9/10   | COMPRAR
 ...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Relatório: D:\Diana\MagicFormula\output\relatorio.html
+Relatório: output\relatorio.html
 Clique no ticker no relatório para ver detalhes + abrir StatusInvest.
 ```
 
@@ -163,4 +163,4 @@ cd D:\Diana\MagicFormula && copy /Y output\relatorio.html docs\index.html
 cd D:\Diana\MagicFormula && git add docs/index.html && git commit -m "Magic Formula BR — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
 ```
 
-Após o push, o site atualiza em ~1 minuto em: https://isaklucas.github.io/MagicFormula/
+Após o push, o site atualiza em ~1 minuto no seu GitHub Pages.
