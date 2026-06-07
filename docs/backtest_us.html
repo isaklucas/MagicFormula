@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backtest Magic Formula US</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  [data-bs-theme=dark] {
+    --bs-body-bg: #0d1117;
+    --bs-body-color: #e6edf3;
+    --bs-card-bg: #161b22;
+    --bs-border-color: #30363d;
+  }
+  body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }
+
+  .hero {
+    background: linear-gradient(135deg, #0c1a2e 0%, #1e3a5f 50%, #1a4a7a 100%);
+    padding: 2rem 0 1.5rem;
+  }
+  .hero h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: -.5px; }
+  .hero h1 em { font-style: normal; color: #93c5fd; }
+
+  .kpi-pill {
+    background: rgba(255,255,255,.08); border-radius: .75rem;
+    padding: .6rem 1.1rem; text-align: center; min-width: 110px;
+  }
+  .kpi-pill .val { font-size: 1.4rem; font-weight: 700; color: #fff; line-height: 1.2; }
+  .kpi-pill .lbl { font-size: .67rem; color: #bfdbfe; }
+
+  .section-title {
+    font-size: .85rem; font-weight: 600; color: #3b82f6;
+    border-left: 3px solid #1e3a5f; padding-left: .6rem; margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .chart-card { background: #161b22; border: 1px solid #30363d; border-radius: .75rem; padding: 1.25rem; }
+  .chart-card h3 { font-size: .82rem; color: #8b949e; margin-bottom: 1rem; }
+
+  .kpi-box {
+    background: #161b22; border: 1px solid #30363d; border-radius: .75rem;
+    padding: 1.1rem; text-align: center;
+  }
+  .kpi-box .kval { font-size: 1.6rem; font-weight: 700; }
+  .kpi-box .klbl { font-size: .72rem; color: #6e7681; margin-top: .25rem; }
+
+  .warn-box {
+    background: rgba(245,158,11,.08); border: 1px solid #d2992244;
+    border-radius: .5rem; padding: .7rem 1rem; font-size: .8rem; color: #fcd34d;
+  }
+
+  .table-dark { --bs-table-bg: #161b22; --bs-table-hover-bg: #1f2937; --bs-table-border-color: #30363d; }
+  .table th { font-size: .72rem; white-space: nowrap; color: #3b82f6; }
+  .table td { vertical-align: middle; }
+  thead tr { background: #0c1a2e !important; }
+
+  footer { font-size: .75rem; color: #6e7681; padding: 1.5rem; text-align: center; border-top: 1px solid #30363d; }
+
+  @media (max-width: 576px) {
+    .hero { padding: 1.25rem 0 1rem; }
+    .kpi-pill .val { font-size: 1.1rem; }
+    .table { font-size: .72rem; }
+    .kpi-box .kval { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
+  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
+    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
+    <a href="index.html"       class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
+    <a href="us.html"          class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
+    <a href="backtest.html"    class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest BR</a>
+    <a href="backtest_us.html" class="nav-link px-2" style="font-size:.85rem">&#128201; Backtest US</a>
+  </div>
+</nav>
+<script>
+document.querySelectorAll('nav a').forEach(a => {
+  if (location.pathname.endsWith(a.getAttribute('href'))) {
+    a.style.color = '#e6edf3'; a.style.fontWeight = '700';
+  }
+});
+</script>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="container-fluid px-3 px-md-4">
+    <h1>Backtest Magic Formula <em>US</em> &nbsp;&#127482;&#127480;</h1>
+    <p class="mb-3" style="color:#bfdbfe;font-size:.85rem">
+      Period: 2023-01-31 ate 2026-06-07 · 39 months · Generated 07/06/2026 08:49
+    </p>
+
+    <div class="warn-box mb-3">
+      ⚠ <strong>Survivorship bias:</strong> fixed universe from current S&P 500.
+      Companies that were delisted or removed before today are not included — real returns would be lower.
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <div class="kpi-pill">
+        <div class="val" style="color:#10b981">+66.0%</div>
+        <div class="lbl">Magic Formula</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val">+86.0%</div>
+        <div class="lbl">S&amp;P 500</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val">+7.3%</div>
+        <div class="lbl">T-Bill</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val" style="color:#ef4444">-19.9%</div>
+        <div class="lbl">Alpha vs S&amp;P 500</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val" style="color:#10b981">+58.7%</div>
+        <div class="lbl">Alpha vs T-Bill</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val" style="color:#ef4444">-15.5%</div>
+        <div class="lbl">Max Drawdown</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="val">20W/19L</div>
+        <div class="lbl">Win/Loss Months</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid px-3 px-md-4 py-4">
+
+  <!-- ── Equity Curve ───────────────────────────────────────────────────── -->
+  <section class="mb-5">
+    <div class="section-title">Equity Curve</div>
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="chart-card">
+          <h3>Magic Formula vs S&amp;P 500 vs T-Bill (base 100)</h3>
+          <canvas id="chartEquity" style="max-height:320px"></canvas>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="chart-card">
+          <h3>Monthly Return Magic Formula (%)</h3>
+          <canvas id="chartMonthly" style="max-height:260px"></canvas>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="section-title mt-2">KPIs</div>
+        <div class="row g-2">
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval" style="color:#10b981">+66.0%</div>
+              <div class="klbl">Total Return</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval">+1.43%</div>
+              <div class="klbl">Avg Monthly</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval">5.03%</div>
+              <div class="klbl">Vol/Month</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval" style="color:#ef4444">-15.5%</div>
+              <div class="klbl">Max Drawdown</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval" style="color:#ef4444">-19.9%</div>
+              <div class="klbl">Alpha S&amp;P 500</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4">
+            <div class="kpi-box">
+              <div class="kval">0.28</div>
+              <div class="klbl">Simple Sharpe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Current Portfolio ──────────────────────────────────────────────── -->
+  <section class="mb-5">
+    <div class="section-title">Current Portfolio — 2026-04 (open positions)</div>
+    <p class="text-secondary mb-3" style="font-size:.82rem">
+      P&amp;L calculated from entry date. Reference prices at monthly close.
+    </p>
+    <div class="table-responsive rounded-3" style="border:1px solid #30363d">
+      <table class="table table-dark table-hover table-sm mb-0">
+        <thead>
+          <tr>
+            <th>#</th><th>Ticker</th><th>Entry</th>
+            <th>Entry Price</th><th>Current Price</th>
+            <th>P&amp;L %</th><th>EV/EBIT</th><th>ROIC</th><th>MF Score</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">1</td>
+          <td class="fw-semibold">LULU</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
+          <td class="text-center">$ 237.58</td>
+          <td class="text-center">$ 137.70</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-42.0%</td>
+          <td class="text-center" style="color:#d29922">8.03x</td>
+          <td class="text-center" style="color:#10b981">42.5%</td>
+          <td class="text-center text-secondary">45</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">2</td>
+          <td class="fw-semibold">DECK</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center">$ 119.63</td>
+          <td class="text-center">$ 102.20</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-14.6%</td>
+          <td class="text-center" style="color:#ef4444">10.77x</td>
+          <td class="text-center" style="color:#10b981">53.2%</td>
+          <td class="text-center text-secondary">52</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">3</td>
+          <td class="fw-semibold">ADBE</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
+          <td class="text-center">$ 293.25</td>
+          <td class="text-center">$ 246.10</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-16.1%</td>
+          <td class="text-center" style="color:#ef4444">10.90x</td>
+          <td class="text-center" style="color:#10b981">52.3%</td>
+          <td class="text-center text-secondary">55</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">4</td>
+          <td class="fw-semibold">MO</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center">$ 33.31</td>
+          <td class="text-center">$ 72.65</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+118.1%</td>
+          <td class="text-center" style="color:#ef4444">12.13x</td>
+          <td class="text-center" style="color:#10b981">54.9%</td>
+          <td class="text-center text-secondary">66</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">5</td>
+          <td class="fw-semibold">CF</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center">$ 78.25</td>
+          <td class="text-center">$ 123.69</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+58.1%</td>
+          <td class="text-center" style="color:#d29922">7.22x</td>
+          <td class="text-center" style="color:#10b981">32.6%</td>
+          <td class="text-center text-secondary">71</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">6</td>
+          <td class="fw-semibold">HPQ</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center">$ 25.62</td>
+          <td class="text-center">$ 20.86</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-18.6%</td>
+          <td class="text-center" style="color:#d29922">7.99x</td>
+          <td class="text-center" style="color:#10b981">32.9%</td>
+          <td class="text-center text-secondary">71</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">7</td>
+          <td class="fw-semibold">IT</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-03</td>
+          <td class="text-center">$ 158.34</td>
+          <td class="text-center">$ 148.49</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-6.2%</td>
+          <td class="text-center" style="color:#ef4444">10.12x</td>
+          <td class="text-center" style="color:#10b981">37.0%</td>
+          <td class="text-center text-secondary">71</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">8</td>
+          <td class="fw-semibold">NVR</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center">$ 5270.00</td>
+          <td class="text-center">$ 6315.87</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+19.8%</td>
+          <td class="text-center" style="color:#ef4444">10.52x</td>
+          <td class="text-center" style="color:#10b981">37.2%</td>
+          <td class="text-center text-secondary">72</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">9</td>
+          <td class="fw-semibold">BBY</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
+          <td class="text-center">$ 64.12</td>
+          <td class="text-center">$ 60.49</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-5.7%</td>
+          <td class="text-center" style="color:#d29922">8.88x</td>
+          <td class="text-center" style="color:#10b981">35.1%</td>
+          <td class="text-center text-secondary">72</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">10</td>
+          <td class="fw-semibold">NEM</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 99.42</td>
+          <td class="text-center">$ 110.83</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+11.5%</td>
+          <td class="text-center" style="color:#d29922">8.79x</td>
+          <td class="text-center" style="color:#10b981">34.1%</td>
+          <td class="text-center text-secondary">75</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">11</td>
+          <td class="fw-semibold">ADP</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">$ 211.94</td>
+          <td class="text-center">$ 211.94</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#ef4444">14.01x</td>
+          <td class="text-center" style="color:#10b981">59.2%</td>
+          <td class="text-center text-secondary">80</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">12</td>
+          <td class="fw-semibold">MAS</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 70.60</td>
+          <td class="text-center">$ 71.48</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+1.2%</td>
+          <td class="text-center" style="color:#ef4444">13.44x</td>
+          <td class="text-center" style="color:#10b981">45.0%</td>
+          <td class="text-center text-secondary">86</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">13</td>
+          <td class="fw-semibold">APA</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 24.07</td>
+          <td class="text-center">$ 40.46</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+68.1%</td>
+          <td class="text-center" style="color:#d29922">5.93x</td>
+          <td class="text-center" style="color:#10b981">28.6%</td>
+          <td class="text-center text-secondary">90</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">14</td>
+          <td class="fw-semibold">WSM</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 177.32</td>
+          <td class="text-center">$ 180.49</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+1.8%</td>
+          <td class="text-center" style="color:#ef4444">15.00x</td>
+          <td class="text-center" style="color:#10b981">75.8%</td>
+          <td class="text-center text-secondary">91</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#10b981">15</td>
+          <td class="fw-semibold">NTAP</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 106.03</td>
+          <td class="text-center">$ 110.21</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+3.9%</td>
+          <td class="text-center" style="color:#ef4444">14.30x</td>
+          <td class="text-center" style="color:#10b981">43.5%</td>
+          <td class="text-center text-secondary">105</td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Closed Positions ───────────────────────────────────────────────── -->
+  <section class="mb-5">
+    <div class="section-title">Realized Performance (closed positions)</div>
+    <p class="text-secondary mb-3" style="font-size:.82rem">
+      P&amp;L per ticker from entry to exit. Sorted by return.
+    </p>
+    <div class="table-responsive rounded-3" style="border:1px solid #30363d;max-width:860px">
+      <table class="table table-dark table-hover table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Entry</th><th>Exit</th>
+            <th>Entry Price</th><th>Exit Price</th><th>P&amp;L %</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="fw-semibold">WSM</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 63.25</td>
+          <td class="text-center">$ 181.11</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +186.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">BLDR</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center">$ 79.70</td>
+          <td class="text-center">$ 195.18</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +144.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">WDC</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-03</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">$ 270.29</td>
+          <td class="text-center">$ 434.41</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +60.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">FCX</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
+          <td class="text-center">$ 37.33</td>
+          <td class="text-center">$ 59.95</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +60.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">CMI</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 339.55</td>
+          <td class="text-center">$ 507.15</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +49.4%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">ULTA</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
+          <td class="text-center">$ 434.93</td>
+          <td class="text-center">$ 647.36</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +48.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">JBL</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center">$ 143.58</td>
+          <td class="text-center">$ 204.56</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +42.5%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">EME</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
+          <td class="text-center">$ 407.86</td>
+          <td class="text-center">$ 533.87</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +30.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">EXPD</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center">$ 103.79</td>
+          <td class="text-center">$ 123.52</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +19.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">BBY</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-10</td>
+          <td class="text-center">$ 69.26</td>
+          <td class="text-center">$ 79.85</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +15.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">MPC</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 119.34</td>
+          <td class="text-center">$ 135.27</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +13.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">TRMB</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 70.66</td>
+          <td class="text-center">$ 78.35</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +10.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PHM</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 107.60</td>
+          <td class="text-center">$ 116.77</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +8.5%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">CLX</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-03</td>
+          <td class="text-center">$ 98.48</td>
+          <td class="text-center">$ 102.34</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +3.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">IT</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-10</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 248.34</td>
+          <td class="text-center">$ 252.28</td>
+          <td class="text-center fw-bold" style="color:#10b981">▲ +1.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">AOS</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-03</td>
+          <td class="text-center">$ 66.17</td>
+          <td class="text-center">$ 65.57</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -0.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">OMC</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 81.45</td>
+          <td class="text-center">$ 79.17</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -2.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">STLD</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 115.05</td>
+          <td class="text-center">$ 111.64</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -3.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">EOG</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">$ 106.50</td>
+          <td class="text-center">$ 103.22</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -3.1%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">CI</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 284.10</td>
+          <td class="text-center">$ 266.43</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -6.2%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">VLO</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 126.32</td>
+          <td class="text-center">$ 117.57</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -6.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">OXY</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center">$ 61.36</td>
+          <td class="text-center">$ 57.04</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -7.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">COP</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 108.86</td>
+          <td class="text-center">$ 94.41</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -13.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">NUE</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 161.24</td>
+          <td class="text-center">$ 113.90</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -29.4%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">DVN</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center">$ 55.70</td>
+          <td class="text-center">$ 35.05</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -37.1%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">MRNA</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
+          <td class="text-center">$ 176.06</td>
+          <td class="text-center">$ 99.45</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -43.5%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">APA</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">$ 39.09</td>
+          <td class="text-center">$ 21.58</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -44.8%</td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Monthly History ────────────────────────────────────────────────── -->
+  <section class="mb-4">
+    <div class="section-title">Monthly History</div>
+    <div class="table-responsive rounded-3" style="border:1px solid #30363d">
+      <table class="table table-dark table-hover table-sm mb-0">
+        <thead>
+          <tr>
+            <th>Month</th><th>MF Return</th><th>S&amp;P 500</th><th>Alpha</th>
+            <th>Portfolio</th><th>Entries</th><th>Exits</th><th>Top 5 Holdings</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-center fw-semibold">2023-01</td>
+          <td class="text-center fw-bold" style="color:#8b949e">—</td>
+          <td class="text-center" style="color:#ef4444">-2.6%</td>
+          <td class="text-center" style="color:#8b949e">—</td>
+          <td class="text-center text-secondary">100.0</td>
+          <td style="color:#86efac;font-size:.78rem">APA, BLDR, CF, COP, DVN, EXPD, HPQ, MPC, MRNA, NUE, NVR, OXY, STLD, VLO, WSM</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-02</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.1%</td>
+          <td class="text-center" style="color:#10b981">+3.5%</td>
+          <td class="text-center" style="color:#ef4444">-3.6%</td>
+          <td class="text-center text-secondary">100.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-03</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.6%</td>
+          <td class="text-center" style="color:#10b981">+1.5%</td>
+          <td class="text-center" style="color:#ef4444">-3.1%</td>
+          <td class="text-center text-secondary">98.3</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-04</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-6.1%</td>
+          <td class="text-center" style="color:#10b981">+0.2%</td>
+          <td class="text-center" style="color:#ef4444">-6.3%</td>
+          <td class="text-center text-secondary">92.4</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-05</td>
+          <td class="text-center fw-bold" style="color:#10b981">+10.1%</td>
+          <td class="text-center" style="color:#10b981">+6.5%</td>
+          <td class="text-center" style="color:#10b981">+3.6%</td>
+          <td class="text-center text-secondary">101.7</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-06</td>
+          <td class="text-center fw-bold" style="color:#10b981">+8.4%</td>
+          <td class="text-center" style="color:#10b981">+3.1%</td>
+          <td class="text-center" style="color:#10b981">+5.3%</td>
+          <td class="text-center text-secondary">110.2</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-07</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.8%</td>
+          <td class="text-center" style="color:#ef4444">-1.8%</td>
+          <td class="text-center" style="color:#10b981">+1.0%</td>
+          <td class="text-center text-secondary">109.3</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-08</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.6%</td>
+          <td class="text-center" style="color:#ef4444">-4.9%</td>
+          <td class="text-center" style="color:#10b981">+3.3%</td>
+          <td class="text-center text-secondary">107.7</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-09</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-5.7%</td>
+          <td class="text-center" style="color:#ef4444">-2.2%</td>
+          <td class="text-center" style="color:#ef4444">-3.5%</td>
+          <td class="text-center text-secondary">101.5</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-10</td>
+          <td class="text-center fw-bold" style="color:#10b981">+5.7%</td>
+          <td class="text-center" style="color:#10b981">+8.9%</td>
+          <td class="text-center" style="color:#ef4444">-3.2%</td>
+          <td class="text-center text-secondary">107.3</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-11</td>
+          <td class="text-center fw-bold" style="color:#10b981">+6.5%</td>
+          <td class="text-center" style="color:#10b981">+4.4%</td>
+          <td class="text-center" style="color:#10b981">+2.1%</td>
+          <td class="text-center text-secondary">114.3</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BLDR, CF, COP, DVN…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2023-12</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.2%</td>
+          <td class="text-center" style="color:#10b981">+1.6%</td>
+          <td class="text-center" style="color:#ef4444">-1.8%</td>
+          <td class="text-center text-secondary">114.0</td>
+          <td style="color:#86efac;font-size:.78rem">BBY, CI, MO</td>
+          <td style="color:#fca5a5;font-size:.78rem">EXPD, MRNA, OXY</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, BLDR, CF, CI…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-01</td>
+          <td class="text-center fw-bold" style="color:#10b981">+6.2%</td>
+          <td class="text-center" style="color:#10b981">+5.2%</td>
+          <td class="text-center" style="color:#10b981">+1.0%</td>
+          <td class="text-center text-secondary">121.1</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, BLDR, CF, CI…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-02</td>
+          <td class="text-center fw-bold" style="color:#10b981">+11.4%</td>
+          <td class="text-center" style="color:#10b981">+3.1%</td>
+          <td class="text-center" style="color:#10b981">+8.3%</td>
+          <td class="text-center text-secondary">135.0</td>
+          <td style="color:#86efac;font-size:.78rem">EOG</td>
+          <td style="color:#fca5a5;font-size:.78rem">BLDR</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-03</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-5.5%</td>
+          <td class="text-center" style="color:#ef4444">-4.2%</td>
+          <td class="text-center" style="color:#ef4444">-1.4%</td>
+          <td class="text-center text-secondary">127.5</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-04</td>
+          <td class="text-center fw-bold" style="color:#10b981">+2.3%</td>
+          <td class="text-center" style="color:#10b981">+4.8%</td>
+          <td class="text-center" style="color:#ef4444">-2.5%</td>
+          <td class="text-center text-secondary">130.4</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-05</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.6%</td>
+          <td class="text-center" style="color:#10b981">+3.5%</td>
+          <td class="text-center" style="color:#ef4444">-6.1%</td>
+          <td class="text-center text-secondary">127.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-06</td>
+          <td class="text-center fw-bold" style="color:#10b981">+4.3%</td>
+          <td class="text-center" style="color:#10b981">+1.1%</td>
+          <td class="text-center" style="color:#10b981">+3.2%</td>
+          <td class="text-center text-secondary">132.5</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-07</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.1%</td>
+          <td class="text-center" style="color:#10b981">+2.3%</td>
+          <td class="text-center" style="color:#ef4444">-2.4%</td>
+          <td class="text-center text-secondary">132.3</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-08</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.0%</td>
+          <td class="text-center" style="color:#10b981">+2.0%</td>
+          <td class="text-center" style="color:#ef4444">-4.0%</td>
+          <td class="text-center text-secondary">129.7</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-09</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-3.5%</td>
+          <td class="text-center" style="color:#ef4444">-1.0%</td>
+          <td class="text-center" style="color:#ef4444">-2.5%</td>
+          <td class="text-center text-secondary">125.2</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-10</td>
+          <td class="text-center fw-bold" style="color:#10b981">+6.0%</td>
+          <td class="text-center" style="color:#10b981">+5.7%</td>
+          <td class="text-center" style="color:#10b981">+0.3%</td>
+          <td class="text-center text-secondary">132.7</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-11</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-9.6%</td>
+          <td class="text-center" style="color:#ef4444">-2.5%</td>
+          <td class="text-center" style="color:#ef4444">-7.1%</td>
+          <td class="text-center text-secondary">120.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">APA, BBY, CF, CI, COP…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2024-12</td>
+          <td class="text-center fw-bold" style="color:#10b981">+4.6%</td>
+          <td class="text-center" style="color:#10b981">+2.7%</td>
+          <td class="text-center" style="color:#10b981">+1.9%</td>
+          <td class="text-center text-secondary">125.5</td>
+          <td style="color:#86efac;font-size:.78rem">CMI, FCX, JBL, MAS, OMC, PHM, TRMB, ULTA</td>
+          <td style="color:#fca5a5;font-size:.78rem">APA, CI, COP, MPC, NUE, STLD, VLO, WSM</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, DVN, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-01</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.6%</td>
+          <td class="text-center" style="color:#ef4444">-1.4%</td>
+          <td class="text-center" style="color:#ef4444">-1.2%</td>
+          <td class="text-center text-secondary">122.2</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, DVN, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-02</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-4.0%</td>
+          <td class="text-center" style="color:#ef4444">-5.8%</td>
+          <td class="text-center" style="color:#10b981">+1.8%</td>
+          <td class="text-center text-secondary">117.4</td>
+          <td style="color:#86efac;font-size:.78rem">EME</td>
+          <td style="color:#fca5a5;font-size:.78rem">DVN</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EME, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-03</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.8%</td>
+          <td class="text-center" style="color:#ef4444">-0.8%</td>
+          <td class="text-center" style="color:#ef4444">-2.1%</td>
+          <td class="text-center text-secondary">114.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EME, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-04</td>
+          <td class="text-center fw-bold" style="color:#10b981">+6.1%</td>
+          <td class="text-center" style="color:#10b981">+6.2%</td>
+          <td class="text-center" style="color:#ef4444">-0.0%</td>
+          <td class="text-center text-secondary">121.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EME, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-05</td>
+          <td class="text-center fw-bold" style="color:#10b981">+5.7%</td>
+          <td class="text-center" style="color:#10b981">+5.0%</td>
+          <td class="text-center" style="color:#10b981">+0.7%</td>
+          <td class="text-center text-secondary">128.0</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EME, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-06</td>
+          <td class="text-center fw-bold" style="color:#10b981">+4.8%</td>
+          <td class="text-center" style="color:#10b981">+2.2%</td>
+          <td class="text-center" style="color:#10b981">+2.6%</td>
+          <td class="text-center text-secondary">134.0</td>
+          <td style="color:#86efac;font-size:.78rem">LULU</td>
+          <td style="color:#fca5a5;font-size:.78rem">EME</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EOG, FCX…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-07</td>
+          <td class="text-center fw-bold" style="color:#10b981">+5.3%</td>
+          <td class="text-center" style="color:#10b981">+1.9%</td>
+          <td class="text-center" style="color:#10b981">+3.4%</td>
+          <td class="text-center text-secondary">141.1</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, EOG, FCX…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-08</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.6%</td>
+          <td class="text-center" style="color:#10b981">+3.5%</td>
+          <td class="text-center" style="color:#ef4444">-4.1%</td>
+          <td class="text-center text-secondary">140.3</td>
+          <td style="color:#86efac;font-size:.78rem">DECK</td>
+          <td style="color:#fca5a5;font-size:.78rem">JBL</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, DECK, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-09</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-4.6%</td>
+          <td class="text-center" style="color:#10b981">+2.3%</td>
+          <td class="text-center" style="color:#ef4444">-6.9%</td>
+          <td class="text-center text-secondary">133.8</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBY, CF, CMI, DECK, EOG…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-10</td>
+          <td class="text-center fw-bold" style="color:#10b981">+2.1%</td>
+          <td class="text-center" style="color:#10b981">+0.1%</td>
+          <td class="text-center" style="color:#10b981">+2.0%</td>
+          <td class="text-center text-secondary">136.6</td>
+          <td style="color:#86efac;font-size:.78rem">IT</td>
+          <td style="color:#fca5a5;font-size:.78rem">BBY</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CF, CMI, DECK, EOG, FCX…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-11</td>
+          <td class="text-center fw-bold" style="color:#10b981">+3.6%</td>
+          <td class="text-center" style="color:#ef4444">-0.1%</td>
+          <td class="text-center" style="color:#10b981">+3.7%</td>
+          <td class="text-center text-secondary">141.6</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CF, CMI, DECK, EOG, FCX…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2025-12</td>
+          <td class="text-center fw-bold" style="color:#10b981">+3.0%</td>
+          <td class="text-center" style="color:#10b981">+1.4%</td>
+          <td class="text-center" style="color:#10b981">+1.6%</td>
+          <td class="text-center text-secondary">145.8</td>
+          <td style="color:#86efac;font-size:.78rem">AOS, APA, CLX, NEM, NTAP, WSM</td>
+          <td style="color:#fca5a5;font-size:.78rem">CMI, EOG, IT, OMC, PHM, TRMB</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">AOS, APA, CF, CLX, DECK…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2026-01</td>
+          <td class="text-center fw-bold" style="color:#10b981">+6.8%</td>
+          <td class="text-center" style="color:#ef4444">-0.9%</td>
+          <td class="text-center" style="color:#10b981">+7.7%</td>
+          <td class="text-center text-secondary">155.8</td>
+          <td style="color:#86efac;font-size:.78rem">ADBE, BBY</td>
+          <td style="color:#fca5a5;font-size:.78rem">FCX, ULTA</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">ADBE, AOS, APA, BBY, CF…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2026-02</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-3.6%</td>
+          <td class="text-center" style="color:#ef4444">-5.1%</td>
+          <td class="text-center" style="color:#10b981">+1.5%</td>
+          <td class="text-center text-secondary">150.1</td>
+          <td style="color:#86efac;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">ADBE, AOS, APA, BBY, CF…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2026-03</td>
+          <td class="text-center fw-bold" style="color:#10b981">+1.0%</td>
+          <td class="text-center" style="color:#10b981">+10.4%</td>
+          <td class="text-center" style="color:#ef4444">-9.4%</td>
+          <td class="text-center text-secondary">151.6</td>
+          <td style="color:#86efac;font-size:.78rem">IT, WDC</td>
+          <td style="color:#fca5a5;font-size:.78rem">AOS, CLX</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">ADBE, APA, BBY, CF, DECK…</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-semibold">2026-04</td>
+          <td class="text-center fw-bold" style="color:#10b981">+9.5%</td>
+          <td class="text-center" style="color:#10b981">+5.2%</td>
+          <td class="text-center" style="color:#10b981">+4.3%</td>
+          <td class="text-center text-secondary">166.0</td>
+          <td style="color:#86efac;font-size:.78rem">ADP</td>
+          <td style="color:#fca5a5;font-size:.78rem">WDC</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">ADBE, ADP, APA, BBY, CF…</td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>Magic Formula US Backtest · 07/06/2026 08:49 · Not investment advice · Survivorship bias present</footer>
+
+<script>
+const labels = ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
+const mfValues = [100.0, 99.95, 98.34, 92.37, 101.67, 110.19, 109.35, 107.65, 101.51, 107.32, 114.28, 114.03, 121.11, 134.97, 127.49, 130.38, 126.97, 132.49, 132.31, 129.69, 125.16, 132.69, 120.01, 125.53, 122.24, 117.37, 114.04, 121.04, 127.95, 134.03, 141.14, 140.27, 133.82, 136.64, 141.58, 145.79, 155.77, 150.12, 151.61, 166.01];
+const spxValues = [100.0, 103.51, 105.02, 105.29, 112.1, 115.59, 113.53, 108.01, 105.63, 115.05, 120.14, 122.05, 128.36, 132.33, 126.83, 132.92, 137.53, 139.09, 142.25, 145.13, 143.69, 151.93, 148.13, 152.13, 149.97, 141.35, 140.27, 148.9, 156.29, 159.68, 162.73, 168.47, 172.3, 172.51, 172.43, 174.79, 173.27, 164.45, 181.59, 190.94];
+const tbillValues = [100.0, 100.38, 100.75, 101.16, 101.59, 102.01, 102.45, 102.9, 103.34, 103.79, 104.22, 104.66, 105.1, 105.56, 106.0, 106.46, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91];
+const monthlyRets = [0, -0.05, -1.61, -6.08, 10.08, 8.37, -0.76, -1.55, -5.7, 5.72, 6.49, -0.22, 6.21, 11.44, -5.54, 2.27, -2.61, 4.35, -0.14, -1.98, -3.49, 6.01, -9.56, 4.61, -2.62, -3.99, -2.84, 6.14, 5.7, 4.75, 5.3, -0.61, -4.6, 2.11, 3.61, 2.97, 6.84, -3.63, 0.99, 9.5];
+const barColors = ["rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)"];
+
+new Chart(document.getElementById('chartEquity'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      {
+        label: 'Magic Formula',
+        data: mfValues,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,.06)',
+        borderWidth: 2.5, pointRadius: 2, fill: true, tension: 0.3,
+      },
+      {
+        label: 'S&P 500',
+        data: spxValues,
+        borderColor: '#6e7681',
+        borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,
+      },
+      {
+        label: 'T-Bill',
+        data: tbillValues,
+        borderColor: '#d29922',
+        borderWidth: 1.5, pointRadius: 0, borderDash: [2,4], tension: 0.1,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { color: '#8b949e', font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}` } },
+    },
+    scales: {
+      x: { ticks: { color: '#6e7681', maxTicksLimit: 18, font: { size: 10 } }, grid: { color: '#21262d' } },
+      y: { ticks: { color: '#8b949e', callback: v => v.toFixed(0) }, grid: { color: '#30363d' } },
+    }
+  }
+});
+
+new Chart(document.getElementById('chartMonthly'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [{
+      label: 'Monthly Return (%)',
+      data: monthlyRets,
+      backgroundColor: barColors,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y.toFixed(2)}%` } },
+    },
+    scales: {
+      x: { ticks: { color: '#6e7681', maxTicksLimit: 18, font: { size: 10 } }, grid: { color: '#21262d' } },
+      y: { ticks: { color: '#8b949e', callback: v => v.toFixed(1) + '%' }, grid: { color: '#30363d' } },
+    }
+  }
+});
+</script>
+</body>
+</html>
