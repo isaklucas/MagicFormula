@@ -17,6 +17,9 @@ output/
 # CSV de entrada (dados locais do usuário)
 statusinvest-busca-avancada.csv
 
+# Notas de features locais (não commitar)
+to-do/
+
 # Dados sensíveis / locais
 .env
 .env.*
