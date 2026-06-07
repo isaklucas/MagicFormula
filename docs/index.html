@@ -87,20 +87,37 @@
 </head>
 <body>
 
+<nav class="navbar navbar-dark py-2" style="background:#0d1117;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1030">
+  <div class="container-fluid px-3 px-md-4 d-flex align-items-center gap-3">
+    <span class="fw-bold me-2" style="color:#58a6ff">&#9998; Magic Formula</span>
+    <a href="index.html"    class="nav-link px-2" style="font-size:.85rem">&#127463;&#127479; BR</a>
+    <a href="us.html"       class="nav-link px-2" style="font-size:.85rem">&#127482;&#127480; US</a>
+    <a href="backtest.html" class="nav-link px-2" style="font-size:.85rem">&#128200; Backtest</a>
+  </div>
+</nav>
+<script>
+document.querySelectorAll('nav a').forEach(a => {
+  if (location.pathname.endsWith(a.getAttribute('href')) ||
+      (a.getAttribute('href') === 'index.html' && location.pathname.endsWith('/'))) {
+    a.style.color = '#e6edf3'; a.style.fontWeight = '700';
+  }
+});
+</script>
+
 <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
 <div class="hero">
   <div class="container-fluid px-3 px-md-4">
     <h1>Magic Formula <em>BR</em> — Análise IA</h1>
     <p class="text-light opacity-75 mb-3" style="font-size:.85rem">
-      06/06/2026 21:45 · StatusInvest · Metodologia Greenblatt · Análise Claude AI
+      06/06/2026 22:02 · StatusInvest · Metodologia Greenblatt · Análise Claude AI
     </p>
     <div class="d-flex flex-wrap gap-2">
       <div class="stat-pill"><div class="val">202</div><div class="lbl">CSV</div></div>
       <div class="stat-pill"><div class="val">127</div><div class="lbl">Após filtros</div></div>
       <div class="stat-pill"><div class="val">100</div><div class="lbl">Após RJ check</div></div>
       <div class="stat-pill"><div class="val">30</div><div class="lbl">Analisadas</div></div>
-      <div class="stat-pill green"><div class="val">26</div><div class="lbl">✓ Comprar</div></div>
-      <div class="stat-pill amber"><div class="val">4</div><div class="lbl">⚠ Neutro</div></div>
+      <div class="stat-pill green"><div class="val">24</div><div class="lbl">✓ Comprar</div></div>
+      <div class="stat-pill amber"><div class="val">6</div><div class="lbl">⚠ Neutro</div></div>
     </div>
   </div>
 </div>
@@ -126,27 +143,9 @@
             <th>Val. Mercado</th><th>Motivo</th>
           </tr>
         </thead>
-        <tbody><tr style="background:#0a2218"><td colspan="15" class="py-2 px-3 fw-bold" style="color:#3fb950;font-size:.75rem;letter-spacing:.5px">▼ COMPRAR — 26 ações</td></tr>
+        <tbody><tr style="background:#0a2218"><td colspan="15" class="py-2 px-3 fw-bold" style="color:#3fb950;font-size:.75rem;letter-spacing:.5px">▼ COMPRAR — 24 ações</td></tr>
     <tr>
       <td class="text-center fw-bold text-secondary">1</td>
-      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('ITSA4')" title="Clique para detalhes">ITSA4</span></td>
-      <td class="text-center fw-semibold" style="color:#d29922">7.84x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">17.44%</td>
-      <td class="text-center text-secondary">90</td>
-      <td class="text-center fw-bold" style="color:#bc8cff">9/10</td>
-      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">221.97%</td>
-      <td class="text-center text-secondary">18.83%</td>
-      <td class="text-center fw-semibold" style="color:#d29922">0.23x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 377.3M</td>
-      <td class="text-center text-secondary">7.01%</td>
-      <td class="text-center text-secondary">19.20%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 141.4B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 7.84x barato com ROIC 17.44% crescente e CAGR lucros 19.2…</td>
-    </tr>
-    <tr>
-      <td class="text-center fw-bold text-secondary">2</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('RIAA3')" title="Clique para detalhes">RIAA3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">2.26x</td>
@@ -161,10 +160,10 @@
       <td class="text-center text-secondary">10.94%</td>
       <td class="text-center text-secondary">—%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 4.2B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 2.26x com ROIC de 26.65% indica valuation atrativo e b…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 2.26x extremamente barato com ROIC 26.65% e margem EBIT 2…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">3</td>
+      <td class="text-center fw-bold text-secondary">2</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('WIZC3')" title="Clique para detalhes">WIZC3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">2.04x</td>
@@ -179,10 +178,10 @@
       <td class="text-center text-secondary">11.49%</td>
       <td class="text-center text-secondary">-0.05%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 1.2B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 2.04x extremamente barato com ROIC de 23.53% e margem …</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 2.04x extremamente barato com ROIC 23.53% e margem EBI…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">4</td>
+      <td class="text-center fw-bold text-secondary">3</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('ALLD3')" title="Clique para detalhes">ALLD3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">1.28x</td>
@@ -197,10 +196,10 @@
       <td class="text-center text-secondary">3.11%</td>
       <td class="text-center text-secondary">15.35%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 522.0M</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 1.28x indica valuation muito atrativo com ROIC de 18.1…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 1.28x extremamente barato com ROIC 18.12% e divida liq…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">5</td>
+      <td class="text-center fw-bold text-secondary">4</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('TIMS3')" title="Clique para detalhes">TIMS3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">6.90x</td>
@@ -218,7 +217,7 @@
       <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (6.90x) com ROIC crescente (30.15%) e caixa liqu…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">6</td>
+      <td class="text-center fw-bold text-secondary">5</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('CPFE3')" title="Clique para detalhes">CPFE3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">6.81x</td>
@@ -233,7 +232,25 @@
       <td class="text-center text-secondary">7.50%</td>
       <td class="text-center text-secondary">9.61%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 49.2B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 6.81x indica valuation atrativo; ROIC 15.41% e ROE 23.…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo em 6.81x com ROIC de 15.41% e ROE de 23.72%; pre…</td>
+    </tr>
+    <tr>
+      <td class="text-center fw-bold text-secondary">6</td>
+      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
+               onclick="openModal('POMO4')" title="Clique para detalhes">POMO4</span></td>
+      <td class="text-center fw-semibold" style="color:#d29922">6.21x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">13.41%</td>
+      <td class="text-center text-secondary">76</td>
+      <td class="text-center fw-bold" style="color:#bc8cff">8/10</td>
+      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
+      <td class="text-center text-secondary">15.36%</td>
+      <td class="text-center text-secondary">30.72%</td>
+      <td class="text-center fw-semibold" style="color:#d29922">1.12x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 47.3M</td>
+      <td class="text-center text-secondary">20.33%</td>
+      <td class="text-center text-secondary">64.41%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 7.1B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 6.21x barato com ROIC 13.41% e CAGR receitas 20.33%; marg…</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">7</td>
@@ -256,20 +273,20 @@
     <tr>
       <td class="text-center fw-bold text-secondary">8</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('TGMA3')" title="Clique para detalhes">TGMA3</span></td>
-      <td class="text-center fw-semibold" style="color:#d29922">6.04x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">13.14%</td>
-      <td class="text-center text-secondary">78</td>
+               onclick="openModal('GMAT3')" title="Clique para detalhes">GMAT3</span></td>
+      <td class="text-center fw-semibold" style="color:#3fb950">4.82x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">10.52%</td>
+      <td class="text-center text-secondary">82</td>
       <td class="text-center fw-bold" style="color:#bc8cff">8/10</td>
       <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">14.12%</td>
-      <td class="text-center text-secondary">26.13%</td>
-      <td class="text-center fw-semibold" style="color:#d29922">0.03x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 6.5M</td>
-      <td class="text-center text-secondary">17.07%</td>
-      <td class="text-center text-secondary">26.45%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.0B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (6.04x) com ROIC 13% e divida quase nula (0.03x)…</td>
+      <td class="text-center text-secondary">5.32%</td>
+      <td class="text-center text-secondary">15.83%</td>
+      <td class="text-center fw-semibold" style="color:#d29922">0.35x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 24.9M</td>
+      <td class="text-center text-secondary">25.39%</td>
+      <td class="text-center text-secondary">18.99%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 9.4B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT barato a 4.82x com ROIC de 10.52% e CAGR receitas robusto…</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">9</td>
@@ -287,10 +304,46 @@
       <td class="text-center text-secondary">17.05%</td>
       <td class="text-center text-secondary">56.26%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 6.6B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (6.61x) com ROIC de 13.37% e CAGR receitas de 17…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT baixo (6.61x) com ROIC solido (13.37%) e margem EBIT elev…</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">10</td>
+      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
+               onclick="openModal('ITSA4')" title="Clique para detalhes">ITSA4</span></td>
+      <td class="text-center fw-semibold" style="color:#d29922">7.84x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">17.44%</td>
+      <td class="text-center text-secondary">90</td>
+      <td class="text-center fw-bold" style="color:#bc8cff">8/10</td>
+      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
+      <td class="text-center text-secondary">221.97%</td>
+      <td class="text-center text-secondary">18.83%</td>
+      <td class="text-center fw-semibold" style="color:#d29922">0.23x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 377.3M</td>
+      <td class="text-center text-secondary">7.01%</td>
+      <td class="text-center text-secondary">19.20%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 141.4B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 7.84x com ROIC crescente (17.4%) e CAGR lucros 19.2% i…</td>
+    </tr>
+    <tr>
+      <td class="text-center fw-bold text-secondary">11</td>
+      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
+               onclick="openModal('CMIG4')" title="Clique para detalhes">CMIG4</span></td>
+      <td class="text-center fw-semibold" style="color:#d29922">8.04x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">12.58%</td>
+      <td class="text-center text-secondary">121</td>
+      <td class="text-center fw-bold" style="color:#bc8cff">8/10</td>
+      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
+      <td class="text-center text-secondary">15.39%</td>
+      <td class="text-center text-secondary">16.75%</td>
+      <td class="text-center fw-semibold" style="color:#f85149">2.67x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 151.1M</td>
+      <td class="text-center text-secondary">11.13%</td>
+      <td class="text-center text-secondary">11.05%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 35.8B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo de 8.04x com ROIC de 12.58% e CAGR receitas soli…</td>
+    </tr>
+    <tr>
+      <td class="text-center fw-bold text-secondary">12</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('CSED3')" title="Clique para detalhes">CSED3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">3.26x</td>
@@ -308,7 +361,7 @@
       <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 3.26x extremamente barato com ROIC 18.3% e margem EBIT 19…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">11</td>
+      <td class="text-center fw-bold text-secondary">13</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('CMIN3')" title="Clique para detalhes">CMIN3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">4.99x</td>
@@ -323,10 +376,10 @@
       <td class="text-center text-secondary">5.50%</td>
       <td class="text-center text-secondary">-11.17%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 23.7B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 4.99x barato com ROIC 21.5% e divida quase nula (0.06x EB…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.99x indica valuation atrativo com ROIC de 21.5% e ma…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">12</td>
+      <td class="text-center fw-bold text-secondary">14</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('BEEF3')" title="Clique para detalhes">BEEF3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">4.36x</td>
@@ -341,10 +394,10 @@
       <td class="text-center text-secondary">23.09%</td>
       <td class="text-center text-secondary">0.42%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 3.7B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT barato (4.36x) com ROIC crescente (14.22%) e receita em e…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.36x indica valuation atrativo; ROIC de 14.22% com te…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">13</td>
+      <td class="text-center fw-bold text-secondary">15</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('PGMN3')" title="Clique para detalhes">PGMN3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">4.68x</td>
@@ -359,28 +412,10 @@
       <td class="text-center text-secondary">16.80%</td>
       <td class="text-center text-secondary">26.21%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.9B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.68x barato com ROIC de 14.93% e CAGR de receitas 16.…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 4.68x barato com ROIC 14.93% e CAGR receitas 16.8%; divid…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">14</td>
-      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('PFRM3')" title="Clique para detalhes">PFRM3</span></td>
-      <td class="text-center fw-semibold" style="color:#3fb950">4.40x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">13.17%</td>
-      <td class="text-center text-secondary">54</td>
-      <td class="text-center fw-bold" style="color:#bc8cff">7/10</td>
-      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">3.07%</td>
-      <td class="text-center text-secondary">7.86%</td>
-      <td class="text-center fw-semibold" style="color:#f85149">2.09x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 1.6M</td>
-      <td class="text-center text-secondary">15.87%</td>
-      <td class="text-center text-secondary">15.05%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 827.1M</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.40x indica valuation atrativo com ROIC de 13.17% e C…</td>
-    </tr>
-    <tr>
-      <td class="text-center fw-bold text-secondary">15</td>
+      <td class="text-center fw-bold text-secondary">16</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('ASAI3')" title="Clique para detalhes">ASAI3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">5.92x</td>
@@ -395,10 +430,10 @@
       <td class="text-center text-secondary">16.49%</td>
       <td class="text-center text-secondary">-12.92%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 11.7B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 5.92x barato com ROIC 17.18% e margens EBIT crescentes (4…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT baixo (5.92x) com ROIC crescente (21.3% ultimo trimestre)…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">16</td>
+      <td class="text-center fw-bold text-secondary">17</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('EUCA4')" title="Clique para detalhes">EUCA4</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">4.72x</td>
@@ -413,43 +448,25 @@
       <td class="text-center text-secondary">11.55%</td>
       <td class="text-center text-secondary">23.22%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.4B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.72x indica valuation atrativo; ROIC de 12.97% com CA…</td>
-    </tr>
-    <tr>
-      <td class="text-center fw-bold text-secondary">17</td>
-      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('POMO4')" title="Clique para detalhes">POMO4</span></td>
-      <td class="text-center fw-semibold" style="color:#d29922">6.21x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">13.41%</td>
-      <td class="text-center text-secondary">76</td>
-      <td class="text-center fw-bold" style="color:#bc8cff">7/10</td>
-      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">15.36%</td>
-      <td class="text-center text-secondary">30.72%</td>
-      <td class="text-center fw-semibold" style="color:#d29922">1.12x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 47.3M</td>
-      <td class="text-center text-secondary">20.33%</td>
-      <td class="text-center text-secondary">64.41%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 7.1B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo em 6.21x com ROIC de 13.41% e forte crescimento …</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT barato (4.72x) com ROIC 12.97% e CAGR receitas 11.55%; al…</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">18</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('GMAT3')" title="Clique para detalhes">GMAT3</span></td>
-      <td class="text-center fw-semibold" style="color:#3fb950">4.82x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">10.52%</td>
-      <td class="text-center text-secondary">82</td>
+               onclick="openModal('TGMA3')" title="Clique para detalhes">TGMA3</span></td>
+      <td class="text-center fw-semibold" style="color:#d29922">6.04x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">13.14%</td>
+      <td class="text-center text-secondary">78</td>
       <td class="text-center fw-bold" style="color:#bc8cff">7/10</td>
       <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">5.32%</td>
-      <td class="text-center text-secondary">15.83%</td>
-      <td class="text-center fw-semibold" style="color:#d29922">0.35x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 24.9M</td>
-      <td class="text-center text-secondary">25.39%</td>
-      <td class="text-center text-secondary">18.99%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 9.4B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 4.82x barato com ROIC 10.52% e CAGR receitas 25.39%; divi…</td>
+      <td class="text-center text-secondary">14.12%</td>
+      <td class="text-center text-secondary">26.13%</td>
+      <td class="text-center fw-semibold" style="color:#d29922">0.03x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 6.5M</td>
+      <td class="text-center text-secondary">17.07%</td>
+      <td class="text-center text-secondary">26.45%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.0B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 6.04x barato com ROIC 13.14% e CAGR receitas 17%; divida …</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">19</td>
@@ -467,28 +484,10 @@
       <td class="text-center text-secondary">21.57%</td>
       <td class="text-center text-secondary">187.00%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 346.6M</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 4.52x indica valuation atrativo; ROIC 8.5% em recuperacao…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 4.52x muito atrativo com CAGR receitas 21.57%; ROIC em…</td>
     </tr>
     <tr>
       <td class="text-center fw-bold text-secondary">20</td>
-      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('ENAT3')" title="Clique para detalhes">ENAT3</span></td>
-      <td class="text-center fw-semibold" style="color:#d29922">5.12x</td>
-      <td class="text-center fw-semibold" style="color:#f85149">8.60%</td>
-      <td class="text-center text-secondary">105</td>
-      <td class="text-center fw-bold" style="color:#bc8cff">7/10</td>
-      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">56.10%</td>
-      <td class="text-center text-secondary">12.53%</td>
-      <td class="text-center fw-semibold" style="color:#d29922">0.47x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 201.7M</td>
-      <td class="text-center text-secondary">11.74%</td>
-      <td class="text-center text-secondary">5.75%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 5.8B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 5.12x indica valuation atrativo; margem EBIT de 56.1% …</td>
-    </tr>
-    <tr>
-      <td class="text-center fw-bold text-secondary">21</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('UGPA3')" title="Clique para detalhes">UGPA3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">6.97x</td>
@@ -503,28 +502,10 @@
       <td class="text-center text-secondary">11.87%</td>
       <td class="text-center text-secondary">27.38%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 27.9B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (6.97x) com ROIC de 11.71% e CAGR de lucros de 2…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 6.97x barato com ROIC 11.71% e CAGR receitas 11.87%; alav…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">22</td>
-      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
-               onclick="openModal('CMIG4')" title="Clique para detalhes">CMIG4</span></td>
-      <td class="text-center fw-semibold" style="color:#d29922">8.04x</td>
-      <td class="text-center fw-semibold" style="color:#d29922">12.58%</td>
-      <td class="text-center text-secondary">121</td>
-      <td class="text-center fw-bold" style="color:#bc8cff">7/10</td>
-      <td class="text-center"><span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span></td>
-      <td class="text-center text-secondary">15.39%</td>
-      <td class="text-center text-secondary">16.75%</td>
-      <td class="text-center fw-semibold" style="color:#f85149">2.67x</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 151.1M</td>
-      <td class="text-center text-secondary">11.13%</td>
-      <td class="text-center text-secondary">11.05%</td>
-      <td class="text-center text-secondary" style="font-size:.8rem">R$ 35.8B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT de 8.04x com ROIC de 12.58% indica valuation atrativo; re…</td>
-    </tr>
-    <tr>
-      <td class="text-center fw-bold text-secondary">23</td>
+      <td class="text-center fw-bold text-secondary">21</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('TAEE11')" title="Clique para detalhes">TAEE11</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">8.71x</td>
@@ -539,10 +520,10 @@
       <td class="text-center text-secondary">5.36%</td>
       <td class="text-center text-secondary">-7.07%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 13.3B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (8.71x) com ROIC 13.41% e margem EBIT elevada (5…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo 8.71x com ROIC 13.41% e margem EBIT 57.4% elevad…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">24</td>
+      <td class="text-center fw-bold text-secondary">22</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('INTB3')" title="Clique para detalhes">INTB3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">8.18x</td>
@@ -557,10 +538,10 @@
       <td class="text-center text-secondary">15.88%</td>
       <td class="text-center text-secondary">11.88%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 4.4B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 8.18x atrativo com caixa liquido (Div/EBIT -0.68x) e marg…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 8.18x barato com ROIC 11.86%, caixa liquido (Div/EBIT -0.…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">25</td>
+      <td class="text-center fw-bold text-secondary">23</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('DESK3')" title="Clique para detalhes">DESK3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">8.37x</td>
@@ -575,10 +556,10 @@
       <td class="text-center text-secondary">48.79%</td>
       <td class="text-center text-secondary">18.09%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.1B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (8.37x) com ROIC de 10.32% e margem EBIT elevada…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (8.37x) com margem EBIT elevada (31.58%) e recei…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">26</td>
+      <td class="text-center fw-bold text-secondary">24</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('FIQE3')" title="Clique para detalhes">FIQE3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">8.02x</td>
@@ -593,10 +574,28 @@
       <td class="text-center text-secondary">32.89%</td>
       <td class="text-center text-secondary">34.61%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 2.5B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 8.02x barato com receitas crescentes (+32.9% CAGR) e marg…</td>
-    </tr><tr style="background:#1a1000"><td colspan="15" class="py-2 px-3 fw-bold" style="color:#d29922;font-size:.75rem;letter-spacing:.5px">▼ NEUTRO / CAUTELA — 4 ações</td></tr>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT 8.02x barato com margem EBIT 28% e CAGR receitas 33%. ROI…</td>
+    </tr><tr style="background:#1a1000"><td colspan="15" class="py-2 px-3 fw-bold" style="color:#d29922;font-size:.75rem;letter-spacing:.5px">▼ NEUTRO / CAUTELA — 6 ações</td></tr>
     <tr>
       <td class="text-center fw-bold text-secondary">1</td>
+      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
+               onclick="openModal('PFRM3')" title="Clique para detalhes">PFRM3</span></td>
+      <td class="text-center fw-semibold" style="color:#3fb950">4.40x</td>
+      <td class="text-center fw-semibold" style="color:#d29922">13.17%</td>
+      <td class="text-center text-secondary">54</td>
+      <td class="text-center fw-bold" style="color:#bc8cff">6/10</td>
+      <td class="text-center"><span class="badge" style="background:#d2992222;color:#d29922;border:1px solid #d2992255;font-size:.7rem">NEUTRO</span></td>
+      <td class="text-center text-secondary">3.07%</td>
+      <td class="text-center text-secondary">7.86%</td>
+      <td class="text-center fw-semibold" style="color:#f85149">2.09x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 1.6M</td>
+      <td class="text-center text-secondary">15.87%</td>
+      <td class="text-center text-secondary">15.05%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 827.1M</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (4.4x) e CAGR receitas solido (15.9%), mas ROIC …</td>
+    </tr>
+    <tr>
+      <td class="text-center fw-bold text-secondary">2</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('DEXP3')" title="Clique para detalhes">DEXP3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">3.94x</td>
@@ -611,10 +610,10 @@
       <td class="text-center text-secondary">16.52%</td>
       <td class="text-center text-secondary">3.62%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 857.2M</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margens…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margem …</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">2</td>
+      <td class="text-center fw-bold text-secondary">3</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('POSI3')" title="Clique para detalhes">POSI3</span></td>
       <td class="text-center fw-semibold" style="color:#3fb950">4.60x</td>
@@ -629,10 +628,28 @@
       <td class="text-center text-secondary">8.88%</td>
       <td class="text-center text-secondary">-44.75%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 519.0M</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT barato (4.6x) mas ROIC abaixo de 10% e divida/EBIT de 2.5…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (4.60x) mas ROIC abaixo de 10% (8.42%) e alavanc…</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">3</td>
+      <td class="text-center fw-bold text-secondary">4</td>
+      <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
+               onclick="openModal('ENAT3')" title="Clique para detalhes">ENAT3</span></td>
+      <td class="text-center fw-semibold" style="color:#d29922">5.12x</td>
+      <td class="text-center fw-semibold" style="color:#f85149">8.60%</td>
+      <td class="text-center text-secondary">105</td>
+      <td class="text-center fw-bold" style="color:#bc8cff">6/10</td>
+      <td class="text-center"><span class="badge" style="background:#d2992222;color:#d29922;border:1px solid #d2992255;font-size:.7rem">NEUTRO</span></td>
+      <td class="text-center text-secondary">56.10%</td>
+      <td class="text-center text-secondary">12.53%</td>
+      <td class="text-center fw-semibold" style="color:#d29922">0.47x</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 201.7M</td>
+      <td class="text-center text-secondary">11.74%</td>
+      <td class="text-center text-secondary">5.75%</td>
+      <td class="text-center text-secondary" style="font-size:.8rem">R$ 5.8B</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT baixo (5.12x) e margem EBIT elevada (56.1%), mas ROIC aba…</td>
+    </tr>
+    <tr>
+      <td class="text-center fw-bold text-secondary">5</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('PETR4')" title="Clique para detalhes">PETR4</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">6.17x</td>
@@ -647,10 +664,10 @@
       <td class="text-center text-secondary">12.83%</td>
       <td class="text-center text-secondary">72.19%</td>
       <td class="text-center text-secondary" style="font-size:.8rem">R$ 562.9B</td>
-      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT baixo (6.17x) e margem EBIT forte (28.88%), mas ROIC abai…</td>
+      <td style="font-size:.72rem;color:#8b949e;max-width:160px">EV/EBIT atrativo (6.17x) e margem EBIT solida (28.88%), mas ROIC …</td>
     </tr>
     <tr>
-      <td class="text-center fw-bold text-secondary">4</td>
+      <td class="text-center fw-bold text-secondary">6</td>
       <td><span class="fw-bold ticker-clickable" style="color:#58a6ff;cursor:pointer;font-size:.95rem"
                onclick="openModal('MLAS3')" title="Clique para detalhes">MLAS3</span></td>
       <td class="text-center fw-semibold" style="color:#d29922">5.46x</td>
@@ -694,7 +711,7 @@
   <section class="mb-5">
     <div class="section-title">Análise detalhada</div>
     <div class="section-sep">
-      <span class="sep-badge sep-green">✓ COMPRAR — 26 ações</span>
+      <span class="sep-badge sep-green">✓ COMPRAR — 24 ações</span>
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
       
@@ -702,29 +719,6 @@
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#1</span>
-          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('ITSA4')" title="Clique para detalhes">ITSA4</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #34 · 90</span>
-        </div>
-        <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">7.84x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">17.44%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">221.97%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">18.83%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.23x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">7.01%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">19.20%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 141.4B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 12.54</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 377.3M</div></div></div></div>
-          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
-            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
-            <span class="fw-bold" style="color:#bc8cff">9/10</span>
-          </div>
-          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
-            <span style="color:#3fb950">✓</span>
-            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 7.84x barato com ROIC 17.44% crescente e CAGR lucros 19.2%; divida baixissima (0.23x) e Score MF 90.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
-        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#2</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('RIAA3')" title="Clique para detalhes">RIAA3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #1 · 7</span>
@@ -739,7 +733,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 2.26x com ROIC de 26.65% indica valuation atrativo e boa alocacao de capital. Divida controlada (0.46x EBIT) e crescimento de receita de 10.94% ao ano reforcam a tese.</span>
+            <span style="color:#e6edf3">EV/EBIT 2.26x extremamente barato com ROIC 26.65% e margem EBIT 22.34% solidas; divida controlada (0.46x) e CAGR receitas 10.94%.</span>
           </div>
         </div>
       </div>
@@ -747,7 +741,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#3</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#2</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('WIZC3')" title="Clique para detalhes">WIZC3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #2 · 8</span>
@@ -762,7 +756,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 2.04x extremamente barato com ROIC de 23.53% e margem EBIT de 44%; caixa liquido (Div/EBIT -0.01x) reforca solidez financeira.</span>
+            <span style="color:#e6edf3">EV/EBIT de 2.04x extremamente barato com ROIC 23.53% e margem EBIT 44%, alem de caixa liquido (Div/EBIT -0.01x).</span>
           </div>
         </div>
       </div>
@@ -770,7 +764,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#4</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#3</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('ALLD3')" title="Clique para detalhes">ALLD3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #3 · 18</span>
@@ -785,7 +779,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 1.28x indica valuation muito atrativo com ROIC de 18.12% e divida controlada (0.26x EBIT). CAGR lucros 15.35% confirma rentabilidade crescente.</span>
+            <span style="color:#e6edf3">EV/EBIT de 1.28x extremamente barato com ROIC 18.12% e divida liquida baixa (0.26x). CAGR lucros 15.3% e ROE 22.27% sustentam qualidade.</span>
           </div>
         </div>
       </div>
@@ -793,7 +787,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#5</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#4</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('TIMS3')" title="Clique para detalhes">TIMS3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #14 · 51</span>
@@ -808,7 +802,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (6.90x) com ROIC crescente (30.15%) e caixa liquido (Div/EBIT -1.12x). Margem EBIT solida (24.28%) e receita em expansao consistente.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (6.90x) com ROIC crescente (30.15%) e caixa liquido (Div/EBIT -1.12x); receita em expansao e beta baixo (0.11) reforcam perfil defensivo.</span>
           </div>
         </div>
       </div>
@@ -816,7 +810,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#6</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#5</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('CPFE3')" title="Clique para detalhes">CPFE3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #23 · 74</span>
@@ -831,7 +825,30 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 6.81x indica valuation atrativo; ROIC 15.41% e ROE 23.72% demonstram retorno solido com CAGR lucros 9.61% e crescimento de receitas consistente.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo em 6.81x com ROIC de 15.41% e ROE de 23.72%; preco 25% abaixo do maximo de 52 semanas com beta baixo de 0.17.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
+        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#6</span>
+          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
+                onclick="openModal('POMO4')" title="Clique para detalhes">POMO4</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #24 · 76</span>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">6.21x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.41%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.36%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">30.72%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">1.12x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">20.33%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">64.41%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 7.1B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 5.65</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 47.3M</div></div></div></div>
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
+            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
+            <span class="fw-bold" style="color:#bc8cff">8/10</span>
+          </div>
+          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
+            <span style="color:#3fb950">✓</span>
+            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
+            <span style="color:#e6edf3">EV/EBIT 6.21x barato com ROIC 13.41% e CAGR receitas 20.33%; margem EBIT estavel ~22% e ROE 30.72% sustentam qualidade, apesar de divida moderada (1.12x EBIT).</span>
           </div>
         </div>
       </div>
@@ -854,7 +871,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (7.07x) com ROIC crescente (26.8% ultimo tri) e margem EBIT em expansao (51.5%). CAGR receitas 5a de 29.4% sustenta qualidade operacional.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (7.07x) com ROIC crescente (26.8% ultimo tri) e margem EBIT em expansao (51.5%). CAGR receitas 5a de 29.4% confirma crescimento solido.</span>
           </div>
         </div>
       </div>
@@ -864,11 +881,11 @@
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#8</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('TGMA3')" title="Clique para detalhes">TGMA3</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #27 · 78</span>
+                onclick="openModal('GMAT3')" title="Clique para detalhes">GMAT3</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #30 · 82</span>
         </div>
         <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">6.04x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.14%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">14.12%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">26.13%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.03x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">17.07%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">26.45%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 2.0B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 29.68</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 6.5M</div></div></div></div>
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#3fb950">4.82x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">10.52%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">5.32%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.83%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.35x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">25.39%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">18.99%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 9.4B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 4.08</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 24.9M</div></div></div></div>
           <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
             <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
             <span class="text-muted" style="font-size:.75rem">Score IA:</span>
@@ -877,7 +894,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (6.04x) com ROIC 13% e divida quase nula (0.03x); CAGR receitas 17% e lucros 26% sustentam crescimento, apesar de margem recente em queda.</span>
+            <span style="color:#e6edf3">EV/EBIT barato a 4.82x com ROIC de 10.52% e CAGR receitas robusto de 25.39%; divida controlada (0.35x EBIT) e beta baixo (0.49) reduzem risco.</span>
           </div>
         </div>
       </div>
@@ -900,7 +917,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (6.61x) com ROIC de 13.37% e CAGR receitas de 17% sustentam valuation. Margem EBIT elevada (83.57%) reforca qualidade, apesar de alavancagem moderada (1.49x).</span>
+            <span style="color:#e6edf3">EV/EBIT baixo (6.61x) com ROIC solido (13.37%) e margem EBIT elevada (83.57%); CAGR receitas 17% e Score MF 83 reforcam atratividade.</span>
           </div>
         </div>
       </div>
@@ -909,6 +926,52 @@
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#10</span>
+          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
+                onclick="openModal('ITSA4')" title="Clique para detalhes">ITSA4</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #34 · 90</span>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">7.84x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">17.44%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">221.97%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">18.83%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.23x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">7.01%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">19.20%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 141.4B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 12.54</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 377.3M</div></div></div></div>
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
+            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
+            <span class="fw-bold" style="color:#bc8cff">8/10</span>
+          </div>
+          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
+            <span style="color:#3fb950">✓</span>
+            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
+            <span style="color:#e6edf3">EV/EBIT de 7.84x com ROIC crescente (17.4%) e CAGR lucros 19.2% indicam valuation atrativo. Beta 0.27 e divida liquida minima reforcam perfil defensivo.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
+        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#11</span>
+          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
+                onclick="openModal('CMIG4')" title="Clique para detalhes">CMIG4</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #54 · 121</span>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">8.04x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">12.58%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.39%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">16.75%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">2.67x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.13%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.05%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 35.8B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 10.88</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 151.1M</div></div></div></div>
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
+            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
+            <span class="fw-bold" style="color:#bc8cff">8/10</span>
+          </div>
+          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
+            <span style="color:#3fb950">✓</span>
+            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
+            <span style="color:#e6edf3">EV/EBIT atrativo de 8.04x com ROIC de 12.58% e CAGR receitas solido de 11.1%. Beta baixo (0.09) e setor regulado oferecem defensividade.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
+        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#12</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('CSED3')" title="Clique para detalhes">CSED3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #4 · 20</span>
@@ -923,7 +986,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 3.26x extremamente barato com ROIC 18.3% e margem EBIT 19.8%, porem ROIC e margens em tendencia decrescente e preco no minimo de 52 semanas.</span>
+            <span style="color:#e6edf3">EV/EBIT 3.26x extremamente barato com ROIC 18.3% e margem EBIT 19.8%, porem ROIC e margens em tendencia decrescente exigem cautela.</span>
           </div>
         </div>
       </div>
@@ -931,7 +994,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#11</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#13</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('CMIN3')" title="Clique para detalhes">CMIN3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #9 · 28</span>
@@ -946,7 +1009,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 4.99x barato com ROIC 21.5% e divida quase nula (0.06x EBIT), mas margens e receita sao volateis e CAGR lucros negativo exige cautela.</span>
+            <span style="color:#e6edf3">EV/EBIT de 4.99x indica valuation atrativo com ROIC de 21.5% e margem EBIT de 27%. Divida quase nula (0.06x), mas ROIC trimestral volatil exige cautela.</span>
           </div>
         </div>
       </div>
@@ -954,7 +1017,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#12</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#14</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('BEEF3')" title="Clique para detalhes">BEEF3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #12 · 43</span>
@@ -969,7 +1032,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT barato (4.36x) com ROIC crescente (14.22%) e receita em expansao (+23% CAGR). Alavancagem elevada (3.43x) exige monitoramento.</span>
+            <span style="color:#e6edf3">EV/EBIT de 4.36x indica valuation atrativo; ROIC de 14.22% com tendencia crescente e receitas em expansao sustentam tese de valor.</span>
           </div>
         </div>
       </div>
@@ -977,7 +1040,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#13</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#15</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('PGMN3')" title="Clique para detalhes">PGMN3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #13 · 46</span>
@@ -992,7 +1055,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 4.68x barato com ROIC de 14.93% e CAGR de receitas 16.8%; divida moderada (1.55x EBIT) e margem estreita exigem monitoramento.</span>
+            <span style="color:#e6edf3">EV/EBIT 4.68x barato com ROIC 14.93% e CAGR receitas 16.8%; divida moderada (1.55x EBIT) e crescimento consistente de receita trimestral.</span>
           </div>
         </div>
       </div>
@@ -1000,30 +1063,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#14</span>
-          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('PFRM3')" title="Clique para detalhes">PFRM3</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #16 · 54</span>
-        </div>
-        <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#3fb950">4.40x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.17%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">3.07%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">7.86%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">2.09x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.87%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.05%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 827.1M</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 6.68</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 1.6M</div></div></div></div>
-          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
-            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
-            <span class="fw-bold" style="color:#bc8cff">7/10</span>
-          </div>
-          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
-            <span style="color:#3fb950">✓</span>
-            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 4.40x indica valuation atrativo com ROIC de 13.17% e CAGR receitas de 15.87%, mas margens volateis e divida/EBIT de 2.09x exige atencao.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
-        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#15</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#16</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('ASAI3')" title="Clique para detalhes">ASAI3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #17 · 56</span>
@@ -1038,7 +1078,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 5.92x barato com ROIC 17.18% e margens EBIT crescentes (4.7% a 6.4%). Alavancagem de 3x EBIT exige atencao.</span>
+            <span style="color:#e6edf3">EV/EBIT baixo (5.92x) com ROIC crescente (21.3% ultimo trimestre) e margem EBIT em recuperacao; divida elevada (3x EBIT) exige monitoramento.</span>
           </div>
         </div>
       </div>
@@ -1046,7 +1086,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#16</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#17</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('EUCA4')" title="Clique para detalhes">EUCA4</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #20 · 62</span>
@@ -1061,30 +1101,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 4.72x indica valuation atrativo; ROIC de 12.97% com CAGR receitas de 11.55% sustentam tese, mas margens trimestrais em queda exigem monitoramento.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
-        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#17</span>
-          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('POMO4')" title="Clique para detalhes">POMO4</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #24 · 76</span>
-        </div>
-        <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">6.21x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.41%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.36%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">30.72%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">1.12x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">20.33%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">64.41%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 7.1B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 5.65</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 47.3M</div></div></div></div>
-          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
-            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
-            <span class="fw-bold" style="color:#bc8cff">7/10</span>
-          </div>
-          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
-            <span style="color:#3fb950">✓</span>
-            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo em 6.21x com ROIC de 13.41% e forte crescimento historico; preco proximo a minima de 52 semanas oferece margem de seguranca.</span>
+            <span style="color:#e6edf3">EV/EBIT barato (4.72x) com ROIC 12.97% e CAGR receitas 11.55%; alavancagem controlada (0.86x) e margem EBIT solida (19.52%).</span>
           </div>
         </div>
       </div>
@@ -1094,11 +1111,11 @@
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#18</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('GMAT3')" title="Clique para detalhes">GMAT3</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #30 · 82</span>
+                onclick="openModal('TGMA3')" title="Clique para detalhes">TGMA3</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #27 · 78</span>
         </div>
         <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#3fb950">4.82x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">10.52%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">5.32%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.83%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.35x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">25.39%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">18.99%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 9.4B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 4.08</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 24.9M</div></div></div></div>
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">6.04x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.14%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">14.12%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">26.13%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.03x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">17.07%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">26.45%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 2.0B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 29.68</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 6.5M</div></div></div></div>
           <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
             <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
             <span class="text-muted" style="font-size:.75rem">Score IA:</span>
@@ -1107,7 +1124,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 4.82x barato com ROIC 10.52% e CAGR receitas 25.39%; divida controlada (0.35x EBIT) e volatilidade moderada reduzem risco.</span>
+            <span style="color:#e6edf3">EV/EBIT 6.04x barato com ROIC 13.14% e CAGR receitas 17%; divida quase nula (0.03x), mas margens em queda recente exigem cautela.</span>
           </div>
         </div>
       </div>
@@ -1130,7 +1147,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 4.52x indica valuation atrativo; ROIC 8.5% em recuperacao acelerada (trimestral ate 23%) com CAGR receitas 21.6%.</span>
+            <span style="color:#e6edf3">EV/EBIT de 4.52x muito atrativo com CAGR receitas 21.57%; ROIC em recuperacao trimestral e divida controlada (0.59x EBIT).</span>
           </div>
         </div>
       </div>
@@ -1139,29 +1156,6 @@
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#20</span>
-          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('ENAT3')" title="Clique para detalhes">ENAT3</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #44 · 105</span>
-        </div>
-        <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">5.12x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">8.60%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">56.10%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">12.53%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.47x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.74%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">5.75%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 5.8B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 21.80</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 201.7M</div></div></div></div>
-          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
-            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
-            <span class="fw-bold" style="color:#bc8cff">7/10</span>
-          </div>
-          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
-            <span style="color:#3fb950">✓</span>
-            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 5.12x indica valuation atrativo; margem EBIT de 56.1% e divida controlada (0.47x EBIT) sustentam qualidade, mas ROIC de 8.6% limita score.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
-        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#21</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('UGPA3')" title="Clique para detalhes">UGPA3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #46 · 106</span>
@@ -1176,7 +1170,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (6.97x) com ROIC de 11.71% e CAGR de lucros de 27.38% em 5 anos; receita trimestral crescente e alavancagem de 2.33x exige monitoramento.</span>
+            <span style="color:#e6edf3">EV/EBIT 6.97x barato com ROIC 11.71% e CAGR receitas 11.87%; alavancagem moderada (2.33x) e receita trimestral crescente sustentam tese.</span>
           </div>
         </div>
       </div>
@@ -1184,30 +1178,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#22</span>
-          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
-                onclick="openModal('CMIG4')" title="Clique para detalhes">CMIG4</span>
-          <span class="text-muted ms-auto" style="font-size:.7rem">MF #54 · 121</span>
-        </div>
-        <div class="card-body pb-2">
-          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">8.04x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">12.58%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.39%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">16.75%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">2.67x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.13%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.05%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 35.8B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 10.88</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 151.1M</div></div></div></div>
-          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-            <span class="badge" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95055;font-size:.7rem">COMPRAR</span>
-            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
-            <span class="fw-bold" style="color:#bc8cff">7/10</span>
-          </div>
-          <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
-            <span style="color:#3fb950">✓</span>
-            <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT de 8.04x com ROIC de 12.58% indica valuation atrativo; receita em crescimento consistente, mas alavancagem de 2.67x exige cautela.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
-        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#23</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#21</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('TAEE11')" title="Clique para detalhes">TAEE11</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #60 · 124</span>
@@ -1222,7 +1193,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (8.71x) com ROIC 13.41% e margem EBIT elevada (57.4%). Alavancagem de 3.75x tipica do setor de transmissao regulada.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo 8.71x com ROIC 13.41% e margem EBIT 57.4% elevada; alavancagem 3.75x exige monitoramento.</span>
           </div>
         </div>
       </div>
@@ -1230,7 +1201,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#24</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#22</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('INTB3')" title="Clique para detalhes">INTB3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #66 · 130</span>
@@ -1245,7 +1216,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 8.18x atrativo com caixa liquido (Div/EBIT -0.68x) e margem EBIT crescente (15.7% no ult. trim.); ROIC 11.86% moderado e receita recente decrescente limitam convicção.</span>
+            <span style="color:#e6edf3">EV/EBIT 8.18x barato com ROIC 11.86%, caixa liquido (Div/EBIT -0.68x) e margem EBIT crescente (10.4% a 15.7%). CAGR receitas 5a de 15.88% sustenta valuation.</span>
           </div>
         </div>
       </div>
@@ -1253,7 +1224,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#25</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#23</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('DESK3')" title="Clique para detalhes">DESK3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #80 · 144</span>
@@ -1268,7 +1239,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (8.37x) com ROIC de 10.32% e margem EBIT elevada (31.58%). Receita em crescimento consistente e CAGR de 48.79% em 5 anos sustentam valuacao.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (8.37x) com margem EBIT elevada (31.58%) e receita trimestral crescente. Divida/EBIT de 3.06x requer atencao; ROIC moderado (10.32%).</span>
           </div>
         </div>
       </div>
@@ -1276,7 +1247,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #3fb950">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#26</span>
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044">#24</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('FIQE3')" title="Clique para detalhes">FIQE3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #94 · 165</span>
@@ -1291,7 +1262,7 @@
           <div class="rounded-2 p-2" style="background:rgba(63,185,80,.1);border:1px solid #3fb95033;font-size:.78rem">
             <span style="color:#3fb950">✓</span>
             <span class="text-muted fw-semibold"> Por que COMPRAR: </span>
-            <span style="color:#e6edf3">EV/EBIT 8.02x barato com receitas crescentes (+32.9% CAGR) e margem EBIT 28%. ROIC 8.22% limita score; divida controlada (0.91x EBIT).</span>
+            <span style="color:#e6edf3">EV/EBIT 8.02x barato com margem EBIT 28% e CAGR receitas 33%. ROIC 8.22% limita score; receita e margens em tendencia crescente.</span>
           </div>
         </div>
       </div>
@@ -1299,7 +1270,7 @@
     </div>
 
     <div class="section-sep mt-5">
-      <span class="sep-badge sep-amber">⚠ NEUTRO / CAUTELA — 4 ações</span>
+      <span class="sep-badge sep-amber">⚠ NEUTRO / CAUTELA — 6 ações</span>
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
       
@@ -1307,6 +1278,29 @@
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
           <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#1</span>
+          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
+                onclick="openModal('PFRM3')" title="Clique para detalhes">PFRM3</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #16 · 54</span>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#3fb950">4.40x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">13.17%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">3.07%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">7.86%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">2.09x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.87%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">15.05%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 827.1M</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 6.68</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 1.6M</div></div></div></div>
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#d2992222;color:#d29922;border:1px solid #d2992255;font-size:.7rem">NEUTRO</span>
+            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
+            <span class="fw-bold" style="color:#bc8cff">6/10</span>
+          </div>
+          <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
+            <span style="color:#d29922">⚠</span>
+            <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (4.4x) e CAGR receitas solido (15.9%), mas ROIC volatil/baixo, margem estreita (3%) e divida/EBIT elevada (2.09x).</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
+        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#2</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('DEXP3')" title="Clique para detalhes">DEXP3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #25 · 77</span>
@@ -1321,7 +1315,7 @@
           <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
             <span style="color:#d29922">⚠</span>
             <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margens em queda consistente. ROIC abaixo de 10% limita upside.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margem EBIT em queda consecutiva; ROIC abaixo de 10% limita conviccao.</span>
           </div>
         </div>
       </div>
@@ -1329,7 +1323,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#2</span>
+          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#3</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('POSI3')" title="Clique para detalhes">POSI3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #41 · 103</span>
@@ -1344,7 +1338,7 @@
           <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
             <span style="color:#d29922">⚠</span>
             <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
-            <span style="color:#e6edf3">EV/EBIT barato (4.6x) mas ROIC abaixo de 10% e divida/EBIT de 2.5x limitam atratividade; margens em tendencia positiva mas ainda moderadas.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (4.60x) mas ROIC abaixo de 10% (8.42%) e alavancagem elevada (Div/EBIT 2.50x) limitam o potencial.</span>
           </div>
         </div>
       </div>
@@ -1352,7 +1346,30 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#3</span>
+          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#4</span>
+          <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
+                onclick="openModal('ENAT3')" title="Clique para detalhes">ENAT3</span>
+          <span class="text-muted ms-auto" style="font-size:.7rem">MF #44 · 105</span>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row g-2 mb-3"><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">EV/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">5.12x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROIC</div><div class="fw-semibold" style="font-size:.9rem;color:#f85149">8.60%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Mg EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">56.10%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">ROE</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">12.53%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Dív/EBIT</div><div class="fw-semibold" style="font-size:.9rem;color:#d29922">0.47x</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Rec.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">11.74%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">CAGR Luc.</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">5.75%</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Val. Mercado</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 5.8B</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Preço</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 21.80</div></div></div><div class="col-6 col-sm-4"><div class="p-2 rounded-2" style="background:#0d1117"><div class="text-muted" style="font-size:.65rem">Liq. Diária</div><div class="fw-semibold" style="font-size:.9rem;color:#e6edf3">R$ 201.7M</div></div></div></div>
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge" style="background:#d2992222;color:#d29922;border:1px solid #d2992255;font-size:.7rem">NEUTRO</span>
+            <span class="text-muted" style="font-size:.75rem">Score IA:</span>
+            <span class="fw-bold" style="color:#bc8cff">6/10</span>
+          </div>
+          <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
+            <span style="color:#d29922">⚠</span>
+            <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
+            <span style="color:#e6edf3">EV/EBIT baixo (5.12x) e margem EBIT elevada (56.1%), mas ROIC abaixo de 10% limita upside; alavancagem moderada (0.47x).</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
+        <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#5</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('PETR4')" title="Clique para detalhes">PETR4</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #64 · 128</span>
@@ -1367,7 +1384,7 @@
           <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
             <span style="color:#d29922">⚠</span>
             <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
-            <span style="color:#e6edf3">EV/EBIT baixo (6.17x) e margem EBIT forte (28.88%), mas ROIC abaixo de 10% limita score; alavancagem moderada (Div/EBIT 2.25x) exige cautela.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (6.17x) e margem EBIT solida (28.88%), mas ROIC de 8.31% abaixo de 10% e alavancagem relevante (Div/EBIT 2.25x) limitam upside.</span>
           </div>
         </div>
       </div>
@@ -1375,7 +1392,7 @@
     <div class="col">
       <div class="card h-100" style="background:#161b22;border:1px solid #30363d;border-top:3px solid #d29922">
         <div class="card-header d-flex align-items-center gap-2 py-2" style="background:#0d1117;border-bottom:1px solid #30363d">
-          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#4</span>
+          <span class="badge rounded-pill" style="background:#d2992222;color:#d29922;border:1px solid #d2992244">#6</span>
           <span class="fw-bold ticker-clickable" style="font-size:1.1rem;color:#58a6ff;cursor:pointer"
                 onclick="openModal('MLAS3')" title="Clique para detalhes">MLAS3</span>
           <span class="text-muted ms-auto" style="font-size:.7rem">MF #76 · 143</span>
@@ -1390,7 +1407,7 @@
           <div class="rounded-2 p-2" style="background:rgba(210,153,34,.1);border:1px solid #d2992233;font-size:.78rem">
             <span style="color:#d29922">⚠</span>
             <span class="text-muted fw-semibold"> Por que NEUTRO: </span>
-            <span style="color:#e6edf3">EV/EBIT atrativo (5.46x) e caixa liquido, mas ROIC baixo (5.07%), margem volatil e CAGR lucros negativo (-16.47%) limitam convicção.</span>
+            <span style="color:#e6edf3">EV/EBIT atrativo (5.46x) e caixa liquido, mas ROIC baixo (5.07%), margens volateis e CAGR lucros negativo (-16.5%) limitam conviccao.</span>
           </div>
         </div>
       </div>
@@ -1423,7 +1440,7 @@
 
 </div>
 
-<footer>Magic Formula BR · 06/06/2026 21:45 · Não é recomendação de investimento.</footer>
+<footer>Magic Formula BR · 06/06/2026 22:02 · Não é recomendação de investimento.</footer>
 
 <!-- ── Modal Bootstrap ─────────────────────────────────────────────────────── -->
 <div class="modal fade" id="tickerModal" tabindex="-1">
@@ -1465,7 +1482,7 @@
 </div>
 
 <script>
-const TICKER_DATA = {"RIAA3": {"ticker": "RIAA3", "setor": "Consumo Cíclico", "posicao_mf": 1, "mf_score": 7.0, "ev_ebit": 2.26, "roic": 26.65, "margem": 22.34, "roe": 28.33, "div_ebit": 0.46, "cagr_r": 10.94, "cagr_l": NaN, "vm": 4249764776.52, "liq": 13782706.73, "preco": 8.46, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 2.26x com ROIC de 26.65% indica valuation atrativo e boa alocacao de capital. Divida controlada (0.46x EBIT) e crescimento de receita de 10.94% ao ano reforcam a tese."}, "WIZC3": {"ticker": "WIZC3", "setor": "Financeiro e Outros", "posicao_mf": 2, "mf_score": 8.0, "ev_ebit": 2.04, "roic": 23.53, "margem": 44.14, "roe": 28.26, "div_ebit": -0.01, "cagr_r": 11.49, "cagr_l": -0.05, "vm": 1215295343.2, "liq": 3574441.68, "preco": 7.6, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 2.04x extremamente barato com ROIC de 23.53% e margem EBIT de 44%; caixa liquido (Div/EBIT -0.01x) reforca solidez financeira."}, "ALLD3": {"ticker": "ALLD3", "setor": "Consumo Cíclico", "posicao_mf": 3, "mf_score": 18.0, "ev_ebit": 1.28, "roic": 18.12, "margem": 9.41, "roe": 22.27, "div_ebit": 0.26, "cagr_r": 3.11, "cagr_l": 15.35, "vm": 522030755.84, "liq": 1866396.68, "preco": 5.44, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 1.28x indica valuation muito atrativo com ROIC de 18.12% e divida controlada (0.26x EBIT). CAGR lucros 15.35% confirma rentabilidade crescente."}, "CSED3": {"ticker": "CSED3", "setor": "Consumo Cíclico", "posicao_mf": 4, "mf_score": 20.0, "ev_ebit": 3.26, "roic": 18.3, "margem": 19.82, "roe": 16.46, "div_ebit": 0.81, "cagr_r": 9.51, "cagr_l": NaN, "vm": 1388907123.12, "liq": 3392394.41, "preco": 3.81, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 3.26x extremamente barato com ROIC 18.3% e margem EBIT 19.8%, porem ROIC e margens em tendencia decrescente e preco no minimo de 52 semanas."}, "CMIN3": {"ticker": "CMIN3", "setor": "Materiais Básicos", "posicao_mf": 9, "mf_score": 28.0, "ev_ebit": 4.99, "roic": 21.5, "margem": 27.0, "roe": 31.49, "div_ebit": 0.06, "cagr_r": 5.5, "cagr_l": -11.17, "vm": 23738034631.06, "liq": 40254637.68, "preco": 4.37, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 4.99x barato com ROIC 21.5% e divida quase nula (0.06x EBIT), mas margens e receita sao volateis e CAGR lucros negativo exige cautela."}, "BEEF3": {"ticker": "BEEF3", "setor": "Consumo não Cíclico", "posicao_mf": 12, "mf_score": 43.0, "ev_ebit": 4.36, "roic": 14.22, "margem": 6.99, "roe": 56.47, "div_ebit": 3.43, "cagr_r": 23.09, "cagr_l": 0.42, "vm": 3681988719.84, "liq": 78940392.7, "preco": 3.68, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT barato (4.36x) com ROIC crescente (14.22%) e receita em expansao (+23% CAGR). Alavancagem elevada (3.43x) exige monitoramento."}, "PGMN3": {"ticker": "PGMN3", "setor": "Saúde", "posicao_mf": 13, "mf_score": 46.0, "ev_ebit": 4.68, "roic": 14.93, "margem": 5.95, "roe": 9.19, "div_ebit": 1.55, "cagr_r": 16.8, "cagr_l": 26.21, "vm": 2852158931.64, "liq": 22110520.41, "preco": 3.94, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.68x barato com ROIC de 14.93% e CAGR de receitas 16.8%; divida moderada (1.55x EBIT) e margem estreita exigem monitoramento."}, "TIMS3": {"ticker": "TIMS3", "setor": "Comunicações", "posicao_mf": 14, "mf_score": 51.0, "ev_ebit": 6.9, "roic": 30.15, "margem": 24.28, "roe": 16.69, "div_ebit": -1.12, "cagr_r": 9.05, "cagr_l": 1.73, "vm": 52626769558.0, "liq": 132909037.5, "preco": 22.0, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (6.90x) com ROIC crescente (30.15%) e caixa liquido (Div/EBIT -1.12x). Margem EBIT solida (24.28%) e receita em expansao consistente."}, "PFRM3": {"ticker": "PFRM3", "setor": "Saúde", "posicao_mf": 16, "mf_score": 54.0, "ev_ebit": 4.4, "roic": 13.17, "margem": 3.07, "roe": 7.86, "div_ebit": 2.09, "cagr_r": 15.87, "cagr_l": 15.05, "vm": 827069323.64, "liq": 1629282.13, "preco": 6.68, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.40x indica valuation atrativo com ROIC de 13.17% e CAGR receitas de 15.87%, mas margens volateis e divida/EBIT de 2.09x exige atencao."}, "ASAI3": {"ticker": "ASAI3", "setor": "Consumo não Cíclico", "posicao_mf": 17, "mf_score": 56.0, "ev_ebit": 5.92, "roic": 17.18, "margem": 5.16, "roe": 11.89, "div_ebit": 3.0, "cagr_r": 16.49, "cagr_l": -12.92, "vm": 11667439478.44, "liq": 102461609.09, "preco": 8.62, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 5.92x barato com ROIC 17.18% e margens EBIT crescentes (4.7% a 6.4%). Alavancagem de 3x EBIT exige atencao."}, "EUCA4": {"ticker": "EUCA4", "setor": "Materiais Básicos", "posicao_mf": 20, "mf_score": 62.0, "ev_ebit": 4.72, "roic": 12.97, "margem": 19.52, "roe": 13.91, "div_ebit": 0.86, "cagr_r": 11.55, "cagr_l": 23.22, "vm": 2368643606.0, "liq": 3653944.17, "preco": 25.25, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.72x indica valuation atrativo; ROIC de 12.97% com CAGR receitas de 11.55% sustentam tese, mas margens trimestrais em queda exigem monitoramento."}, "CPFE3": {"ticker": "CPFE3", "setor": "Utilidade Pública", "posicao_mf": 23, "mf_score": 74.0, "ev_ebit": 6.81, "roic": 15.41, "margem": 24.5, "roe": 23.72, "div_ebit": 2.35, "cagr_r": 7.5, "cagr_l": 9.61, "vm": 49189742043.6, "liq": 86589521.87, "preco": 42.69, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 6.81x indica valuation atrativo; ROIC 15.41% e ROE 23.72% demonstram retorno solido com CAGR lucros 9.61% e crescimento de receitas consistente."}, "POMO4": {"ticker": "POMO4", "setor": "Bens Industriais", "posicao_mf": 24, "mf_score": 76.0, "ev_ebit": 6.21, "roic": 13.41, "margem": 15.36, "roe": 30.72, "div_ebit": 1.12, "cagr_r": 20.33, "cagr_l": 64.41, "vm": 7066436566.77, "liq": 47269803.55, "preco": 5.65, "trend_roic": "DECRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo em 6.21x com ROIC de 13.41% e forte crescimento historico; preco proximo a minima de 52 semanas oferece margem de seguranca."}, "DEXP3": {"ticker": "DEXP3", "setor": "Materiais Básicos", "posicao_mf": 25, "mf_score": 77.0, "ev_ebit": 3.94, "roic": 9.93, "margem": 10.04, "roe": 13.54, "div_ebit": -0.5, "cagr_r": 16.52, "cagr_l": 3.62, "vm": 857196967.79, "liq": 850615.73, "preco": 6.97, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margens em queda consistente. ROIC abaixo de 10% limita upside."}, "MILS3": {"ticker": "MILS3", "setor": "Bens Industriais", "posicao_mf": 26, "mf_score": 78.0, "ev_ebit": 7.07, "roic": 16.42, "margem": 35.43, "roe": 24.19, "div_ebit": 1.72, "cagr_r": 29.41, "cagr_l": NaN, "vm": 3574481966.86, "liq": 19803021.13, "preco": 15.26, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (7.07x) com ROIC crescente (26.8% ultimo tri) e margem EBIT em expansao (51.5%). CAGR receitas 5a de 29.4% sustenta qualidade operacional."}, "TGMA3": {"ticker": "TGMA3", "setor": "Bens Industriais", "posicao_mf": 27, "mf_score": 78.0, "ev_ebit": 6.04, "roic": 13.14, "margem": 14.12, "roe": 26.13, "div_ebit": 0.03, "cagr_r": 17.07, "cagr_l": 26.45, "vm": 1958966517.2, "liq": 6546394.43, "preco": 29.68, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (6.04x) com ROIC 13% e divida quase nula (0.03x); CAGR receitas 17% e lucros 26% sustentam crescimento, apesar de margem recente em queda."}, "GMAT3": {"ticker": "GMAT3", "setor": "Consumo não Cíclico", "posicao_mf": 30, "mf_score": 82.0, "ev_ebit": 4.82, "roic": 10.52, "margem": 5.32, "roe": 15.83, "div_ebit": 0.35, "cagr_r": 25.39, "cagr_l": 18.99, "vm": 9399065677.44, "liq": 24936881.41, "preco": 4.08, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 4.82x barato com ROIC 10.52% e CAGR receitas 25.39%; divida controlada (0.35x EBIT) e volatilidade moderada reduzem risco."}, "IGTI11": {"ticker": "IGTI11", "setor": "Financeiro e Outros", "posicao_mf": 31, "mf_score": 83.0, "ev_ebit": 6.61, "roic": 13.37, "margem": 83.57, "roe": 14.63, "div_ebit": 1.49, "cagr_r": 17.05, "cagr_l": 56.26, "vm": 6555186124.6, "liq": 49323931.59, "preco": 24.82, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (6.61x) com ROIC de 13.37% e CAGR receitas de 17% sustentam valuation. Margem EBIT elevada (83.57%) reforca qualidade, apesar de alavancagem moderada (1.49x)."}, "ITSA4": {"ticker": "ITSA4", "setor": "Financeiro e Outros", "posicao_mf": 34, "mf_score": 90.0, "ev_ebit": 7.84, "roic": 17.44, "margem": 221.97, "roe": 18.83, "div_ebit": 0.23, "cagr_r": 7.01, "cagr_l": 19.2, "vm": 141351823498.58, "liq": 377265394.41, "preco": 12.54, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 9, "motivo": "EV/EBIT 7.84x barato com ROIC 17.44% crescente e CAGR lucros 19.2%; divida baixissima (0.23x) e Score MF 90."}, "DMVF3": {"ticker": "DMVF3", "setor": "Saúde", "posicao_mf": 37, "mf_score": 99.0, "ev_ebit": 4.52, "roic": 8.5, "margem": 3.2, "roe": 2.6, "div_ebit": 0.59, "cagr_r": 21.57, "cagr_l": 187.0, "vm": 346629467.7, "liq": 1614318.73, "preco": 6.85, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 4.52x indica valuation atrativo; ROIC 8.5% em recuperacao acelerada (trimestral ate 23%) com CAGR receitas 21.6%."}, "POSI3": {"ticker": "POSI3", "setor": "Tecnologia da Informação", "posicao_mf": 41, "mf_score": 103.0, "ev_ebit": 4.6, "roic": 8.42, "margem": 7.33, "roe": 0.63, "div_ebit": 2.5, "cagr_r": 8.88, "cagr_l": -44.75, "vm": 518988000.0, "liq": 4475443.09, "preco": 3.66, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT barato (4.6x) mas ROIC abaixo de 10% e divida/EBIT de 2.5x limitam atratividade; margens em tendencia positiva mas ainda moderadas."}, "ENAT3": {"ticker": "ENAT3", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 44, "mf_score": 105.0, "ev_ebit": 5.12, "roic": 8.6, "margem": 56.1, "roe": 12.53, "div_ebit": 0.47, "cagr_r": 11.74, "cagr_l": 5.75, "vm": 5785005265.2, "liq": 201679399.0, "preco": 21.8, "trend_roic": "INSUFICIENTE", "trend_margin": "INSUFICIENTE", "trend_revenue": "INSUFICIENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 5.12x indica valuation atrativo; margem EBIT de 56.1% e divida controlada (0.47x EBIT) sustentam qualidade, mas ROIC de 8.6% limita score."}, "UGPA3": {"ticker": "UGPA3", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 46, "mf_score": 106.0, "ev_ebit": 6.97, "roic": 11.71, "margem": 4.11, "roe": 18.19, "div_ebit": 2.33, "cagr_r": 11.87, "cagr_l": 27.38, "vm": 27851612830.08, "liq": 194430975.09, "preco": 24.96, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo (6.97x) com ROIC de 11.71% e CAGR de lucros de 27.38% em 5 anos; receita trimestral crescente e alavancagem de 2.33x exige monitoramento."}, "CMIG4": {"ticker": "CMIG4", "setor": "Utilidade Pública", "posicao_mf": 54, "mf_score": 121.0, "ev_ebit": 8.04, "roic": 12.58, "margem": 15.39, "roe": 16.75, "div_ebit": 2.67, "cagr_r": 11.13, "cagr_l": 11.05, "vm": 35823536381.5, "liq": 151143787.13, "preco": 10.88, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 8.04x com ROIC de 12.58% indica valuation atrativo; receita em crescimento consistente, mas alavancagem de 2.67x exige cautela."}, "TAEE11": {"ticker": "TAEE11", "setor": "Utilidade Pública", "posicao_mf": 60, "mf_score": 124.0, "ev_ebit": 8.71, "roic": 13.41, "margem": 57.4, "roe": 19.7, "div_ebit": 3.75, "cagr_r": 5.36, "cagr_l": -7.07, "vm": 13297657810.2, "liq": 68559904.22, "preco": 38.6, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo (8.71x) com ROIC 13.41% e margem EBIT elevada (57.4%). Alavancagem de 3.75x tipica do setor de transmissao regulada."}, "PETR4": {"ticker": "PETR4", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 64, "mf_score": 128.0, "ev_ebit": 6.17, "roic": 8.31, "margem": 28.88, "roe": 24.17, "div_ebit": 2.25, "cagr_r": 12.83, "cagr_l": 72.19, "vm": 562891837858.53, "liq": 2144137280.3, "preco": 40.89, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT baixo (6.17x) e margem EBIT forte (28.88%), mas ROIC abaixo de 10% limita score; alavancagem moderada (Div/EBIT 2.25x) exige cautela."}, "INTB3": {"ticker": "INTB3", "setor": "Tecnologia da Informação", "posicao_mf": 66, "mf_score": 130.0, "ev_ebit": 8.18, "roic": 11.86, "margem": 10.76, "roe": 18.29, "div_ebit": -0.68, "cagr_r": 15.88, "cagr_l": 11.88, "vm": 4432578318.3, "liq": 26918334.95, "preco": 13.53, "trend_roic": "VOLATIL", "trend_margin": "CRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 8.18x atrativo com caixa liquido (Div/EBIT -0.68x) e margem EBIT crescente (15.7% no ult. trim.); ROIC 11.86% moderado e receita recente decrescente limitam convicção."}, "MLAS3": {"ticker": "MLAS3", "setor": "Tecnologia da Informação", "posicao_mf": 76, "mf_score": 143.0, "ev_ebit": 5.46, "roic": 5.07, "margem": 4.91, "roe": 5.85, "div_ebit": -0.96, "cagr_r": 6.65, "cagr_l": -16.47, "vm": 1271835798.75, "liq": 2310124.86, "preco": 1.55, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (5.46x) e caixa liquido, mas ROIC baixo (5.07%), margem volatil e CAGR lucros negativo (-16.47%) limitam convicção."}, "DESK3": {"ticker": "DESK3", "setor": "Comunicações", "posicao_mf": 80, "mf_score": 144.0, "ev_ebit": 8.37, "roic": 10.32, "margem": 31.58, "roe": 4.34, "div_ebit": 3.06, "cagr_r": 48.79, "cagr_l": 18.09, "vm": 2090748201.57, "liq": 8661000.57, "preco": 17.99, "trend_roic": "VOLATIL", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo (8.37x) com ROIC de 10.32% e margem EBIT elevada (31.58%). Receita em crescimento consistente e CAGR de 48.79% em 5 anos sustentam valuacao."}, "FIQE3": {"ticker": "FIQE3", "setor": "Comunicações", "posicao_mf": 94, "mf_score": 165.0, "ev_ebit": 8.02, "roic": 8.22, "margem": 28.14, "roe": 19.07, "div_ebit": 0.91, "cagr_r": 32.89, "cagr_l": 34.61, "vm": 2490300671.04, "liq": 3625177.82, "preco": 6.24, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 8.02x barato com receitas crescentes (+32.9% CAGR) e margem EBIT 28%. ROIC 8.22% limita score; divida controlada (0.91x EBIT)."}};
+const TICKER_DATA = {"RIAA3": {"ticker": "RIAA3", "setor": "Consumo Cíclico", "posicao_mf": 1, "mf_score": 7.0, "ev_ebit": 2.26, "roic": 26.65, "margem": 22.34, "roe": 28.33, "div_ebit": 0.46, "cagr_r": 10.94, "cagr_l": NaN, "vm": 4249764776.52, "liq": 13782706.73, "preco": 8.46, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT 2.26x extremamente barato com ROIC 26.65% e margem EBIT 22.34% solidas; divida controlada (0.46x) e CAGR receitas 10.94%."}, "WIZC3": {"ticker": "WIZC3", "setor": "Financeiro e Outros", "posicao_mf": 2, "mf_score": 8.0, "ev_ebit": 2.04, "roic": 23.53, "margem": 44.14, "roe": 28.26, "div_ebit": -0.01, "cagr_r": 11.49, "cagr_l": -0.05, "vm": 1215295343.2, "liq": 3574441.68, "preco": 7.6, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 2.04x extremamente barato com ROIC 23.53% e margem EBIT 44%, alem de caixa liquido (Div/EBIT -0.01x)."}, "ALLD3": {"ticker": "ALLD3", "setor": "Consumo Cíclico", "posicao_mf": 3, "mf_score": 18.0, "ev_ebit": 1.28, "roic": 18.12, "margem": 9.41, "roe": 22.27, "div_ebit": 0.26, "cagr_r": 3.11, "cagr_l": 15.35, "vm": 522030755.84, "liq": 1866396.68, "preco": 5.44, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 1.28x extremamente barato com ROIC 18.12% e divida liquida baixa (0.26x). CAGR lucros 15.3% e ROE 22.27% sustentam qualidade."}, "CSED3": {"ticker": "CSED3", "setor": "Consumo Cíclico", "posicao_mf": 4, "mf_score": 20.0, "ev_ebit": 3.26, "roic": 18.3, "margem": 19.82, "roe": 16.46, "div_ebit": 0.81, "cagr_r": 9.51, "cagr_l": NaN, "vm": 1388907123.12, "liq": 3392394.41, "preco": 3.81, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 3.26x extremamente barato com ROIC 18.3% e margem EBIT 19.8%, porem ROIC e margens em tendencia decrescente exigem cautela."}, "CMIN3": {"ticker": "CMIN3", "setor": "Materiais Básicos", "posicao_mf": 9, "mf_score": 28.0, "ev_ebit": 4.99, "roic": 21.5, "margem": 27.0, "roe": 31.49, "div_ebit": 0.06, "cagr_r": 5.5, "cagr_l": -11.17, "vm": 23738034631.06, "liq": 40254637.68, "preco": 4.37, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.99x indica valuation atrativo com ROIC de 21.5% e margem EBIT de 27%. Divida quase nula (0.06x), mas ROIC trimestral volatil exige cautela."}, "BEEF3": {"ticker": "BEEF3", "setor": "Consumo não Cíclico", "posicao_mf": 12, "mf_score": 43.0, "ev_ebit": 4.36, "roic": 14.22, "margem": 6.99, "roe": 56.47, "div_ebit": 3.43, "cagr_r": 23.09, "cagr_l": 0.42, "vm": 3681988719.84, "liq": 78940392.7, "preco": 3.68, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.36x indica valuation atrativo; ROIC de 14.22% com tendencia crescente e receitas em expansao sustentam tese de valor."}, "PGMN3": {"ticker": "PGMN3", "setor": "Saúde", "posicao_mf": 13, "mf_score": 46.0, "ev_ebit": 4.68, "roic": 14.93, "margem": 5.95, "roe": 9.19, "div_ebit": 1.55, "cagr_r": 16.8, "cagr_l": 26.21, "vm": 2852158931.64, "liq": 22110520.41, "preco": 3.94, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 4.68x barato com ROIC 14.93% e CAGR receitas 16.8%; divida moderada (1.55x EBIT) e crescimento consistente de receita trimestral."}, "TIMS3": {"ticker": "TIMS3", "setor": "Comunicações", "posicao_mf": 14, "mf_score": 51.0, "ev_ebit": 6.9, "roic": 30.15, "margem": 24.28, "roe": 16.69, "div_ebit": -1.12, "cagr_r": 9.05, "cagr_l": 1.73, "vm": 52626769558.0, "liq": 132909037.5, "preco": 22.0, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (6.90x) com ROIC crescente (30.15%) e caixa liquido (Div/EBIT -1.12x); receita em expansao e beta baixo (0.11) reforcam perfil defensivo."}, "PFRM3": {"ticker": "PFRM3", "setor": "Saúde", "posicao_mf": 16, "mf_score": 54.0, "ev_ebit": 4.4, "roic": 13.17, "margem": 3.07, "roe": 7.86, "div_ebit": 2.09, "cagr_r": 15.87, "cagr_l": 15.05, "vm": 827069323.64, "liq": 1629282.13, "preco": 6.68, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (4.4x) e CAGR receitas solido (15.9%), mas ROIC volatil/baixo, margem estreita (3%) e divida/EBIT elevada (2.09x)."}, "ASAI3": {"ticker": "ASAI3", "setor": "Consumo não Cíclico", "posicao_mf": 17, "mf_score": 56.0, "ev_ebit": 5.92, "roic": 17.18, "margem": 5.16, "roe": 11.89, "div_ebit": 3.0, "cagr_r": 16.49, "cagr_l": -12.92, "vm": 11667439478.44, "liq": 102461609.09, "preco": 8.62, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT baixo (5.92x) com ROIC crescente (21.3% ultimo trimestre) e margem EBIT em recuperacao; divida elevada (3x EBIT) exige monitoramento."}, "EUCA4": {"ticker": "EUCA4", "setor": "Materiais Básicos", "posicao_mf": 20, "mf_score": 62.0, "ev_ebit": 4.72, "roic": 12.97, "margem": 19.52, "roe": 13.91, "div_ebit": 0.86, "cagr_r": 11.55, "cagr_l": 23.22, "vm": 2368643606.0, "liq": 3653944.17, "preco": 25.25, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT barato (4.72x) com ROIC 12.97% e CAGR receitas 11.55%; alavancagem controlada (0.86x) e margem EBIT solida (19.52%)."}, "CPFE3": {"ticker": "CPFE3", "setor": "Utilidade Pública", "posicao_mf": 23, "mf_score": 74.0, "ev_ebit": 6.81, "roic": 15.41, "margem": 24.5, "roe": 23.72, "div_ebit": 2.35, "cagr_r": 7.5, "cagr_l": 9.61, "vm": 49189742043.6, "liq": 86589521.87, "preco": 42.69, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo em 6.81x com ROIC de 15.41% e ROE de 23.72%; preco 25% abaixo do maximo de 52 semanas com beta baixo de 0.17."}, "POMO4": {"ticker": "POMO4", "setor": "Bens Industriais", "posicao_mf": 24, "mf_score": 76.0, "ev_ebit": 6.21, "roic": 13.41, "margem": 15.36, "roe": 30.72, "div_ebit": 1.12, "cagr_r": 20.33, "cagr_l": 64.41, "vm": 7066436566.77, "liq": 47269803.55, "preco": 5.65, "trend_roic": "DECRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT 6.21x barato com ROIC 13.41% e CAGR receitas 20.33%; margem EBIT estavel ~22% e ROE 30.72% sustentam qualidade, apesar de divida moderada (1.12x EBIT)."}, "DEXP3": {"ticker": "DEXP3", "setor": "Materiais Básicos", "posicao_mf": 25, "mf_score": 77.0, "ev_ebit": 3.94, "roic": 9.93, "margem": 10.04, "roe": 13.54, "div_ebit": -0.5, "cagr_r": 16.52, "cagr_l": 3.62, "vm": 857196967.79, "liq": 850615.73, "preco": 6.97, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (3.94x) com caixa liquido, mas receita e margem EBIT em queda consecutiva; ROIC abaixo de 10% limita conviccao."}, "MILS3": {"ticker": "MILS3", "setor": "Bens Industriais", "posicao_mf": 26, "mf_score": 78.0, "ev_ebit": 7.07, "roic": 16.42, "margem": 35.43, "roe": 24.19, "div_ebit": 1.72, "cagr_r": 29.41, "cagr_l": NaN, "vm": 3574481966.86, "liq": 19803021.13, "preco": 15.26, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo (7.07x) com ROIC crescente (26.8% ultimo tri) e margem EBIT em expansao (51.5%). CAGR receitas 5a de 29.4% confirma crescimento solido."}, "TGMA3": {"ticker": "TGMA3", "setor": "Bens Industriais", "posicao_mf": 27, "mf_score": 78.0, "ev_ebit": 6.04, "roic": 13.14, "margem": 14.12, "roe": 26.13, "div_ebit": 0.03, "cagr_r": 17.07, "cagr_l": 26.45, "vm": 1958966517.2, "liq": 6546394.43, "preco": 29.68, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 6.04x barato com ROIC 13.14% e CAGR receitas 17%; divida quase nula (0.03x), mas margens em queda recente exigem cautela."}, "GMAT3": {"ticker": "GMAT3", "setor": "Consumo não Cíclico", "posicao_mf": 30, "mf_score": 82.0, "ev_ebit": 4.82, "roic": 10.52, "margem": 5.32, "roe": 15.83, "div_ebit": 0.35, "cagr_r": 25.39, "cagr_l": 18.99, "vm": 9399065677.44, "liq": 24936881.41, "preco": 4.08, "trend_roic": "CRESCENTE", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT barato a 4.82x com ROIC de 10.52% e CAGR receitas robusto de 25.39%; divida controlada (0.35x EBIT) e beta baixo (0.49) reduzem risco."}, "IGTI11": {"ticker": "IGTI11", "setor": "Financeiro e Outros", "posicao_mf": 31, "mf_score": 83.0, "ev_ebit": 6.61, "roic": 13.37, "margem": 83.57, "roe": 14.63, "div_ebit": 1.49, "cagr_r": 17.05, "cagr_l": 56.26, "vm": 6555186124.6, "liq": 49323931.59, "preco": 24.82, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT baixo (6.61x) com ROIC solido (13.37%) e margem EBIT elevada (83.57%); CAGR receitas 17% e Score MF 83 reforcam atratividade."}, "ITSA4": {"ticker": "ITSA4", "setor": "Financeiro e Outros", "posicao_mf": 34, "mf_score": 90.0, "ev_ebit": 7.84, "roic": 17.44, "margem": 221.97, "roe": 18.83, "div_ebit": 0.23, "cagr_r": 7.01, "cagr_l": 19.2, "vm": 141351823498.58, "liq": 377265394.41, "preco": 12.54, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT de 7.84x com ROIC crescente (17.4%) e CAGR lucros 19.2% indicam valuation atrativo. Beta 0.27 e divida liquida minima reforcam perfil defensivo."}, "DMVF3": {"ticker": "DMVF3", "setor": "Saúde", "posicao_mf": 37, "mf_score": 99.0, "ev_ebit": 4.52, "roic": 8.5, "margem": 3.2, "roe": 2.6, "div_ebit": 0.59, "cagr_r": 21.57, "cagr_l": 187.0, "vm": 346629467.7, "liq": 1614318.73, "preco": 6.85, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT de 4.52x muito atrativo com CAGR receitas 21.57%; ROIC em recuperacao trimestral e divida controlada (0.59x EBIT)."}, "POSI3": {"ticker": "POSI3", "setor": "Tecnologia da Informação", "posicao_mf": 41, "mf_score": 103.0, "ev_ebit": 4.6, "roic": 8.42, "margem": 7.33, "roe": 0.63, "div_ebit": 2.5, "cagr_r": 8.88, "cagr_l": -44.75, "vm": 518988000.0, "liq": 4475443.09, "preco": 3.66, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "VOLATIL", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (4.60x) mas ROIC abaixo de 10% (8.42%) e alavancagem elevada (Div/EBIT 2.50x) limitam o potencial."}, "ENAT3": {"ticker": "ENAT3", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 44, "mf_score": 105.0, "ev_ebit": 5.12, "roic": 8.6, "margem": 56.1, "roe": 12.53, "div_ebit": 0.47, "cagr_r": 11.74, "cagr_l": 5.75, "vm": 5785005265.2, "liq": 201679399.0, "preco": 21.8, "trend_roic": "INSUFICIENTE", "trend_margin": "INSUFICIENTE", "trend_revenue": "INSUFICIENTE", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT baixo (5.12x) e margem EBIT elevada (56.1%), mas ROIC abaixo de 10% limita upside; alavancagem moderada (0.47x)."}, "UGPA3": {"ticker": "UGPA3", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 46, "mf_score": 106.0, "ev_ebit": 6.97, "roic": 11.71, "margem": 4.11, "roe": 18.19, "div_ebit": 2.33, "cagr_r": 11.87, "cagr_l": 27.38, "vm": 27851612830.08, "liq": 194430975.09, "preco": 24.96, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 6.97x barato com ROIC 11.71% e CAGR receitas 11.87%; alavancagem moderada (2.33x) e receita trimestral crescente sustentam tese."}, "CMIG4": {"ticker": "CMIG4", "setor": "Utilidade Pública", "posicao_mf": 54, "mf_score": 121.0, "ev_ebit": 8.04, "roic": 12.58, "margem": 15.39, "roe": 16.75, "div_ebit": 2.67, "cagr_r": 11.13, "cagr_l": 11.05, "vm": 35823536381.5, "liq": 151143787.13, "preco": 10.88, "trend_roic": "DECRESCENTE", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 8, "motivo": "EV/EBIT atrativo de 8.04x com ROIC de 12.58% e CAGR receitas solido de 11.1%. Beta baixo (0.09) e setor regulado oferecem defensividade."}, "TAEE11": {"ticker": "TAEE11", "setor": "Utilidade Pública", "posicao_mf": 60, "mf_score": 124.0, "ev_ebit": 8.71, "roic": 13.41, "margem": 57.4, "roe": 19.7, "div_ebit": 3.75, "cagr_r": 5.36, "cagr_l": -7.07, "vm": 13297657810.2, "liq": 68559904.22, "preco": 38.6, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo 8.71x com ROIC 13.41% e margem EBIT 57.4% elevada; alavancagem 3.75x exige monitoramento."}, "PETR4": {"ticker": "PETR4", "setor": "Petróleo. Gás e Biocombustíveis", "posicao_mf": 64, "mf_score": 128.0, "ev_ebit": 6.17, "roic": 8.31, "margem": 28.88, "roe": 24.17, "div_ebit": 2.25, "cagr_r": 12.83, "cagr_l": 72.19, "vm": 562891837858.53, "liq": 2144137280.3, "preco": 40.89, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "VOLATIL", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (6.17x) e margem EBIT solida (28.88%), mas ROIC de 8.31% abaixo de 10% e alavancagem relevante (Div/EBIT 2.25x) limitam upside."}, "INTB3": {"ticker": "INTB3", "setor": "Tecnologia da Informação", "posicao_mf": 66, "mf_score": 130.0, "ev_ebit": 8.18, "roic": 11.86, "margem": 10.76, "roe": 18.29, "div_ebit": -0.68, "cagr_r": 15.88, "cagr_l": 11.88, "vm": 4432578318.3, "liq": 26918334.95, "preco": 13.53, "trend_roic": "VOLATIL", "trend_margin": "CRESCENTE", "trend_revenue": "DECRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 8.18x barato com ROIC 11.86%, caixa liquido (Div/EBIT -0.68x) e margem EBIT crescente (10.4% a 15.7%). CAGR receitas 5a de 15.88% sustenta valuation."}, "MLAS3": {"ticker": "MLAS3", "setor": "Tecnologia da Informação", "posicao_mf": 76, "mf_score": 143.0, "ev_ebit": 5.46, "roic": 5.07, "margem": 4.91, "roe": 5.85, "div_ebit": -0.96, "cagr_r": 6.65, "cagr_l": -16.47, "vm": 1271835798.75, "liq": 2310124.86, "preco": 1.55, "trend_roic": "VOLATIL", "trend_margin": "VOLATIL", "trend_revenue": "CRESCENTE", "recomendacao": "NEUTRO", "score_ia": 6, "motivo": "EV/EBIT atrativo (5.46x) e caixa liquido, mas ROIC baixo (5.07%), margens volateis e CAGR lucros negativo (-16.5%) limitam conviccao."}, "DESK3": {"ticker": "DESK3", "setor": "Comunicações", "posicao_mf": 80, "mf_score": 144.0, "ev_ebit": 8.37, "roic": 10.32, "margem": 31.58, "roe": 4.34, "div_ebit": 3.06, "cagr_r": 48.79, "cagr_l": 18.09, "vm": 2090748201.57, "liq": 8661000.57, "preco": 17.99, "trend_roic": "VOLATIL", "trend_margin": "DECRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT atrativo (8.37x) com margem EBIT elevada (31.58%) e receita trimestral crescente. Divida/EBIT de 3.06x requer atencao; ROIC moderado (10.32%)."}, "FIQE3": {"ticker": "FIQE3", "setor": "Comunicações", "posicao_mf": 94, "mf_score": 165.0, "ev_ebit": 8.02, "roic": 8.22, "margem": 28.14, "roe": 19.07, "div_ebit": 0.91, "cagr_r": 32.89, "cagr_l": 34.61, "vm": 2490300671.04, "liq": 3625177.82, "preco": 6.24, "trend_roic": "CRESCENTE", "trend_margin": "CRESCENTE", "trend_revenue": "CRESCENTE", "recomendacao": "COMPRAR", "score_ia": 7, "motivo": "EV/EBIT 8.02x barato com margem EBIT 28% e CAGR receitas 33%. ROIC 8.22% limita score; receita e margens em tendencia crescente."}};
 
 // ── Charts ────────────────────────────────────────────────────────────────
 const palette = ['#3fb950','#58a6ff','#d29922','#f85149','#bc8cff',
@@ -1475,8 +1492,8 @@ const palette = ['#3fb950','#58a6ff','#d29922','#f85149','#bc8cff',
 new Chart(document.getElementById('chartRoic'), {
   type: 'bar',
   data: {
-    labels: ["ITSA4", "RIAA3", "WIZC3", "ALLD3", "TIMS3", "CPFE3", "MILS3", "TGMA3", "IGTI11", "CSED3", "CMIN3", "BEEF3", "PGMN3", "PFRM3", "ASAI3", "EUCA4", "POMO4", "GMAT3", "DMVF3", "ENAT3", "UGPA3", "CMIG4", "TAEE11", "INTB3", "DESK3", "FIQE3"],
-    datasets: [{ label: 'ROIC (%)', data: [17.44, 26.65, 23.53, 18.12, 30.15, 15.41, 16.42, 13.14, 13.37, 18.3, 21.5, 14.22, 14.93, 13.17, 17.18, 12.97, 13.41, 10.52, 8.5, 8.6, 11.71, 12.58, 13.41, 11.86, 10.32, 8.22], backgroundColor: palette, borderRadius: 6 }]
+    labels: ["RIAA3", "WIZC3", "ALLD3", "TIMS3", "CPFE3", "POMO4", "MILS3", "GMAT3", "IGTI11", "ITSA4", "CMIG4", "CSED3", "CMIN3", "BEEF3", "PGMN3", "ASAI3", "EUCA4", "TGMA3", "DMVF3", "UGPA3", "TAEE11", "INTB3", "DESK3", "FIQE3"],
+    datasets: [{ label: 'ROIC (%)', data: [26.65, 23.53, 18.12, 30.15, 15.41, 13.41, 16.42, 10.52, 13.37, 17.44, 12.58, 18.3, 21.5, 14.22, 14.93, 17.18, 12.97, 13.14, 8.5, 11.71, 13.41, 11.86, 10.32, 8.22], backgroundColor: palette, borderRadius: 6 }]
   },
   options: {
     responsive: true,
@@ -1492,8 +1509,8 @@ new Chart(document.getElementById('chartScatter'), {
   type: 'scatter',
   data: {
     datasets: [{
-      data: ["ITSA4", "RIAA3", "WIZC3", "ALLD3", "TIMS3", "CPFE3", "MILS3", "TGMA3", "IGTI11", "CSED3", "CMIN3", "BEEF3", "PGMN3", "PFRM3", "ASAI3", "EUCA4", "POMO4", "GMAT3", "DMVF3", "ENAT3", "UGPA3", "CMIG4", "TAEE11", "INTB3", "DESK3", "FIQE3", "DEXP3", "POSI3", "PETR4", "MLAS3"].map((t,i) => ({ x: [7.84, 2.26, 2.04, 1.28, 6.9, 6.81, 7.07, 6.04, 6.61, 3.26, 4.99, 4.36, 4.68, 4.4, 5.92, 4.72, 6.21, 4.82, 4.52, 5.12, 6.97, 8.04, 8.71, 8.18, 8.37, 8.02, 3.94, 4.6, 6.17, 5.46][i], y: [17.44, 26.65, 23.53, 18.12, 30.15, 15.41, 16.42, 13.14, 13.37, 18.3, 21.5, 14.22, 14.93, 13.17, 17.18, 12.97, 13.41, 10.52, 8.5, 8.6, 11.71, 12.58, 13.41, 11.86, 10.32, 8.22, 9.93, 8.42, 8.31, 5.07][i], label: t })),
-      backgroundColor: ["#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#d29922", "#d29922", "#d29922", "#d29922"],
+      data: ["RIAA3", "WIZC3", "ALLD3", "TIMS3", "CPFE3", "POMO4", "MILS3", "GMAT3", "IGTI11", "ITSA4", "CMIG4", "CSED3", "CMIN3", "BEEF3", "PGMN3", "ASAI3", "EUCA4", "TGMA3", "DMVF3", "UGPA3", "TAEE11", "INTB3", "DESK3", "FIQE3", "PFRM3", "DEXP3", "POSI3", "ENAT3", "PETR4", "MLAS3"].map((t,i) => ({ x: [2.26, 2.04, 1.28, 6.9, 6.81, 6.21, 7.07, 4.82, 6.61, 7.84, 8.04, 3.26, 4.99, 4.36, 4.68, 5.92, 4.72, 6.04, 4.52, 6.97, 8.71, 8.18, 8.37, 8.02, 4.4, 3.94, 4.6, 5.12, 6.17, 5.46][i], y: [26.65, 23.53, 18.12, 30.15, 15.41, 13.41, 16.42, 10.52, 13.37, 17.44, 12.58, 18.3, 21.5, 14.22, 14.93, 17.18, 12.97, 13.14, 8.5, 11.71, 13.41, 11.86, 10.32, 8.22, 13.17, 9.93, 8.42, 8.6, 8.31, 5.07][i], label: t })),
+      backgroundColor: ["#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#3fb950", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922"],
       pointRadius: 8, pointHoverRadius: 11,
     }]
   },
