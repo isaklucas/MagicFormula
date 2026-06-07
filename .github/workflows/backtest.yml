@@ -1,4 +1,4 @@
-name: Backtest Semanal Magic Formula BR
+name: Backtest Semanal Magic Formula BR + US
 
 on:
   schedule:
@@ -21,18 +21,20 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependências
-        run: pip install pandas numpy yfinance beautifulsoup4 httpx
+        run: pip install pandas numpy yfinance beautifulsoup4 httpx lxml
 
-      - name: Exportar universo de tickers
+      # ── Backtest BR ────────────────────────────────────────────────────────
+
+      - name: Exportar universo de tickers BR
         run: python src/export_tickers.py
 
-      - name: Rodar backtest
+      - name: Rodar backtest BR
         run: python src/backtester.py --tickers output/universe_tickers.json --start 2023-01-01 --top 15
 
-      - name: Gerar relatório HTML
+      - name: Gerar relatório HTML BR
         run: python src/report_backtest.py --json output/backtest.json
 
-      - name: Injetar data de atualização no HTML
+      - name: Injetar data de atualização — BR
         run: |
           DATA=$(date '+%d/%m/%Y %H:%M UTC')
           python3 -c "
@@ -44,13 +46,41 @@ jobs:
               f.write(html)
           "
 
-      - name: Copiar para docs/
+      - name: Copiar BR para docs/
         run: cp output/relatorio_backtest.html docs/backtest.html
+
+      # ── Backtest US ────────────────────────────────────────────────────────
+
+      - name: Exportar universo de tickers US
+        run: python src/export_tickers_us.py
+
+      - name: Rodar backtest US
+        run: python src/backtester_us.py --tickers output/universe_tickers_us.json --start 2023-01-01 --top 15
+
+      - name: Gerar relatório HTML US
+        run: python src/report_backtest_us.py --json output/backtest_us.json
+
+      - name: Injetar data de atualização — US
+        run: |
+          DATA=$(date '+%d/%m/%Y %H:%M UTC')
+          python3 -c "
+          with open('output/relatorio_backtest_us.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#0d1117;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;font-family:monospace;z-index:9999\">Updated $DATA</div>'
+          html = html.replace('</body>', badge + '</body>')
+          with open('output/relatorio_backtest_us.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          "
+
+      - name: Copiar US para docs/
+        run: cp output/relatorio_backtest_us.html docs/backtest_us.html
+
+      # ── Commit e push ──────────────────────────────────────────────────────
 
       - name: Commit e push
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add docs/backtest.html
-          git diff --staged --quiet || git commit -m "Backtest atualizado — $(date '+%Y-%m-%d')"
+          git add docs/backtest.html docs/backtest_us.html
+          git diff --staged --quiet || git commit -m "Backtest BR + US — $(date '+%Y-%m-%d')"
           git push

@@ -1,51 +1,15 @@
 """
-Gera relatorio HTML do backtest Magic Formula BR.
+Gera relatorio HTML do backtest Magic Formula US.
+Benchmark: S&P 500 (SPX). Risk-free: T-Bill 13w (^IRX).
 """
 
 import argparse
 import json
-import urllib.request
 from pathlib import Path
 from datetime import datetime
 
 
-def _fetch_cdi_monthly(start_ym: str, end_ym: str) -> dict:
-    """Busca CDI mensal do BCB (serie 4390). Retorna dict {"YYYY-MM": taxa_pct}."""
-    try:
-        s = start_ym.replace("-", "")
-        e = end_ym.replace("-", "")
-        d_ini = f"01/{s[4:6]}/{s[:4]}"
-        d_fim = f"01/{e[4:6]}/{e[:4]}"
-        url = (
-            f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.4390/dados"
-            f"?formato=json&dataInicial={d_ini}&dataFinal={d_fim}"
-        )
-        with urllib.request.urlopen(url, timeout=8) as r:
-            rows = json.loads(r.read())
-        result = {}
-        for row in rows:
-            parts = row["data"].split("/")
-            ym = f"{parts[2]}-{parts[1]}"
-            result[ym] = float(row["valor"])
-        return result
-    except Exception:
-        return {}
-
-
-def _build_cdi_series(cdi_monthly: dict, labels: list) -> list:
-    """Acumula CDI para cada label (YYYY-MM), base 100."""
-    acc = 100.0
-    series = []
-    for lbl in labels:
-        rate = cdi_monthly.get(lbl)
-        if rate is not None:
-            acc *= (1 + rate / 100)
-        series.append(round(acc, 2))
-    return series
-
-
 def _track_performance(monthly: list) -> tuple:
-    """Rastreia P&L por ticker. Retorna (closed_positions, open_positions)."""
     entry_tracker = {}
     closed = []
 
@@ -98,39 +62,41 @@ def _track_performance(monthly: list) -> tuple:
     return closed, open_pos
 
 
-def generate_backtest_html(data: dict, output_path: str):
+def generate_backtest_us_html(data: dict, output_path: str):
     stats = data.get("stats", {})
     monthly = data.get("monthly", [])
-    ibov_acc = data.get("ibov_acumulado", [])
+    spx_acc = data.get("spx_acumulado", [])
+    tbill_acc = data.get("tbill_acumulado", [])
 
     now = datetime.now().strftime("%d/%m/%Y %H:%M")
 
     active_indices = [i for i, r in enumerate(monthly) if r.get("top15")]
     if active_indices:
         active_monthly = [monthly[i] for i in active_indices]
-        active_ibov = [ibov_acc[i] if i < len(ibov_acc) else ibov_acc[-1] for i in active_indices]
+        active_spx = [spx_acc[i] if i < len(spx_acc) else spx_acc[-1] for i in active_indices]
+        active_tbill = [tbill_acc[i] if i < len(tbill_acc) else tbill_acc[-1] for i in active_indices]
         mf_start = active_monthly[0]["portfolio_valor"]
-        ibov_start = active_ibov[0]
+        spx_start = active_spx[0]
+        tbill_start = active_tbill[0]
         mf_values = [round(r["portfolio_valor"] / mf_start * 100, 2) for r in active_monthly]
-        ibov_values = [round(v / ibov_start * 100, 2) for v in active_ibov]
+        spx_values = [round(v / spx_start * 100, 2) for v in active_spx]
+        tbill_values = [round(v / tbill_start * 100, 2) for v in active_tbill]
     else:
         active_monthly = monthly
         mf_values = [r["portfolio_valor"] for r in monthly]
-        ibov_values = ibov_acc[:len(monthly)]
+        spx_values = spx_acc[:len(monthly)]
+        tbill_values = tbill_acc[:len(monthly)]
 
     labels = [r["data"][:7] for r in active_monthly]
     monthly_rets = [r["retorno_mes_pct"] if r["retorno_mes_pct"] is not None else 0 for r in active_monthly]
     bar_colors = ["rgba(16,185,129,.85)" if v >= 0 else "rgba(239,68,68,.85)" for v in monthly_rets]
 
-    cdi_monthly_rates = _fetch_cdi_monthly(labels[0], labels[-1]) if labels else {}
-    cdi_values = _build_cdi_series(cdi_monthly_rates, labels)
-    cdi_total = round(cdi_values[-1] - 100, 1) if cdi_values else 0
-
     closed_positions, open_positions = _track_performance(monthly)
     carteira_data_ref = active_monthly[-1]["data"][:7] if active_monthly else ""
 
     total_ret = stats.get("retorno_total_pct", 0)
-    ibov_total = stats.get("ibov_total_pct", 0)
+    spx_total = stats.get("spx_total_pct", 0)
+    tbill_total = stats.get("tbill_total_pct", 0)
     alpha = stats.get("alpha_pct", 0)
     max_dd = stats.get("max_drawdown_pct", 0)
     ret_medio = stats.get("retorno_medio_mensal_pct", 0)
@@ -171,8 +137,8 @@ def generate_backtest_html(data: dict, output_path: str):
           <td class="text-center fw-bold" style="color:#10b981">{rank}</td>
           <td class="fw-semibold">{pos['ticker']}</td>
           <td class="text-center text-secondary" style="font-size:.78rem">{entry}</td>
-          <td class="text-center">R$ {ep:.2f}</td>
-          <td class="text-center">R$ {cp:.2f}</td>
+          <td class="text-center">$ {ep:.2f}</td>
+          <td class="text-center">$ {cp:.2f}</td>
           <td class="text-center fw-bold" style="color:{_pnl_color(pnl)};font-size:1rem">{pnl_str}</td>
           <td class="text-center" style="color:{_ev_color(ev)}">{ev:.2f}x</td>
           <td class="text-center" style="color:{_roic_color(roic)}">{roic:.1f}%</td>
@@ -191,16 +157,16 @@ def generate_backtest_html(data: dict, output_path: str):
           <td class="fw-semibold">{p['ticker']}</td>
           <td class="text-center text-secondary" style="font-size:.78rem">{p['entry']}</td>
           <td class="text-center text-secondary" style="font-size:.78rem">{p['exit']}</td>
-          <td class="text-center">R$ {ep:.2f}</td>
-          <td class="text-center">R$ {xp:.2f}</td>
+          <td class="text-center">$ {ep:.2f}</td>
+          <td class="text-center">$ {xp:.2f}</td>
           <td class="text-center fw-bold" style="color:{_pnl_color(pnl)}">{icon} {pnl_str}</td>
         </tr>"""
 
     monthly_rows = ""
     for r in active_monthly:
         ret = r.get("retorno_mes_pct")
-        ibov_r = r.get("ibov_retorno_mes_pct")
-        alpha_m = round(ret - ibov_r, 2) if ret is not None and ibov_r is not None else None
+        spx_r = r.get("spx_retorno_mes_pct")
+        alpha_m = round(ret - spx_r, 2) if ret is not None and spx_r is not None else None
         entradas = ", ".join(r.get("entradas", [])) or "—"
         saidas = ", ".join(r.get("saidas", [])) or "—"
         top5 = ", ".join(r.get("top15", [])[:5])
@@ -214,7 +180,7 @@ def generate_backtest_html(data: dict, output_path: str):
         <tr>
           <td class="text-center fw-semibold">{r['data'][:7]}</td>
           <td class="text-center fw-bold" style="color:{_pnl_color(ret)}">{_fmt_ret(ret)}</td>
-          <td class="text-center" style="color:{_pnl_color(ibov_r)}">{_fmt_ret(ibov_r)}</td>
+          <td class="text-center" style="color:{_pnl_color(spx_r)}">{_fmt_ret(spx_r)}</td>
           <td class="text-center" style="color:{_pnl_color(alpha_m)}">{_fmt_ret(alpha_m)}</td>
           <td class="text-center text-secondary">{r['portfolio_valor']:.1f}</td>
           <td style="color:#86efac;font-size:.78rem">{entradas}</td>
@@ -223,11 +189,11 @@ def generate_backtest_html(data: dict, output_path: str):
         </tr>"""
 
     html = f"""<!DOCTYPE html>
-<html lang="pt-BR" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Backtest Magic Formula BR</title>
+<title>Backtest Magic Formula US</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -242,22 +208,22 @@ def generate_backtest_html(data: dict, output_path: str):
   body {{ font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }}
 
   .hero {{
-    background: linear-gradient(135deg, #052e16 0%, #064e3b 50%, #065f46 100%);
+    background: linear-gradient(135deg, #0c1a2e 0%, #1e3a5f 50%, #1a4a7a 100%);
     padding: 2rem 0 1.5rem;
   }}
   .hero h1 {{ font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: -.5px; }}
-  .hero h1 em {{ font-style: normal; color: #6ee7b7; }}
+  .hero h1 em {{ font-style: normal; color: #93c5fd; }}
 
   .kpi-pill {{
     background: rgba(255,255,255,.08); border-radius: .75rem;
     padding: .6rem 1.1rem; text-align: center; min-width: 110px;
   }}
   .kpi-pill .val {{ font-size: 1.4rem; font-weight: 700; color: #fff; line-height: 1.2; }}
-  .kpi-pill .lbl {{ font-size: .67rem; color: #a7f3d0; }}
+  .kpi-pill .lbl {{ font-size: .67rem; color: #bfdbfe; }}
 
   .section-title {{
-    font-size: .85rem; font-weight: 600; color: #10b981;
-    border-left: 3px solid #065f46; padding-left: .6rem; margin-bottom: 1rem;
+    font-size: .85rem; font-weight: 600; color: #3b82f6;
+    border-left: 3px solid #1e3a5f; padding-left: .6rem; margin-bottom: 1rem;
     text-transform: uppercase; letter-spacing: .5px;
   }}
   .chart-card {{ background: #161b22; border: 1px solid #30363d; border-radius: .75rem; padding: 1.25rem; }}
@@ -276,9 +242,9 @@ def generate_backtest_html(data: dict, output_path: str):
   }}
 
   .table-dark {{ --bs-table-bg: #161b22; --bs-table-hover-bg: #1f2937; --bs-table-border-color: #30363d; }}
-  .table th {{ font-size: .72rem; white-space: nowrap; color: #10b981; }}
+  .table th {{ font-size: .72rem; white-space: nowrap; color: #3b82f6; }}
   .table td {{ vertical-align: middle; }}
-  thead tr {{ background: #052e16 !important; }}
+  thead tr {{ background: #0c1a2e !important; }}
 
   footer {{ font-size: .75rem; color: #6e7681; padding: 1.5rem; text-align: center; border-top: 1px solid #30363d; }}
 
@@ -312,14 +278,14 @@ document.querySelectorAll('nav a').forEach(a => {{
 <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
 <div class="hero">
   <div class="container-fluid px-3 px-md-4">
-    <h1>Backtest Magic Formula <em>BR</em></h1>
-    <p class="mb-3" style="color:#a7f3d0;font-size:.85rem">
-      Período: {periodo} · {n_meses} meses · Gerado em {now}
+    <h1>Backtest Magic Formula <em>US</em> &nbsp;&#127482;&#127480;</h1>
+    <p class="mb-3" style="color:#bfdbfe;font-size:.85rem">
+      Period: {periodo} · {n_meses} months · Generated {now}
     </p>
 
     <div class="warn-box mb-3">
-      ⚠ <strong>Survivorship bias:</strong> universo fixo no CSV atual.
-      Empresas que faliram ou saíram da B3 não estão incluídas — retorno real seria menor.
+      ⚠ <strong>Survivorship bias:</strong> fixed universe from current S&P 500.
+      Companies that were delisted or removed before today are not included — real returns would be lower.
     </div>
 
     <div class="d-flex flex-wrap gap-2">
@@ -328,20 +294,20 @@ document.querySelectorAll('nav a').forEach(a => {{
         <div class="lbl">Magic Formula</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">{_sgn(ibov_total)}</div>
-        <div class="lbl">IBOV</div>
+        <div class="val">{_sgn(spx_total)}</div>
+        <div class="lbl">S&amp;P 500</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">{_sgn(cdi_total)}</div>
-        <div class="lbl">CDI</div>
+        <div class="val">{_sgn(tbill_total)}</div>
+        <div class="lbl">T-Bill</div>
       </div>
       <div class="kpi-pill">
         <div class="val" style="color:{'#10b981' if alpha >= 0 else '#ef4444'}">{_sgn(alpha)}</div>
-        <div class="lbl">Alpha vs IBOV</div>
+        <div class="lbl">Alpha vs S&amp;P 500</div>
       </div>
       <div class="kpi-pill">
-        <div class="val" style="color:{'#10b981' if total_ret >= cdi_total else '#ef4444'}">{_sgn(total_ret - cdi_total)}</div>
-        <div class="lbl">Alpha vs CDI</div>
+        <div class="val" style="color:{'#10b981' if total_ret >= tbill_total else '#ef4444'}">{_sgn(total_ret - tbill_total)}</div>
+        <div class="lbl">Alpha vs T-Bill</div>
       </div>
       <div class="kpi-pill">
         <div class="val" style="color:#ef4444">{max_dd:.1f}%</div>
@@ -349,7 +315,7 @@ document.querySelectorAll('nav a').forEach(a => {{
       </div>
       <div class="kpi-pill">
         <div class="val">{meses_pos}W/{meses_neg}L</div>
-        <div class="lbl">Positivo/Negativo</div>
+        <div class="lbl">Win/Loss Months</div>
       </div>
     </div>
   </div>
@@ -357,19 +323,19 @@ document.querySelectorAll('nav a').forEach(a => {{
 
 <div class="container-fluid px-3 px-md-4 py-4">
 
-  <!-- ── Curva de Capital ────────────────────────────────────────────────── -->
+  <!-- ── Equity Curve ───────────────────────────────────────────────────── -->
   <section class="mb-5">
-    <div class="section-title">Curva de Capital</div>
+    <div class="section-title">Equity Curve</div>
     <div class="row g-3">
       <div class="col-12">
         <div class="chart-card">
-          <h3>Portfolio Magic Formula vs IBOV vs CDI (base 100)</h3>
+          <h3>Magic Formula vs S&amp;P 500 vs T-Bill (base 100)</h3>
           <canvas id="chartEquity" style="max-height:320px"></canvas>
         </div>
       </div>
       <div class="col-12 col-lg-6">
         <div class="chart-card">
-          <h3>Retorno Mensal Magic Formula (%)</h3>
+          <h3>Monthly Return Magic Formula (%)</h3>
           <canvas id="chartMonthly" style="max-height:260px"></canvas>
         </div>
       </div>
@@ -379,19 +345,19 @@ document.querySelectorAll('nav a').forEach(a => {{
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
               <div class="kval" style="color:{'#10b981' if total_ret >= 0 else '#ef4444'}">{_sgn(total_ret)}</div>
-              <div class="klbl">Retorno Total</div>
+              <div class="klbl">Total Return</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
               <div class="kval">{_sgn(ret_medio, 2)}</div>
-              <div class="klbl">Média Mensal</div>
+              <div class="klbl">Avg Monthly</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
               <div class="kval">{vol:.2f}%</div>
-              <div class="klbl">Volatilidade/Mês</div>
+              <div class="klbl">Vol/Month</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
@@ -403,13 +369,13 @@ document.querySelectorAll('nav a').forEach(a => {{
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
               <div class="kval" style="color:{'#10b981' if alpha >= 0 else '#ef4444'}">{_sgn(alpha)}</div>
-              <div class="klbl">Alpha IBOV</div>
+              <div class="klbl">Alpha S&amp;P 500</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
               <div class="kval">{sharpe}</div>
-              <div class="klbl">Sharpe Simples</div>
+              <div class="klbl">Simple Sharpe</div>
             </div>
           </div>
         </div>
@@ -417,18 +383,18 @@ document.querySelectorAll('nav a').forEach(a => {{
     </div>
   </section>
 
-  <!-- ── Carteira atual ──────────────────────────────────────────────────── -->
+  <!-- ── Current Portfolio ──────────────────────────────────────────────── -->
   <section class="mb-5">
-    <div class="section-title">Carteira Atual — {carteira_data_ref} (posições abertas)</div>
+    <div class="section-title">Current Portfolio — {carteira_data_ref} (open positions)</div>
     <p class="text-secondary mb-3" style="font-size:.82rem">
-      P&amp;L calculado desde a data de entrada. Preços de referência no fechamento mensal.
+      P&amp;L calculated from entry date. Reference prices at monthly close.
     </p>
     <div class="table-responsive rounded-3" style="border:1px solid #30363d">
       <table class="table table-dark table-hover table-sm mb-0">
         <thead>
           <tr>
-            <th>#</th><th>Ticker</th><th>Entrada</th>
-            <th>Preço Entrada</th><th>Preço Atual</th>
+            <th>#</th><th>Ticker</th><th>Entry</th>
+            <th>Entry Price</th><th>Current Price</th>
             <th>P&amp;L %</th><th>EV/EBIT</th><th>ROIC</th><th>MF Score</th>
           </tr>
         </thead>
@@ -437,18 +403,18 @@ document.querySelectorAll('nav a').forEach(a => {{
     </div>
   </section>
 
-  <!-- ── Posições Fechadas ───────────────────────────────────────────────── -->
+  <!-- ── Closed Positions ───────────────────────────────────────────────── -->
   <section class="mb-5">
-    <div class="section-title">Performance Realizadas (posições fechadas)</div>
+    <div class="section-title">Realized Performance (closed positions)</div>
     <p class="text-secondary mb-3" style="font-size:.82rem">
-      P&amp;L por ticker desde entrada até saída. Ordenado por retorno.
+      P&amp;L per ticker from entry to exit. Sorted by return.
     </p>
     <div class="table-responsive rounded-3" style="border:1px solid #30363d;max-width:860px">
       <table class="table table-dark table-hover table-sm mb-0">
         <thead>
           <tr>
-            <th>Ticker</th><th>Entrada</th><th>Saída</th>
-            <th>Preço Entrada</th><th>Preço Saída</th><th>P&amp;L %</th>
+            <th>Ticker</th><th>Entry</th><th>Exit</th>
+            <th>Entry Price</th><th>Exit Price</th><th>P&amp;L %</th>
           </tr>
         </thead>
         <tbody>{perf_rows}</tbody>
@@ -456,15 +422,15 @@ document.querySelectorAll('nav a').forEach(a => {{
     </div>
   </section>
 
-  <!-- ── Histórico Mensal ────────────────────────────────────────────────── -->
+  <!-- ── Monthly History ────────────────────────────────────────────────── -->
   <section class="mb-4">
-    <div class="section-title">Histórico Mensal</div>
+    <div class="section-title">Monthly History</div>
     <div class="table-responsive rounded-3" style="border:1px solid #30363d">
       <table class="table table-dark table-hover table-sm mb-0">
         <thead>
           <tr>
-            <th>Mês</th><th>Retorno MF</th><th>IBOV</th><th>Alpha</th>
-            <th>Portfólio</th><th>Entradas</th><th>Saídas</th><th>Top 5 Posições</th>
+            <th>Month</th><th>MF Return</th><th>S&amp;P 500</th><th>Alpha</th>
+            <th>Portfolio</th><th>Entries</th><th>Exits</th><th>Top 5 Holdings</th>
           </tr>
         </thead>
         <tbody>{monthly_rows}</tbody>
@@ -474,13 +440,13 @@ document.querySelectorAll('nav a').forEach(a => {{
 
 </div>
 
-<footer>Magic Formula BR Backtest · {now} · Não é recomendação de investimento · Survivorship bias presente</footer>
+<footer>Magic Formula US Backtest · {now} · Not investment advice · Survivorship bias present</footer>
 
 <script>
 const labels = {json.dumps(labels)};
 const mfValues = {json.dumps(mf_values)};
-const ibovValues = {json.dumps(ibov_values)};
-const cdiValues = {json.dumps(cdi_values)};
+const spxValues = {json.dumps(spx_values)};
+const tbillValues = {json.dumps(tbill_values)};
 const monthlyRets = {json.dumps(monthly_rets)};
 const barColors = {json.dumps(bar_colors)};
 
@@ -492,19 +458,19 @@ new Chart(document.getElementById('chartEquity'), {{
       {{
         label: 'Magic Formula',
         data: mfValues,
-        borderColor: '#10b981',
-        backgroundColor: 'rgba(16,185,129,.06)',
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,.06)',
         borderWidth: 2.5, pointRadius: 2, fill: true, tension: 0.3,
       }},
       {{
-        label: 'IBOV',
-        data: ibovValues,
+        label: 'S&P 500',
+        data: spxValues,
         borderColor: '#6e7681',
         borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,
       }},
       {{
-        label: 'CDI',
-        data: cdiValues,
+        label: 'T-Bill',
+        data: tbillValues,
         borderColor: '#d29922',
         borderWidth: 1.5, pointRadius: 0, borderDash: [2,4], tension: 0.1,
       }},
@@ -529,7 +495,7 @@ new Chart(document.getElementById('chartMonthly'), {{
   data: {{
     labels,
     datasets: [{{
-      label: 'Retorno Mensal (%)',
+      label: 'Monthly Return (%)',
       data: monthlyRets,
       backgroundColor: barColors,
       borderRadius: 4,
@@ -552,7 +518,7 @@ new Chart(document.getElementById('chartMonthly'), {{
 </html>"""
 
     Path(output_path).write_text(html, encoding="utf-8")
-    print(f"[report_backtest] HTML gerado: {output_path}")
+    print(f"[report_backtest_us] HTML gerado: {output_path}")
 
 
 if __name__ == "__main__":
@@ -564,5 +530,5 @@ if __name__ == "__main__":
     with open(args.json, encoding="utf-8") as f:
         data = json.load(f)
 
-    out = args.output or str(Path(args.json).parent / "relatorio_backtest.html")
-    generate_backtest_html(data, out)
+    out = args.output or str(Path(args.json).parent / "relatorio_backtest_us.html")
+    generate_backtest_us_html(data, out)
