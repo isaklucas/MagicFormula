@@ -10,10 +10,12 @@ build/
 .venv/
 venv/
 
-# Outputs grandes (regenerados pelo pipeline)
-output/backtest_cache/
-output/universe_tickers.json
-output/analyses_temp.json
+# Outputs gerados pelo pipeline (não commitar — exceto o que Actions faz via docs/)
+output/
+!output/.gitkeep
+
+# CSV de entrada (dados locais do usuário)
+statusinvest-busca-avancada.csv
 
 # Dados sensíveis / locais
 .env
