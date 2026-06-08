@@ -36,3 +36,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+data/fii_cache/
+nul
+output/
