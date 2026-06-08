@@ -2,6 +2,13 @@
 
 Pipeline: yfinance S&P 500 → agentes paralelos por ticker → EVAL → HTML → GitHub Pages.
 
+## ⚠️ Regra de Isolamento — NUNCA VIOLAR
+
+- Este skill committa **APENAS** `docs/us.html`
+- **NUNCA** rode pipelines de outras skills (BR, FII, Backtest) para atualizar navbar ou qualquer outra razão
+- **Se navbar.py mudou:** rode `python src/patch_navbar.py` para atualizar todos os HTMLs cirurgicamente — sem regenerar dados
+- **Antes de commitar:** verifique que `docs/us.html` contém `Analisadas: N` com N > 0. Se N = 0, o relatório está vazio — **NÃO commite**
+
 ---
 
 ## Passo 1 — Executar pipeline Python
@@ -149,8 +156,19 @@ Relatório: output\relatorio_us.html
 copy /Y output\relatorio_us.html docs\us.html
 ```
 
+**Se navbar.py foi alterado nesta sessão** (novo link, renome), atualize todos os outros relatórios sem regenerar dados:
+```bash
+cd D:\Diana\MagicFormula && python src/patch_navbar.py
+```
+
+Commit — **apenas os arquivos listados abaixo**, nada mais:
 ```bash
 git add docs/us.html && git commit -m "Magic Formula US — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
+```
+
+Se patch_navbar.py foi rodado, inclua também os demais HTMLs de docs/ que foram modificados (apenas navbar, sem regenerar):
+```bash
+git add docs/ src/navbar.py src/patch_navbar.py
 ```
 
 Após o push, `docs/us.html` fica disponível no GitHub Pages junto com BR e Backtest.

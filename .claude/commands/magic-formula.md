@@ -2,6 +2,13 @@
 
 Pipeline: Python quantitativo → agentes paralelos por ticker → EVAL anti-alucinação → guardrail RJ → HTML consolidado.
 
+## ⚠️ Regra de Isolamento — NUNCA VIOLAR
+
+- Este skill committa **APENAS** `docs/index.html`
+- **NUNCA** rode pipelines de outras skills (US, FII, Backtest) para atualizar navbar ou qualquer outra razão
+- **Se navbar.py mudou:** rode `python src/patch_navbar.py` para atualizar todos os HTMLs cirurgicamente — sem regenerar dados
+- **Antes de commitar:** verifique que `docs/index.html` contém `Analisadas: N` com N > 0. Se N = 0, o relatório está vazio — **NÃO commite**
+
 ---
 
 ## Passo 1 — Executar pipeline Python
@@ -159,8 +166,19 @@ Copia o relatório para `docs/index.html` e faz push:
 cd D:\Diana\MagicFormula && copy /Y output\relatorio.html docs\index.html
 ```
 
+**Se navbar.py foi alterado nesta sessão** (novo link, renome), atualize todos os outros relatórios sem regenerar dados:
+```bash
+cd D:\Diana\MagicFormula && python src/patch_navbar.py
+```
+
+Commit — **apenas os arquivos listados abaixo**, nada mais:
 ```bash
 cd D:\Diana\MagicFormula && git add docs/index.html && git commit -m "Magic Formula BR — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
+```
+
+Se patch_navbar.py foi rodado, inclua também os demais HTMLs de docs/ que foram modificados (apenas navbar, sem regenerar):
+```bash
+git add docs/ src/navbar.py src/patch_navbar.py
 ```
 
 Após o push, o site atualiza em ~1 minuto no seu GitHub Pages.

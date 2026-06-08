@@ -2,6 +2,12 @@
 
 Pipeline: screener quantitativo → agentes IA paralelos por fundo → EVAL anti-alucinação → HTML consolidado.
 
+## ⚠️ Regra de Isolamento — NUNCA VIOLAR
+
+- Este skill committa **APENAS** `docs/fii.html`
+- **NUNCA** rode pipelines de outras skills (BR, US, Backtest) para atualizar navbar ou qualquer outra razão
+- **Se navbar.py mudou:** rode `python src/patch_navbar.py` para atualizar todos os HTMLs cirurgicamente — sem regenerar dados de outros reports
+
 **Critérios:** P/VP < 0.90 · Fundo com > 1 ano · DY Limpo (IQR) · TOP 10 · Análise IA opcional
 
 ---
@@ -166,6 +172,32 @@ Relatório: output\fii_relatorio.html
 |------|--------|
 | *(padrão)* | CSV se disponível, API se não; salva `fii_candidates.json` |
 | `--sem-ia` | Pula geração de `fii_candidates.json` (mais rápido se não vai rodar IA) |
+
+---
+
+## Passo 7 — Deploy GitHub Pages
+
+```powershell
+cd D:\Diana\MagicFormula
+copy /Y output\fii_relatorio.html docs\fii.html
+```
+
+**Se navbar.py foi alterado nesta sessão**, atualize todos os outros relatórios sem regenerar dados:
+```powershell
+python src/patch_navbar.py
+```
+
+Commit — **apenas os arquivos listados abaixo**, nada mais:
+```powershell
+git add docs/fii.html
+git commit -m "FII screener: atualizacao $(Get-Date -Format 'yyyy-MM-dd')"
+git push origin master
+```
+
+Se patch_navbar.py foi rodado, inclua também os demais HTMLs modificados:
+```powershell
+git add docs/ src/navbar.py src/patch_navbar.py
+```
 
 ---
 
