@@ -187,7 +187,7 @@ def rank_at_date(
         if price is None or price < 5:   # exclui FIIs em liquidação (preço < R$5)
             continue
         dy = _dy_limpo_at(ticker, cutoff, dividends, price)
-        if dy is None or dy <= 0 or dy > 80:  # DY > 80% = evento corporativo/erro
+        if dy is None or dy <= 0 or dy > 25:  # DY > 25% = distorção amortização/liquidação
             continue
         metrics.append({
             "TICKER":   ticker,
@@ -380,24 +380,40 @@ def run_backtest(
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+_MIN_LIQUIDEZ_UNIV = 500_000   # R$500k/dia — exclui FIIs em liquidação
+_MIN_PATRIM_UNIV   = 100_000_000  # R$100M patrimônio mínimo
+
+
+def _row_valido(r: dict) -> bool:
+    """Filtra ticker válido + liquidez + patrimônio mínimos."""
+    if not _VALID_FII.match(r.get("TICKER", "")):
+        return False
+    liq    = _safe_float(r.get("LIQUIDEZ"))
+    patrim = _safe_float(r.get("PATRIMONIO"))
+    if liq is not None and liq < _MIN_LIQUIDEZ_UNIV:
+        return False
+    if patrim is not None and patrim < _MIN_PATRIM_UNIV:
+        return False
+    return True
+
+
 def _load_universe() -> tuple[list[str], dict]:
     """Carrega universo de FIIs do cache Fundamentus mais recente."""
     cache_files = sorted(glob.glob(str(ROOT / "data" / "fii_cache" / "????_??.json")))
     if cache_files:
         with open(cache_files[-1], encoding="utf-8") as f:
             data = json.load(f)
-        rows = data.get("rows", [])
-        tickers     = [r["TICKER"] for r in rows if _VALID_FII.match(r.get("TICKER", ""))]
-        pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows if _VALID_FII.match(r.get("TICKER", ""))}
-        print(f"[backtest_fii] Universo: {len(tickers)} FIIs do cache {Path(cache_files[-1]).name}")
+        rows        = [r for r in data.get("rows", []) if _row_valido(r)]
+        tickers     = [r["TICKER"] for r in rows]
+        pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows}
+        print(f"[backtest_fii] Universo: {len(tickers)} FIIs (liquidez≥R$500k, patrimônio≥R$100M) — {Path(cache_files[-1]).name}")
         return tickers, pvp_current
 
-    # Fallback: usa fii_candidates.json
     cand_path = ROOT / "output" / "fii_candidates.json"
     if cand_path.exists():
         with open(cand_path, encoding="utf-8") as f:
             data = json.load(f)
-        rows = data.get("top10", [])
+        rows        = data.get("top10", [])
         tickers     = [r["TICKER"] for r in rows]
         pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows}
         print(f"[backtest_fii] Universo (fallback): {len(tickers)} candidatos de fii_candidates.json")
