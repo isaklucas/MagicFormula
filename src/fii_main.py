@@ -250,7 +250,7 @@ def main() -> None:
         divs  = enriched.get(r["TICKER"], {}).get("dividendos_24m")
         r["dy_info"] = clean_dy(divs, price)
 
-    # Fallback: fundos sem histórico yfinance → usa DY_12M_MED ou DY do SI
+    # Mapa DY Fundamentus para cross-validação e fallback
     si_dy_map: dict[str, float] = {}
     for t, meta in ticker_meta.items():
         for col in ("DY_12M_MED", "DY"):
@@ -259,23 +259,86 @@ def main() -> None:
                 si_dy_map[t] = v
                 break
 
+    # DY máximo plausível para FIIs (≈ 2× SELIC). Acima disso é quase certamente
+    # amortização/venda de imóvel contaminando os dados — ambas as fontes.
+    _MAX_DY_PLAUSIVEL = 30.0
+
+    # Cross-validação: yfinance inclui amortizações/vendas de imóveis como
+    # "dividendos", inflando DY artificialmente. Se yfinance DY limpo >
+    # Fundamentus DY × 1.5 → substituir pelo Fundamentus (mais confiável).
+    _CROSS_VAL_THRESHOLD = 1.5
+    overridden = 0
+    for r in records:
+        dy_info = r.get("dy_info", {})
+        if not dy_info.get("valido"):
+            continue
+        t = r["TICKER"]
+        si_dy = si_dy_map.get(t)
+        if si_dy is None or si_dy <= 0:
+            continue
+        yf_limpo = dy_info.get("dy_limpo_12m") or 0
+        if yf_limpo > si_dy * _CROSS_VAL_THRESHOLD:
+            print(f"[fii_main] {t}: DY yfinance {yf_limpo:.1f}% > {_CROSS_VAL_THRESHOLD}× Fundamentus {si_dy:.1f}% → amortização/venda de imóvel detectada, usando Fundamentus")
+            r["dy_info"] = {
+                "dy_bruto_12m":      round(si_dy, 2),
+                "dy_limpo_12m":      round(si_dy, 2),
+                "meses_com_dados":   0,
+                "meses_removidos":   0,
+                "valores_removidos": [],
+                "valido":            True,
+                "motivo_invalido":   "",
+                "fonte":             "Fundamentus (yfinance inflado por amortização)",
+            }
+            overridden += 1
+    if overridden:
+        print(f"[fii_main] {overridden} fundos com DY corrigido (amortização/venda detectada via cross-validação)")
+
+    # Sanidade final: se DY Limpo ainda > MAX_DY_PLAUSIVEL E Fundamentus DY
+    # também > MAX_DY_PLAUSIVEL → ambas as fontes contaminadas por amortização
+    # → invalidar (fundo sai do ranking).
+    contaminados = 0
+    for r in records:
+        dy_info = r.get("dy_info", {})
+        if not dy_info.get("valido"):
+            continue
+        t = r["TICKER"]
+        dy_limpo = dy_info.get("dy_limpo_12m") or 0
+        si_dy    = si_dy_map.get(t) or 0
+        if dy_limpo > _MAX_DY_PLAUSIVEL and si_dy > _MAX_DY_PLAUSIVEL:
+            print(f"[fii_main] {t}: DY Limpo {dy_limpo:.1f}% e Fundamentus {si_dy:.1f}% ambos > {_MAX_DY_PLAUSIVEL}% → amortização contaminou todas as fontes → excluído")
+            r["dy_info"] = {
+                **dy_info,
+                "valido":               False,
+                "_amort_contaminado":   True,
+                "motivo_invalido":      f"DY {dy_limpo:.1f}% implausível (amortização/venda de imóvel em ambas as fontes)",
+            }
+            contaminados += 1
+    if contaminados:
+        print(f"[fii_main] {contaminados} fundos excluídos por DY contaminado por amortização")
+
+    # Fallback: fundos sem histórico yfinance → usa DY Fundamentus
     recovered = 0
     for r in records:
+        if r.get("dy_info", {}).get("_amort_contaminado"):
+            continue  # ambas as fontes contaminadas — não recuperar
+        si_dy_fallback = si_dy_map.get(r["TICKER"], 0) or 0
+        if si_dy_fallback > _MAX_DY_PLAUSIVEL:
+            continue  # Fundamentus também inflado por amortização — não recuperar
         if not r.get("dy_info", {}).get("valido") and r["TICKER"] in si_dy_map:
             dy_val = si_dy_map[r["TICKER"]]
             r["dy_info"] = {
-                "dy_bruto_12m":     round(dy_val, 2),
-                "dy_limpo_12m":     round(dy_val, 2),
-                "meses_com_dados":  0,
-                "meses_removidos":  0,
+                "dy_bruto_12m":      round(dy_val, 2),
+                "dy_limpo_12m":      round(dy_val, 2),
+                "meses_com_dados":   0,
+                "meses_removidos":   0,
                 "valores_removidos": [],
-                "valido":           True,
-                "motivo_invalido":  "",
-                "fonte":            f"StatusInvest",
+                "valido":            True,
+                "motivo_invalido":   "",
+                "fonte":             "Fundamentus",
             }
             recovered += 1
     if recovered:
-        print(f"[fii_main] {recovered} fundos recuperados via DY StatusInvest (yfinance sem dados)")
+        print(f"[fii_main] {recovered} fundos recuperados via DY Fundamentus (yfinance sem dados)")
 
     validos   = [r for r in records if r.get("dy_info", {}).get("valido")]
     invalidos = [r for r in records if not r.get("dy_info", {}).get("valido")]
