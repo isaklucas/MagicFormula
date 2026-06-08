@@ -132,7 +132,22 @@ def fetch_dividends(tickers: list[str]) -> dict[str, pd.Series]:
     return result
 
 
-# ── DY Limpo em data histórica ────────────────────────────────────────────────
+# ── DY helpers ───────────────────────────────────────────────────────────────
+
+def _dy_monthly_at(
+    ticker: str,
+    rebal_dt: pd.Timestamp,
+    next_dt: pd.Timestamp,
+    dividends: dict,
+    price: float | None,
+) -> float | None:
+    """DY mensal: dividendos pagos no período / preço."""
+    divs = dividends.get(ticker, pd.Series(dtype=float))
+    if divs.empty or price is None or price <= 0:
+        return None
+    period_divs = divs[(divs.index > rebal_dt) & (divs.index <= next_dt)].sum()
+    return round(period_divs / price * 100, 2) if period_divs > 0 else None
+
 
 def _dy_limpo_at(ticker: str, cutoff: date, dividends: dict, price: float | None) -> float | None:
     """Trailing 12M DY Limpo (IQR) na data cutoff."""
@@ -282,7 +297,7 @@ def run_backtest(
         if monthly_return is not None:
             portfolio_value *= (1 + monthly_return / 100)
 
-        # IFIX benchmark
+        # IFIX benchmark — total return (preço + dividendos XFIX11)
         ifix_ret = None
         if "IFIX" in prices_df.columns:
             ib0_s = prices_df.loc[prices_df.index <= rebal_dt, "IFIX"]
@@ -290,7 +305,16 @@ def run_backtest(
             ib0   = _safe_float(ib0_s.iloc[-1]) if not ib0_s.empty else None
             ib1   = _safe_float(ib1_s.iloc[-1]) if not ib1_s.empty else None
             if ib0 and ib1 and ib0 > 0:
-                ifix_ret = (ib1 - ib0) / ib0 * 100
+                ifix_price_ret = (ib1 - ib0) / ib0
+                # Adiciona dividendos XFIX11 (total return)
+                if ifix_base:
+                    ifix_divs = dividends.get(ifix_base, pd.Series(dtype=float))
+                    if not ifix_divs.empty:
+                        ifix_period_divs = ifix_divs[
+                            (ifix_divs.index > rebal_dt) & (ifix_divs.index <= next_dt)
+                        ].sum()
+                        ifix_price_ret += ifix_period_divs / ib0
+                ifix_ret = ifix_price_ret * 100
 
         precos_saida = {}
         for t in exits:
@@ -298,13 +322,17 @@ def run_backtest(
             if p:
                 precos_saida[t] = round(p, 2)
 
-        # DY médio da carteira neste mês
-        dy_vals = [r["dy_limpo"] for r in top_detail if r.get("dy_limpo")]
-        dy_medio = round(np.mean(dy_vals), 2) if dy_vals else None
+        # DY mensal médio da carteira (dividendos pagos no período)
+        dy_vals_mensal = []
+        for r in top_detail:
+            dy_m = _dy_monthly_at(r["TICKER"], rebal_dt, next_dt, dividends, r.get("preco"))
+            if dy_m is not None:
+                dy_vals_mensal.append(dy_m)
+        dy_medio = round(np.mean(dy_vals_mensal), 2) if dy_vals_mensal else None
 
-        # DY do benchmark IFIX (XFIX11)
+        # DY mensal IFIX (XFIX11)
         ifix_price_now = _safe_float(cur_row.get("IFIX")) if "IFIX" in cur_row.index else None
-        ifix_dy = _dy_limpo_at(ifix_base, cutoff, dividends, ifix_price_now) if ifix_base else None
+        ifix_dy = _dy_monthly_at(ifix_base, rebal_dt, next_dt, dividends, ifix_price_now) if ifix_base else None
 
         monthly_results.append({
             "data":                  str(cutoff),

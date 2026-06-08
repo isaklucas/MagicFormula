@@ -371,7 +371,7 @@ document.querySelectorAll('nav a').forEach(a => {{
           <canvas id="chartMonthly" style="max-height:260px"></canvas>
         </div>
       </div>
-      {'<div class="col-12"><div class="chart-card"><h3>DY Médio Trailing 12M — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>' if has_dy_chart else ''}
+      {'<div class="col-12"><div class="chart-card"><h3>DY Mensal — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>' if has_dy_chart else ''}
       <div class="col-12 col-lg-6">
         <div class="section-title mt-2">KPIs</div>
         <div class="row g-2">
@@ -556,7 +556,7 @@ if (document.getElementById('chartDY')) {{
       labels,
       datasets: [
         {{
-          label: 'DY Médio Estratégia',
+          label: 'DY Mensal Estratégia',
           data: dyMedioVals,
           borderColor: '#38bdf8',
           backgroundColor: 'rgba(56,189,248,.08)',
@@ -564,7 +564,7 @@ if (document.getElementById('chartDY')) {{
           spanGaps: true,
         }},
         {{
-          label: 'DY IFIX (XFIX11)',
+          label: 'DY Mensal IFIX (XFIX11)',
           data: ifixDyVals,
           borderColor: '#6e7681',
           borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,

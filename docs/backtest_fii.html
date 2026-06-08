@@ -94,7 +94,7 @@ document.querySelectorAll('nav a').forEach(a => {
   <div class="container-fluid px-3 px-md-4">
     <h1>Backtest <em>FII</em> — DY Limpo vs IFIX</h1>
     <p class="mb-3" style="color:#bae6fd;font-size:.85rem">
-      TOP 10 por DY Limpo · Período: 2023-01-31 ate 2026-06-08 · 39 meses · Gerado em 08/06/2026 15:00
+      TOP 10 por DY Limpo · Período: 2023-01-31 ate 2026-06-08 · 39 meses · Gerado em 08/06/2026 15:06
     </p>
 
     <div class="warn-box mb-3">
@@ -154,7 +154,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <canvas id="chartMonthly" style="max-height:260px"></canvas>
         </div>
       </div>
-      <div class="col-12"><div class="chart-card"><h3>DY Médio Trailing 12M — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>
+      <div class="col-12"><div class="chart-card"><h3>DY Mensal — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>
       <div class="col-12 col-lg-6">
         <div class="section-title mt-2">KPIs</div>
         <div class="row g-2">
@@ -1012,7 +1012,7 @@ document.querySelectorAll('nav a').forEach(a => {
 
 </div>
 
-<footer>Backtest FII DY Limpo · 08/06/2026 15:00 · Não é recomendação de investimento · Survivorship bias presente</footer>
+<footer>Backtest FII DY Limpo · 08/06/2026 15:06 · Não é recomendação de investimento · Survivorship bias presente</footer>
 
 <script>
 const labels = ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
@@ -1086,7 +1086,7 @@ new Chart(document.getElementById('chartMonthly'), {
   }
 });
 
-const dyMedioVals = [14.49, 15.49, 16.93, 16.79, 16.02, 16.35, 16.0, 16.29, 15.93, 15.91, 16.13, 15.58, 15.09, 15.52, 15.03, 15.34, 15.36, 15.46, 15.03, 14.27, 14.96, 17.48, 17.66, 18.66, 20.13, 19.4, 17.72, 17.46, 17.34, 16.94, 17.42, 18.14, 19.08, 19.01, 19.3, 17.72, 16.85, 16.76, 17.42, 18.1];
+const dyMedioVals = [1.27, 1.18, 1.32, 1.26, 1.27, 1.22, 1.21, 1.22, 1.19, 1.13, 1.14, 1.13, 1.15, 1.22, 1.18, 1.22, 1.19, 1.32, 1.28, 1.2, 1.24, 1.24, 2.08, 1.55, 1.57, 1.54, 1.34, 1.34, 1.22, 1.51, 1.56, 1.44, 1.5, 1.53, 1.5, 1.43, 1.16, 1.16, 1.16, 1.19];
 const ifixDyVals  = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
 if (document.getElementById('chartDY')) {
   new Chart(document.getElementById('chartDY'), {
@@ -1095,7 +1095,7 @@ if (document.getElementById('chartDY')) {
       labels,
       datasets: [
         {
-          label: 'DY Médio Estratégia',
+          label: 'DY Mensal Estratégia',
           data: dyMedioVals,
           borderColor: '#38bdf8',
           backgroundColor: 'rgba(56,189,248,.08)',
@@ -1103,7 +1103,7 @@ if (document.getElementById('chartDY')) {
           spanGaps: true,
         },
         {
-          label: 'DY IFIX (XFIX11)',
+          label: 'DY Mensal IFIX (XFIX11)',
           data: ifixDyVals,
           borderColor: '#6e7681',
           borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,
