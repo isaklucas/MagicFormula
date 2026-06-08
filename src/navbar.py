@@ -1,16 +1,18 @@
 """
 Navbar compartilhado — Magic Formula.
 Importe get_navbar(active) em todos os report scripts.
-active: "br" | "us" | "smallcap" | "backtest_br" | "backtest_us" | "backtest_sc"
+active: "br" | "us" | "smallcap" | "backtest_br" | "backtest_us" | "backtest_sc" | "fii" | "backtest_fii"
 """
 
 _PAGES = [
-    ("br",          "index.html",       "&#127463;&#127479; BR"),
-    ("us",          "us.html",          "&#127482;&#127480; US"),
-    ("smallcap",    "smallcap.html",    "&#128202; Small Cap"),
-    ("backtest_br", "backtest.html",    "&#128200; Backtest BR"),
-    ("backtest_us", "backtest_us.html", "&#128200; Backtest US"),
-    ("backtest_sc", "backtest_sc.html", "&#128200; Backtest SC"),
+    ("br",           "index.html",          "&#127463;&#127479; BR"),
+    ("us",           "us.html",             "&#127482;&#127480; US"),
+    ("smallcap",     "smallcap.html",       "&#128202; Small Cap"),
+    ("fii",          "fii.html",            "&#127968; FII/FIAgro"),
+    ("backtest_br",  "backtest.html",       "&#128200; Backtest BR"),
+    ("backtest_us",  "backtest_us.html",    "&#128200; Backtest US"),
+    ("backtest_sc",  "backtest_sc.html",    "&#128200; Backtest SC"),
+    ("backtest_fii", "backtest_fii.html",   "&#127968; Backtest FII"),
 ]
 
 _ACTIVE_STYLE  = "font-size:.85rem;color:#e6edf3;font-weight:700;text-decoration:underline;text-underline-offset:3px"
