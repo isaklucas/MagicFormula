@@ -119,6 +119,9 @@ def generate_backtest_fii_html(data: dict, output_path: str):
     labels       = [r["data"][:7] for r in active_monthly]
     monthly_rets = [r["retorno_mes_pct"] if r["retorno_mes_pct"] is not None else 0 for r in active_monthly]
     bar_colors   = ["rgba(56,189,248,.85)" if v >= 0 else "rgba(239,68,68,.85)" for v in monthly_rets]
+    dy_medio_vals = [r.get("dy_medio_pct") for r in active_monthly]
+    ifix_dy_vals  = [r.get("ifix_dy_pct")  for r in active_monthly]
+    has_dy_chart  = any(v is not None for v in dy_medio_vals)
 
     cdi_monthly_rates = _fetch_cdi_monthly(labels[0], labels[-1]) if labels else {}
     cdi_values        = _build_cdi_series(cdi_monthly_rates, labels)
@@ -368,6 +371,7 @@ document.querySelectorAll('nav a').forEach(a => {{
           <canvas id="chartMonthly" style="max-height:260px"></canvas>
         </div>
       </div>
+      {'<div class="col-12"><div class="chart-card"><h3>DY Médio Trailing 12M — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>' if has_dy_chart else ''}
       <div class="col-12 col-lg-6">
         <div class="section-title mt-2">KPIs</div>
         <div class="row g-2">
@@ -542,6 +546,46 @@ new Chart(document.getElementById('chartMonthly'), {{
     }}
   }}
 }});
+
+const dyMedioVals = {json.dumps(dy_medio_vals)};
+const ifixDyVals  = {json.dumps(ifix_dy_vals)};
+if (document.getElementById('chartDY')) {{
+  new Chart(document.getElementById('chartDY'), {{
+    type: 'line',
+    data: {{
+      labels,
+      datasets: [
+        {{
+          label: 'DY Médio Estratégia',
+          data: dyMedioVals,
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56,189,248,.08)',
+          borderWidth: 2, pointRadius: 2, fill: true, tension: 0.3,
+          spanGaps: true,
+        }},
+        {{
+          label: 'DY IFIX (XFIX11)',
+          data: ifixDyVals,
+          borderColor: '#6e7681',
+          borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,
+          spanGaps: true,
+        }},
+      ]
+    }},
+    options: {{
+      responsive: true,
+      interaction: {{ mode: 'index', intersect: false }},
+      plugins: {{
+        legend: {{ labels: {{ color: '#8b949e', font: {{ size: 11 }} }} }},
+        tooltip: {{ callbacks: {{ label: ctx => ` ${{ctx.dataset.label}}: ${{ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A'}}` }} }},
+      }},
+      scales: {{
+        x: {{ ticks: {{ color: '#6e7681', maxTicksLimit: 18, font: {{ size: 10 }} }}, grid: {{ color: '#21262d' }} }},
+        y: {{ ticks: {{ color: '#8b949e', callback: v => v.toFixed(0) + '%' }}, grid: {{ color: '#30363d' }} }},
+      }}
+    }}
+  }});
+}}
 </script>
 </body>
 </html>"""

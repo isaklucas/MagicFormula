@@ -94,7 +94,7 @@ document.querySelectorAll('nav a').forEach(a => {
   <div class="container-fluid px-3 px-md-4">
     <h1>Backtest <em>FII</em> — DY Limpo vs IFIX</h1>
     <p class="mb-3" style="color:#bae6fd;font-size:.85rem">
-      TOP 10 por DY Limpo · Período: 2022-01-31 ate 2026-06-08 · 51 meses · Gerado em 08/06/2026 14:40
+      TOP 10 por DY Limpo · Período: 2023-01-31 ate 2026-06-08 · 39 meses · Gerado em 08/06/2026 14:55
     </p>
 
     <div class="warn-box mb-3">
@@ -105,31 +105,31 @@ document.querySelectorAll('nav a').forEach(a => {
 
     <div class="d-flex flex-wrap gap-2">
       <div class="kpi-pill">
-        <div class="val" style="color:#38bdf8">+5.5%</div>
+        <div class="val" style="color:#ef4444">-1.6%</div>
         <div class="lbl">FII DY Limpo</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">+39.5%</div>
+        <div class="val">+37.9%</div>
         <div class="lbl">IFIX</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">+68.3%</div>
+        <div class="val">+49.8%</div>
         <div class="lbl">CDI</div>
       </div>
       <div class="kpi-pill">
-        <div class="val" style="color:#ef4444">-34.0%</div>
+        <div class="val" style="color:#ef4444">-39.5%</div>
         <div class="lbl">Alpha vs IFIX</div>
       </div>
       <div class="kpi-pill">
-        <div class="val" style="color:#ef4444">-62.8%</div>
+        <div class="val" style="color:#ef4444">-51.4%</div>
         <div class="lbl">Alpha vs CDI</div>
       </div>
       <div class="kpi-pill">
-        <div class="val" style="color:#ef4444">-20.0%</div>
+        <div class="val" style="color:#ef4444">-13.0%</div>
         <div class="lbl">Max Drawdown</div>
       </div>
       <div class="kpi-pill">
-        <div class="val">27W/24L</div>
+        <div class="val">21W/18L</div>
         <div class="lbl">Positivo/Negativo</div>
       </div>
     </div>
@@ -154,42 +154,43 @@ document.querySelectorAll('nav a').forEach(a => {
           <canvas id="chartMonthly" style="max-height:260px"></canvas>
         </div>
       </div>
+      <div class="col-12"><div class="chart-card"><h3>DY Médio Trailing 12M — Estratégia vs IFIX (XFIX11)</h3><canvas id="chartDY" style="max-height:220px"></canvas></div></div>
       <div class="col-12 col-lg-6">
         <div class="section-title mt-2">KPIs</div>
         <div class="row g-2">
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval" style="color:#38bdf8">+5.5%</div>
+              <div class="kval" style="color:#ef4444">-1.6%</div>
               <div class="klbl">Retorno Total</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval">+0.17%</div>
+              <div class="kval">+0.04%</div>
               <div class="klbl">Média Mensal</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval">3.68%</div>
+              <div class="kval">4.07%</div>
               <div class="klbl">Volatilidade/Mês</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval" style="color:#ef4444">-20.0%</div>
+              <div class="kval" style="color:#ef4444">-13.0%</div>
               <div class="klbl">Max Drawdown</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval" style="color:#ef4444">-34.0%</div>
+              <div class="kval" style="color:#ef4444">-39.5%</div>
               <div class="klbl">Alpha IFIX</div>
             </div>
           </div>
           <div class="col-6 col-sm-4">
             <div class="kpi-box">
-              <div class="kval">0.05</div>
+              <div class="kval">0.01</div>
               <div class="klbl">Sharpe Simples</div>
             </div>
           </div>
@@ -216,96 +217,16 @@ document.querySelectorAll('nav a').forEach(a => {
         <tbody>
         <tr>
           <td class="text-center fw-bold" style="color:#38bdf8">1</td>
-          <td class="fw-semibold">SJAU11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
-          <td class="text-center">R$ 288.20</td>
-          <td class="text-center">R$ 5.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-98.3%</td>
-          <td class="text-center" style="color:#38bdf8">4026.1%</td>
-          <td class="text-center" style="color:#38bdf8">0.28</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">2</td>
-          <td class="fw-semibold">HDEL11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
-          <td class="text-center">R$ 7.60</td>
-          <td class="text-center">R$ 7.60</td>
-          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
-          <td class="text-center" style="color:#38bdf8">385.9%</td>
-          <td class="text-center" style="color:#ef4444">0.99</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">3</td>
-          <td class="fw-semibold">BRIM11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center">R$ 534.85</td>
-          <td class="text-center">R$ 220.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-58.9%</td>
-          <td class="text-center" style="color:#38bdf8">175.8%</td>
-          <td class="text-center" style="color:#ef4444">60.15</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">4</td>
-          <td class="fw-semibold">BBFI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
-          <td class="text-center">R$ 629.00</td>
-          <td class="text-center">R$ 629.00</td>
-          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
-          <td class="text-center" style="color:#38bdf8">107.9%</td>
-          <td class="text-center" style="color:#ef4444">18.55</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">5</td>
-          <td class="fw-semibold">CFII11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
-          <td class="text-center">R$ 650.00</td>
-          <td class="text-center">R$ 768.97</td>
-          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+18.3%</td>
-          <td class="text-center" style="color:#38bdf8">101.3%</td>
-          <td class="text-center" style="color:#ef4444">1.23</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">6</td>
-          <td class="fw-semibold">KOPA11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
-          <td class="text-center">R$ 642.12</td>
-          <td class="text-center">R$ 514.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-20.0%</td>
-          <td class="text-center" style="color:#38bdf8">90.8%</td>
-          <td class="text-center" style="color:#38bdf8">0.40</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">7</td>
-          <td class="fw-semibold">PNPR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
-          <td class="text-center">R$ 48.00</td>
-          <td class="text-center">R$ 48.00</td>
-          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
-          <td class="text-center" style="color:#38bdf8">89.4%</td>
-          <td class="text-center" style="color:#ef4444">1.24</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">8</td>
-          <td class="fw-semibold">RBRI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
-          <td class="text-center">R$ 650.00</td>
-          <td class="text-center">R$ 600.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-7.7%</td>
-          <td class="text-center" style="color:#38bdf8">86.1%</td>
-          <td class="text-center" style="color:#ef4444">1.92</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">9</td>
           <td class="fw-semibold">BRIP11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
-          <td class="text-center">R$ 602.00</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
+          <td class="text-center">R$ 910.00</td>
           <td class="text-center">R$ 428.83</td>
-          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-28.8%</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-52.9%</td>
           <td class="text-center" style="color:#38bdf8">49.8%</td>
           <td class="text-center" style="color:#d29922">0.77</td>
         </tr>
         <tr>
-          <td class="text-center fw-bold" style="color:#38bdf8">10</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">2</td>
           <td class="fw-semibold">LPLP11</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
           <td class="text-center">R$ 226.00</td>
@@ -313,6 +234,86 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+1.8%</td>
           <td class="text-center" style="color:#38bdf8">45.0%</td>
           <td class="text-center" style="color:#38bdf8">0.65</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">3</td>
+          <td class="fw-semibold">RSPD11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 799.98</td>
+          <td class="text-center">R$ 799.98</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">35.2%</td>
+          <td class="text-center" style="color:#ef4444">0.91</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">4</td>
+          <td class="fw-semibold">ROOF11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">R$ 350.00</td>
+          <td class="text-center">R$ 350.00</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">28.6%</td>
+          <td class="text-center" style="color:#ef4444">1.15</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">5</td>
+          <td class="fw-semibold">PNCR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center">R$ 82.95</td>
+          <td class="text-center">R$ 46.76</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-43.6%</td>
+          <td class="text-center" style="color:#38bdf8">25.8%</td>
+          <td class="text-center" style="color:#ef4444">1.01</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">6</td>
+          <td class="fw-semibold">PEMA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 30.90</td>
+          <td class="text-center">R$ 30.90</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">23.1%</td>
+          <td class="text-center" style="color:#38bdf8">0.49</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">7</td>
+          <td class="fw-semibold">KEVE11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center">R$ 980.00</td>
+          <td class="text-center">R$ 633.99</td>
+          <td class="text-center fw-bold" style="color:#ef4444;font-size:1rem">-35.3%</td>
+          <td class="text-center" style="color:#38bdf8">22.4%</td>
+          <td class="text-center" style="color:#ef4444">1.25</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">8</td>
+          <td class="fw-semibold">VGRI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 6.76</td>
+          <td class="text-center">R$ 6.76</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">20.6%</td>
+          <td class="text-center" style="color:#38bdf8">0.67</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">9</td>
+          <td class="fw-semibold">MFII11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 65.44</td>
+          <td class="text-center">R$ 65.44</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">19.7%</td>
+          <td class="text-center" style="color:#38bdf8">0.50</td>
+        </tr>
+        <tr>
+          <td class="text-center fw-bold" style="color:#38bdf8">10</td>
+          <td class="fw-semibold">DEVA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 23.01</td>
+          <td class="text-center">R$ 23.01</td>
+          <td class="text-center fw-bold" style="color:#38bdf8;font-size:1rem">+0.0%</td>
+          <td class="text-center" style="color:#38bdf8">19.3%</td>
+          <td class="text-center" style="color:#38bdf8">0.19</td>
         </tr></tbody>
       </table>
     </div>
@@ -334,212 +335,252 @@ document.querySelectorAll('nav a').forEach(a => {
         </thead>
         <tbody>
         <tr>
-          <td class="fw-semibold">TSNC11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
-          <td class="text-center">R$ 0.01</td>
-          <td class="text-center">R$ 82.00</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +819900.0%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">FAMB11</td>
+          <td class="fw-semibold">GZIT11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-03</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
-          <td class="text-center">R$ 740.00</td>
-          <td class="text-center">R$ 1029.99</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +39.2%</td>
+          <td class="text-center">R$ 38.00</td>
+          <td class="text-center">R$ 48.50</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +27.6%</td>
         </tr>
         <tr>
           <td class="fw-semibold">BBFI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-04</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
-          <td class="text-center">R$ 340.98</td>
+          <td class="text-center">R$ 308.00</td>
           <td class="text-center">R$ 378.00</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +10.9%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +22.7%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">RNDP11</td>
+          <td class="fw-semibold">VCRA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-04</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-07</td>
+          <td class="text-center">R$ 64.71</td>
+          <td class="text-center">R$ 78.11</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +20.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">CFII11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 650.00</td>
+          <td class="text-center">R$ 768.97</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +18.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PRSN11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-07</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
+          <td class="text-center">R$ 10.10</td>
+          <td class="text-center">R$ 11.90</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +17.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">URPR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">R$ 35.42</td>
+          <td class="text-center">R$ 38.13</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +7.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">GCRA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
+          <td class="text-center">R$ 44.28</td>
+          <td class="text-center">R$ 47.05</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +6.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">AAZQ11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-10</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
+          <td class="text-center">R$ 6.67</td>
+          <td class="text-center">R$ 6.79</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +1.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">BPML11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-09</td>
+          <td class="text-center">R$ 78.27</td>
+          <td class="text-center">R$ 79.62</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +1.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">IAGR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-05</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-08</td>
+          <td class="text-center">R$ 10.89</td>
+          <td class="text-center">R$ 10.98</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +0.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">SNAG11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-07</td>
+          <td class="text-center">R$ 10.06</td>
+          <td class="text-center">R$ 10.13</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▲ +0.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">IBFF11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-09</td>
+          <td class="text-center">R$ 66.40</td>
+          <td class="text-center">R$ 66.40</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">LLAO11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-08</td>
+          <td class="text-center">R$ 77.37</td>
+          <td class="text-center">R$ 77.37</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">LPLP11</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center">R$ 39.51</td>
-          <td class="text-center">R$ 43.61</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +10.4%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">XPCA11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-02</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-10</td>
-          <td class="text-center">R$ 9.70</td>
-          <td class="text-center">R$ 10.26</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +5.8%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">PNCR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-05</td>
-          <td class="text-center">R$ 68.03</td>
-          <td class="text-center">R$ 68.65</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +0.9%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">JGPX11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-03</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-09</td>
-          <td class="text-center">R$ 98.00</td>
-          <td class="text-center">R$ 98.40</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▲ +0.4%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">TSNC11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
-          <td class="text-center">R$ 0.01</td>
-          <td class="text-center">R$ 0.01</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">CFHI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-03</td>
-          <td class="text-center">R$ 626.20</td>
-          <td class="text-center">R$ 626.20</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">HDEL11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-07</td>
-          <td class="text-center">R$ 100.00</td>
-          <td class="text-center">R$ 100.01</td>
+          <td class="text-center">R$ 500.00</td>
+          <td class="text-center">R$ 500.00</td>
           <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
         </tr>
         <tr>
           <td class="fw-semibold">RNDP11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-05</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-03</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-04</td>
+          <td class="text-center">R$ 40.50</td>
+          <td class="text-center">R$ 40.50</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RNDP11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
           <td class="text-center">R$ 40.50</td>
           <td class="text-center">R$ 40.50</td>
           <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">HYPI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
+          <td class="fw-semibold">RNDP11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-09</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
-          <td class="text-center">R$ 181.50</td>
-          <td class="text-center">R$ 181.50</td>
+          <td class="text-center">R$ 40.50</td>
+          <td class="text-center">R$ 40.50</td>
           <td class="text-center fw-bold" style="color:#38bdf8">▼ +0.0%</td>
         </tr>
         <tr>
           <td class="fw-semibold">SNAG11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-07</td>
-          <td class="text-center">R$ 10.24</td>
-          <td class="text-center">R$ 10.13</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -1.1%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">BBGO11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-04</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-06</td>
-          <td class="text-center">R$ 88.50</td>
-          <td class="text-center">R$ 86.88</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -1.8%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">RZAG11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-01</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
-          <td class="text-center">R$ 9.88</td>
-          <td class="text-center">R$ 9.62</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -2.6%</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-03</td>
+          <td class="text-center">R$ 10.09</td>
+          <td class="text-center">R$ 10.07</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -0.2%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">MGHT11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
-          <td class="text-center">R$ 14.57</td>
-          <td class="text-center">R$ 14.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -3.9%</td>
+          <td class="fw-semibold">XPCA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-03</td>
+          <td class="text-center">R$ 9.91</td>
+          <td class="text-center">R$ 9.85</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -0.6%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">KNCA11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-04</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-07</td>
-          <td class="text-center">R$ 112.87</td>
-          <td class="text-center">R$ 106.93</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -5.3%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">KEVE11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="fw-semibold">PNPR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
-          <td class="text-center">R$ 960.00</td>
-          <td class="text-center">R$ 897.98</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -6.5%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">PATC11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
-          <td class="text-center">R$ 37.68</td>
-          <td class="text-center">R$ 35.20</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -6.6%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">CXTL11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
-          <td class="text-center">R$ 250.93</td>
-          <td class="text-center">R$ 227.72</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -9.2%</td>
+          <td class="text-center">R$ 50.00</td>
+          <td class="text-center">R$ 48.00</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -4.0%</td>
         </tr>
         <tr>
           <td class="fw-semibold">VGIA11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-03</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-03</td>
-          <td class="text-center">R$ 10.98</td>
-          <td class="text-center">R$ 9.82</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -10.6%</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-05</td>
+          <td class="text-center">R$ 9.88</td>
+          <td class="text-center">R$ 9.45</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -4.4%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">MFII11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-11</td>
-          <td class="text-center">R$ 109.32</td>
-          <td class="text-center">R$ 96.43</td>
+          <td class="fw-semibold">RBRI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 649.00</td>
+          <td class="text-center">R$ 600.00</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -7.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RCFF11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-07</td>
+          <td class="text-center">R$ 106.00</td>
+          <td class="text-center">R$ 97.89</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -7.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">BBFI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-10</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center">R$ 370.35</td>
+          <td class="text-center">R$ 340.98</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -7.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">IDGR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-04</td>
+          <td class="text-center">R$ 81.00</td>
+          <td class="text-center">R$ 73.50</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -9.3%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">BRIM11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-09</td>
+          <td class="text-center">R$ 534.85</td>
+          <td class="text-center">R$ 480.83</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -10.1%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">LLAO11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-08</td>
+          <td class="text-center">R$ 64.58</td>
+          <td class="text-center">R$ 57.20</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -11.4%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PATC11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center">R$ 39.90</td>
+          <td class="text-center">R$ 35.20</td>
           <td class="text-center fw-bold" style="color:#ef4444">▼ -11.8%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">MFCR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
-          <td class="text-center">R$ 28.99</td>
-          <td class="text-center">R$ 24.60</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -15.1%</td>
+          <td class="fw-semibold">JGPX11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center">R$ 68.77</td>
+          <td class="text-center">R$ 56.90</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -17.3%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">QAMI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
-          <td class="text-center">R$ 99.00</td>
-          <td class="text-center">R$ 81.11</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -18.1%</td>
+          <td class="fw-semibold">KOPA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 642.12</td>
+          <td class="text-center">R$ 514.00</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -20.0%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">CCRF11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
-          <td class="text-center">R$ 98.67</td>
-          <td class="text-center">R$ 80.12</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -18.8%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">VVCR11</td>
+          <td class="fw-semibold">MBRF11</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2023-03</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-04</td>
-          <td class="text-center">R$ 12.40</td>
-          <td class="text-center">R$ 9.88</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -20.3%</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center">R$ 445.00</td>
+          <td class="text-center">R$ 352.39</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -20.8%</td>
         </tr>
         <tr>
           <td class="fw-semibold">PRSN11</td>
@@ -550,12 +591,60 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#ef4444">▼ -20.9%</td>
         </tr>
         <tr>
+          <td class="fw-semibold">BBFI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center">R$ 369.80</td>
+          <td class="text-center">R$ 292.01</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -21.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RBOP11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-04</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-02</td>
+          <td class="text-center">R$ 450.00</td>
+          <td class="text-center">R$ 352.39</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -21.7%</td>
+        </tr>
+        <tr>
           <td class="fw-semibold">CPTR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-09</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
-          <td class="text-center">R$ 10.65</td>
-          <td class="text-center">R$ 7.30</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -31.5%</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-10</td>
+          <td class="text-center">R$ 8.32</td>
+          <td class="text-center">R$ 6.44</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -22.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">CXTL11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-08</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
+          <td class="text-center">R$ 295.00</td>
+          <td class="text-center">R$ 227.72</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -22.8%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PNPR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-12</td>
+          <td class="text-center">R$ 75.50</td>
+          <td class="text-center">R$ 56.45</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -25.2%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RBTS11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-09</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
+          <td class="text-center">R$ 404.98</td>
+          <td class="text-center">R$ 302.02</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -25.4%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">VVCR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-04</td>
+          <td class="text-center">R$ 13.99</td>
+          <td class="text-center">R$ 9.88</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -29.4%</td>
         </tr>
         <tr>
           <td class="fw-semibold">PRSN11</td>
@@ -566,90 +655,98 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#ef4444">▼ -31.7%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">KNRE11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
-          <td class="text-center">R$ 0.64</td>
-          <td class="text-center">R$ 0.42</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -34.4%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">PNPR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
-          <td class="text-center">R$ 75.50</td>
-          <td class="text-center">R$ 48.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -36.4%</td>
-        </tr>
-        <tr>
           <td class="fw-semibold">ROOF11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-07</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-10</td>
-          <td class="text-center">R$ 875.00</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-11</td>
+          <td class="text-center">R$ 770.00</td>
           <td class="text-center">R$ 520.00</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -40.6%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -32.5%</td>
         </tr>
         <tr>
-          <td class="fw-semibold">RBTS11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-04</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
-          <td class="text-center">R$ 833.35</td>
-          <td class="text-center">R$ 302.02</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -63.8%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">IAGR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2023-10</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
-          <td class="text-center">R$ 10.28</td>
-          <td class="text-center">R$ 3.39</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -67.0%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">RNDP11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-06</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
-          <td class="text-center">R$ 301.64</td>
-          <td class="text-center">R$ 43.30</td>
-          <td class="text-center fw-bold" style="color:#ef4444">▼ -85.6%</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">IDFI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-01</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
-          <td class="text-center">R$ 101.94</td>
-          <td class="text-center">R$ 0.00</td>
-          <td class="text-center fw-bold" style="color:#8b949e">▼ —</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">IDGR11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2022-10</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center">R$ 82.00</td>
-          <td class="text-center">R$ 0.00</td>
-          <td class="text-center fw-bold" style="color:#8b949e">▼ —</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">LSPA11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2024-09</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
-          <td class="text-center">R$ 47.50</td>
-          <td class="text-center">R$ 0.00</td>
-          <td class="text-center fw-bold" style="color:#8b949e">▼ —</td>
-        </tr>
-        <tr>
-          <td class="fw-semibold">LFTT11</td>
+          <td class="fw-semibold">MGHT11</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2024-07</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-11</td>
-          <td class="text-center">R$ 17.99</td>
-          <td class="text-center">R$ 0.00</td>
-          <td class="text-center fw-bold" style="color:#8b949e">▼ —</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
+          <td class="text-center">R$ 21.55</td>
+          <td class="text-center">R$ 14.00</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -35.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PLRI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-06</td>
+          <td class="text-center">R$ 24.97</td>
+          <td class="text-center">R$ 16.08</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -35.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">HCTR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-03</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
+          <td class="text-center">R$ 58.99</td>
+          <td class="text-center">R$ 36.60</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -38.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RBRI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-07</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center">R$ 845.00</td>
+          <td class="text-center">R$ 491.18</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -41.9%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">PLRI11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-02</td>
+          <td class="text-center">R$ 11.74</td>
+          <td class="text-center">R$ 6.23</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -46.9%</td>
         </tr>
         <tr>
           <td class="fw-semibold">CFHI11</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2025-07</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-06</td>
+          <td class="text-center">R$ 626.20</td>
+          <td class="text-center">R$ 331.70</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -47.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">LSPA11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-08</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-11</td>
+          <td class="text-center">R$ 62.68</td>
+          <td class="text-center">R$ 28.99</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -53.7%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RBTS11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-01</td>
+          <td class="text-center">R$ 1121.00</td>
+          <td class="text-center">R$ 408.51</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -63.6%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">RNDP11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2023-09</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-10</td>
+          <td class="text-center">R$ 153.50</td>
+          <td class="text-center">R$ 42.95</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -72.0%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">HDEL11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2026-04</td>
-          <td class="text-center">R$ 320.00</td>
+          <td class="text-center">R$ 100.00</td>
+          <td class="text-center">R$ 7.60</td>
+          <td class="text-center fw-bold" style="color:#ef4444">▼ -92.4%</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">MFCR11</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2024-01</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2025-02</td>
+          <td class="text-center">R$ 28.99</td>
           <td class="text-center">R$ 0.00</td>
           <td class="text-center fw-bold" style="color:#8b949e">▼ —</td>
         </tr></tbody>
@@ -670,524 +767,404 @@ document.querySelectorAll('nav a').forEach(a => {
         </thead>
         <tbody>
         <tr>
-          <td class="text-center fw-semibold">2022-01</td>
+          <td class="text-center fw-semibold">2023-01</td>
           <td class="text-center fw-bold" style="color:#8b949e">—</td>
-          <td class="text-center" style="color:#ef4444">-2.1%</td>
+          <td class="text-center" style="color:#38bdf8">+0.3%</td>
           <td class="text-center" style="color:#8b949e">—</td>
           <td class="text-center text-secondary">100.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">CCRF11, IDFI11, MFII11, QAMI11, RZAG11</td>
+          <td style="color:#7dd3fc;font-size:.78rem">IBFF11, IDGR11, PLRI11, PRSN11, RBTS11, ROOF11, SNAG11, VGIA11, VVCR11, XPCA11</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, MFII11, QAMI11, RZAG11</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-02</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.6%</td>
-          <td class="text-center" style="color:#38bdf8">+1.6%</td>
-          <td class="text-center" style="color:#38bdf8">+0.1%</td>
-          <td class="text-center text-secondary">101.6</td>
-          <td style="color:#7dd3fc;font-size:.78rem">XPCA11</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, MFII11, QAMI11, RZAG11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-03</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+2.1%</td>
-          <td class="text-center" style="color:#38bdf8">+0.1%</td>
-          <td class="text-center" style="color:#38bdf8">+2.0%</td>
-          <td class="text-center text-secondary">103.7</td>
-          <td style="color:#7dd3fc;font-size:.78rem">JGPX11, VGIA11</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, JGPX11, MFII11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-04</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.3%</td>
-          <td class="text-center" style="color:#38bdf8">+1.6%</td>
-          <td class="text-center" style="color:#ef4444">-1.9%</td>
-          <td class="text-center text-secondary">103.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">BBGO11, KNCA11</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBGO11, CCRF11, IDFI11, JGPX11, KNCA11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-05</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.2%</td>
-          <td class="text-center" style="color:#38bdf8">+0.6%</td>
-          <td class="text-center" style="color:#ef4444">-0.8%</td>
-          <td class="text-center text-secondary">103.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBGO11, CCRF11, IDFI11, JGPX11, KNCA11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-06</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.8%</td>
-          <td class="text-center" style="color:#ef4444">-0.4%</td>
-          <td class="text-center" style="color:#38bdf8">+2.1%</td>
-          <td class="text-center text-secondary">105.1</td>
-          <td style="color:#7dd3fc;font-size:.78rem">RNDP11</td>
-          <td style="color:#fca5a5;font-size:.78rem">BBGO11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, JGPX11, KNCA11, MFII11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-07</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+3.1%</td>
-          <td class="text-center" style="color:#38bdf8">+5.3%</td>
-          <td class="text-center" style="color:#ef4444">-2.3%</td>
-          <td class="text-center text-secondary">108.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">ROOF11</td>
-          <td style="color:#fca5a5;font-size:.78rem">KNCA11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, JGPX11, MFII11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-08</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-1.4%</td>
-          <td class="text-center" style="color:#ef4444">-0.1%</td>
-          <td class="text-center" style="color:#ef4444">-1.3%</td>
-          <td class="text-center text-secondary">106.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, IDFI11, JGPX11, MFII11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-09</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.2%</td>
-          <td class="text-center" style="color:#38bdf8">+0.4%</td>
-          <td class="text-center" style="color:#38bdf8">+0.9%</td>
-          <td class="text-center text-secondary">108.1</td>
-          <td style="color:#7dd3fc;font-size:.78rem">CPTR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">JGPX11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, CPTR11, IDFI11, MFII11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-10</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.0%</td>
-          <td class="text-center" style="color:#ef4444">-4.0%</td>
-          <td class="text-center" style="color:#38bdf8">+5.0%</td>
-          <td class="text-center text-secondary">109.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">IDGR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">XPCA11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, CPTR11, IDFI11, IDGR11, MFII11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-11</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.8%</td>
-          <td class="text-center" style="color:#38bdf8">+0.1%</td>
-          <td class="text-center" style="color:#38bdf8">+1.7%</td>
-          <td class="text-center text-secondary">111.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">SNAG11</td>
-          <td style="color:#fca5a5;font-size:.78rem">MFII11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, CPTR11, IDFI11, IDGR11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2022-12</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+4.6%</td>
-          <td class="text-center" style="color:#ef4444">-1.7%</td>
-          <td class="text-center" style="color:#38bdf8">+6.3%</td>
-          <td class="text-center text-secondary">116.4</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CCRF11, CPTR11, IDFI11, IDGR11, QAMI11…</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-semibold">2023-01</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+4.9%</td>
-          <td class="text-center" style="color:#38bdf8">+0.3%</td>
-          <td class="text-center" style="color:#38bdf8">+4.6%</td>
-          <td class="text-center text-secondary">122.1</td>
-          <td style="color:#7dd3fc;font-size:.78rem">KNRE11, PRSN11, TSNC11</td>
-          <td style="color:#fca5a5;font-size:.78rem">CCRF11, QAMI11, RZAG11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">IBFF11, IDGR11, PLRI11, PRSN11, RBTS11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-02</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-1.4%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.1%</td>
           <td class="text-center" style="color:#ef4444">-2.7%</td>
-          <td class="text-center" style="color:#38bdf8">+1.4%</td>
-          <td class="text-center text-secondary">120.5</td>
+          <td class="text-center" style="color:#38bdf8">+1.6%</td>
+          <td class="text-center text-secondary">98.8</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">IBFF11, IDGR11, PLRI11, PRSN11, RBTS11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-03</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+3.1%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.5%</td>
           <td class="text-center" style="color:#38bdf8">+4.9%</td>
-          <td class="text-center" style="color:#ef4444">-1.7%</td>
-          <td class="text-center text-secondary">124.2</td>
-          <td style="color:#7dd3fc;font-size:.78rem">VVCR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">VGIA11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-center" style="color:#ef4444">-2.4%</td>
+          <td class="text-center text-secondary">101.3</td>
+          <td style="color:#7dd3fc;font-size:.78rem">HCTR11, MBRF11</td>
+          <td style="color:#fca5a5;font-size:.78rem">SNAG11, XPCA11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">HCTR11, IBFF11, IDGR11, MBRF11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-04</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.0%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+1.9%</td>
           <td class="text-center" style="color:#38bdf8">+6.2%</td>
-          <td class="text-center" style="color:#ef4444">-5.2%</td>
-          <td class="text-center text-secondary">125.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-center" style="color:#ef4444">-4.3%</td>
+          <td class="text-center text-secondary">103.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RBOP11</td>
+          <td style="color:#fca5a5;font-size:.78rem">IDGR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">HCTR11, IBFF11, MBRF11, PLRI11, PRSN11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-05</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+0.6%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.9%</td>
           <td class="text-center" style="color:#38bdf8">+3.7%</td>
-          <td class="text-center" style="color:#ef4444">-3.2%</td>
-          <td class="text-center text-secondary">126.1</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-center" style="color:#ef4444">-5.7%</td>
+          <td class="text-center text-secondary">101.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">IAGR11</td>
+          <td style="color:#fca5a5;font-size:.78rem">VGIA11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">HCTR11, IAGR11, IBFF11, MBRF11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-06</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.5%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-7.9%</td>
           <td class="text-center" style="color:#38bdf8">+1.3%</td>
-          <td class="text-center" style="color:#ef4444">-3.8%</td>
-          <td class="text-center text-secondary">123.0</td>
+          <td class="text-center" style="color:#ef4444">-9.2%</td>
+          <td class="text-center text-secondary">93.2</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">HCTR11, IAGR11, IBFF11, MBRF11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-07</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.1%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.0%</td>
           <td class="text-center" style="color:#38bdf8">+0.9%</td>
-          <td class="text-center" style="color:#38bdf8">+0.2%</td>
-          <td class="text-center text-secondary">124.4</td>
+          <td class="text-center" style="color:#38bdf8">+1.1%</td>
+          <td class="text-center text-secondary">95.0</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">HCTR11, IAGR11, IBFF11, MBRF11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-08</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+2.3%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-3.1%</td>
           <td class="text-center" style="color:#38bdf8">+0.0%</td>
-          <td class="text-center" style="color:#38bdf8">+2.3%</td>
-          <td class="text-center text-secondary">127.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-center" style="color:#ef4444">-3.1%</td>
+          <td class="text-center text-secondary">92.0</td>
+          <td style="color:#7dd3fc;font-size:.78rem">CXTL11</td>
+          <td style="color:#fca5a5;font-size:.78rem">IAGR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, HCTR11, IBFF11, MBRF11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-09</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.1%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+3.5%</td>
           <td class="text-center" style="color:#ef4444">-1.4%</td>
-          <td class="text-center" style="color:#ef4444">-0.7%</td>
-          <td class="text-center text-secondary">124.6</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IDFI11, IDGR11, KNRE11, PRSN11…</td>
+          <td class="text-center" style="color:#38bdf8">+5.0%</td>
+          <td class="text-center text-secondary">95.3</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RNDP11</td>
+          <td style="color:#fca5a5;font-size:.78rem">IBFF11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, HCTR11, MBRF11, PLRI11, PRSN11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-10</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.2%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-5.1%</td>
           <td class="text-center" style="color:#38bdf8">+0.3%</td>
-          <td class="text-center" style="color:#ef4444">-0.5%</td>
-          <td class="text-center text-secondary">124.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">IAGR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">ROOF11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, KNRE11…</td>
+          <td class="text-center" style="color:#ef4444">-5.3%</td>
+          <td class="text-center text-secondary">90.5</td>
+          <td style="color:#7dd3fc;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, HCTR11, MBRF11, PLRI11, PRSN11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-11</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-1.8%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+10.5%</td>
           <td class="text-center" style="color:#38bdf8">+4.2%</td>
-          <td class="text-center" style="color:#ef4444">-6.0%</td>
-          <td class="text-center text-secondary">122.1</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, KNRE11…</td>
+          <td class="text-center" style="color:#38bdf8">+6.3%</td>
+          <td class="text-center text-secondary">100.0</td>
+          <td style="color:#7dd3fc;font-size:.78rem">PATC11</td>
+          <td style="color:#fca5a5;font-size:.78rem">ROOF11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, HCTR11, MBRF11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2023-12</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+6.7%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+6.9%</td>
           <td class="text-center" style="color:#38bdf8">+0.5%</td>
-          <td class="text-center" style="color:#38bdf8">+6.2%</td>
-          <td class="text-center text-secondary">130.3</td>
+          <td class="text-center" style="color:#38bdf8">+6.4%</td>
+          <td class="text-center text-secondary">106.8</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, KNRE11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, HCTR11, MBRF11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-01</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+0.5%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.7%</td>
           <td class="text-center" style="color:#38bdf8">+0.8%</td>
-          <td class="text-center" style="color:#ef4444">-0.3%</td>
-          <td class="text-center text-secondary">131.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">CXTL11, MFCR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">KNRE11, PRSN11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, CXTL11, IAGR11, IDFI11, IDGR11…</td>
+          <td class="text-center" style="color:#ef4444">-1.6%</td>
+          <td class="text-center text-secondary">106.1</td>
+          <td style="color:#7dd3fc;font-size:.78rem">MFCR11, SNAG11</td>
+          <td style="color:#fca5a5;font-size:.78rem">HCTR11, PRSN11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, MBRF11, MFCR11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-02</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+0.7%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.2%</td>
           <td class="text-center" style="color:#38bdf8">+1.3%</td>
-          <td class="text-center" style="color:#ef4444">-0.6%</td>
-          <td class="text-center text-secondary">131.9</td>
-          <td style="color:#7dd3fc;font-size:.78rem">PATC11</td>
-          <td style="color:#fca5a5;font-size:.78rem">TSNC11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, CXTL11, IAGR11, IDFI11, IDGR11…</td>
+          <td class="text-center" style="color:#38bdf8">+0.9%</td>
+          <td class="text-center text-secondary">108.4</td>
+          <td style="color:#7dd3fc;font-size:.78rem">LLAO11, PNCR11</td>
+          <td style="color:#fca5a5;font-size:.78rem">MBRF11, RBOP11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, LLAO11, MFCR11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-03</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.6%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.1%</td>
           <td class="text-center" style="color:#ef4444">-0.6%</td>
-          <td class="text-center" style="color:#ef4444">-2.0%</td>
-          <td class="text-center text-secondary">128.4</td>
+          <td class="text-center" style="color:#ef4444">-0.5%</td>
+          <td class="text-center text-secondary">107.2</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, CXTL11, IAGR11, IDFI11, IDGR11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, LLAO11, MFCR11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-04</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-5.0%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.7%</td>
           <td class="text-center" style="color:#ef4444">-0.2%</td>
-          <td class="text-center" style="color:#ef4444">-4.8%</td>
-          <td class="text-center text-secondary">122.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">RBTS11</td>
+          <td class="text-center" style="color:#ef4444">-2.5%</td>
+          <td class="text-center text-secondary">104.3</td>
+          <td style="color:#7dd3fc;font-size:.78rem">VCRA11</td>
           <td style="color:#fca5a5;font-size:.78rem">VVCR11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, CXTL11, IAGR11, IDFI11, IDGR11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, LLAO11, MFCR11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-05</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.3%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.2%</td>
           <td class="text-center" style="color:#ef4444">-1.1%</td>
-          <td class="text-center" style="color:#38bdf8">+0.7%</td>
-          <td class="text-center text-secondary">121.6</td>
+          <td class="text-center" style="color:#38bdf8">+3.2%</td>
+          <td class="text-center text-secondary">106.6</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, CXTL11, IAGR11, IDFI11, IDGR11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CXTL11, LLAO11, MFCR11, PATC11, PLRI11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-06</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.6%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.1%</td>
           <td class="text-center" style="color:#38bdf8">+0.4%</td>
-          <td class="text-center" style="color:#ef4444">-3.0%</td>
-          <td class="text-center text-secondary">118.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">TSNC11</td>
-          <td style="color:#fca5a5;font-size:.78rem">CXTL11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, MFCR11…</td>
+          <td class="text-center" style="color:#ef4444">-0.3%</td>
+          <td class="text-center text-secondary">106.8</td>
+          <td style="color:#7dd3fc;font-size:.78rem">BRIP11, CPTR11</td>
+          <td style="color:#fca5a5;font-size:.78rem">CXTL11, PLRI11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CPTR11, LLAO11, MFCR11, PATC11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-07</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+2.0%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+4.8%</td>
           <td class="text-center" style="color:#38bdf8">+0.8%</td>
-          <td class="text-center" style="color:#38bdf8">+1.2%</td>
-          <td class="text-center text-secondary">120.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">LFTT11</td>
-          <td style="color:#fca5a5;font-size:.78rem">SNAG11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, LFTT11…</td>
+          <td class="text-center" style="color:#38bdf8">+4.1%</td>
+          <td class="text-center text-secondary">111.9</td>
+          <td style="color:#7dd3fc;font-size:.78rem">MGHT11, PRSN11</td>
+          <td style="color:#fca5a5;font-size:.78rem">SNAG11, VCRA11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CPTR11, LLAO11, MFCR11, MGHT11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-08</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.4%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-5.7%</td>
           <td class="text-center" style="color:#ef4444">-2.7%</td>
-          <td class="text-center" style="color:#38bdf8">+2.3%</td>
-          <td class="text-center text-secondary">120.3</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">CPTR11, IAGR11, IDFI11, IDGR11, LFTT11…</td>
+          <td class="text-center" style="color:#ef4444">-3.0%</td>
+          <td class="text-center text-secondary">105.6</td>
+          <td style="color:#7dd3fc;font-size:.78rem">LSPA11</td>
+          <td style="color:#fca5a5;font-size:.78rem">LLAO11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CPTR11, LSPA11, MFCR11, MGHT11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-09</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-9.8%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-7.8%</td>
           <td class="text-center" style="color:#ef4444">-2.7%</td>
-          <td class="text-center" style="color:#ef4444">-7.1%</td>
-          <td class="text-center text-secondary">108.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">LSPA11, PNCR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">CPTR11, IAGR11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">IDFI11, IDGR11, LFTT11, LSPA11, MFCR11…</td>
+          <td class="text-center" style="color:#ef4444">-5.0%</td>
+          <td class="text-center text-secondary">97.4</td>
+          <td style="color:#7dd3fc;font-size:.78rem">JGPX11</td>
+          <td style="color:#fca5a5;font-size:.78rem">PRSN11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CPTR11, JGPX11, LSPA11, MFCR11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-10</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+2.7%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.0%</td>
           <td class="text-center" style="color:#ef4444">-2.5%</td>
-          <td class="text-center" style="color:#38bdf8">+5.2%</td>
-          <td class="text-center text-secondary">111.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">IDFI11, IDGR11, LFTT11, LSPA11, MFCR11…</td>
+          <td class="text-center" style="color:#38bdf8">+4.5%</td>
+          <td class="text-center text-secondary">99.4</td>
+          <td style="color:#7dd3fc;font-size:.78rem">AAZQ11, BBFI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">CPTR11, RNDP11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">AAZQ11, BBFI11, BRIP11, JGPX11, LSPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-11</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+3.9%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+4.5%</td>
           <td class="text-center" style="color:#38bdf8">+0.1%</td>
-          <td class="text-center" style="color:#38bdf8">+3.8%</td>
-          <td class="text-center text-secondary">115.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">BBFI11, MGHT11, PNPR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">IDFI11, PATC11, RNDP11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, IDGR11, LFTT11, LSPA11, MFCR11…</td>
+          <td class="text-center" style="color:#38bdf8">+4.4%</td>
+          <td class="text-center text-secondary">103.8</td>
+          <td style="color:#7dd3fc;font-size:.78rem">GCRA11, KEVE11, PNPR11</td>
+          <td style="color:#fca5a5;font-size:.78rem">BBFI11, LSPA11, PATC11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">AAZQ11, BRIP11, GCRA11, JGPX11, KEVE11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2024-12</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-0.1%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-2.1%</td>
           <td class="text-center" style="color:#ef4444">-3.0%</td>
-          <td class="text-center" style="color:#38bdf8">+2.8%</td>
-          <td class="text-center text-secondary">115.7</td>
-          <td style="color:#7dd3fc;font-size:.78rem">KEVE11</td>
-          <td style="color:#fca5a5;font-size:.78rem">TSNC11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, IDGR11, KEVE11, LFTT11, LSPA11…</td>
+          <td class="text-center" style="color:#38bdf8">+0.9%</td>
+          <td class="text-center text-secondary">101.7</td>
+          <td style="color:#7dd3fc;font-size:.78rem">BBFI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">PNPR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">AAZQ11, BBFI11, BRIP11, GCRA11, JGPX11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-01</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-3.6%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.5%</td>
           <td class="text-center" style="color:#38bdf8">+2.9%</td>
-          <td class="text-center" style="color:#ef4444">-6.5%</td>
-          <td class="text-center text-secondary">111.4</td>
-          <td style="color:#7dd3fc;font-size:.78rem">PRSN11, RNDP11</td>
-          <td style="color:#fca5a5;font-size:.78rem">MFCR11, MGHT11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, IDGR11, KEVE11, LFTT11, LSPA11…</td>
+          <td class="text-center" style="color:#ef4444">-3.4%</td>
+          <td class="text-center text-secondary">101.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">GZIT11, LPLP11, PRSN11, RCFF11</td>
+          <td style="color:#fca5a5;font-size:.78rem">AAZQ11, GCRA11, MGHT11, RBTS11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIP11, GZIT11, JGPX11, KEVE11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-02</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+5.7%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.8%</td>
           <td class="text-center" style="color:#38bdf8">+5.9%</td>
-          <td class="text-center" style="color:#ef4444">-0.1%</td>
-          <td class="text-center text-secondary">117.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">BRIM11, CFHI11, HDEL11</td>
-          <td style="color:#fca5a5;font-size:.78rem">IDGR11, LSPA11, RNDP11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, CFHI11, HDEL11, KEVE11…</td>
+          <td class="text-center" style="color:#ef4444">-5.1%</td>
+          <td class="text-center text-secondary">102.0</td>
+          <td style="color:#7dd3fc;font-size:.78rem">BRIM11, CFHI11, HDEL11, LLAO11</td>
+          <td style="color:#fca5a5;font-size:.78rem">BBFI11, JGPX11, LPLP11, MFCR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, CFHI11, GZIT11, HDEL11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-03</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.3%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+7.0%</td>
           <td class="text-center" style="color:#38bdf8">+3.3%</td>
-          <td class="text-center" style="color:#ef4444">-5.7%</td>
-          <td class="text-center text-secondary">115.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">FAMB11</td>
-          <td style="color:#fca5a5;font-size:.78rem">CFHI11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, FAMB11, HDEL11, KEVE11…</td>
+          <td class="text-center" style="color:#38bdf8">+3.7%</td>
+          <td class="text-center text-secondary">109.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RNDP11</td>
+          <td style="color:#fca5a5;font-size:.78rem">GZIT11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, CFHI11, HDEL11, KEVE11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-04</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+0.8%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.7%</td>
           <td class="text-center" style="color:#38bdf8">+1.0%</td>
-          <td class="text-center" style="color:#ef4444">-0.2%</td>
-          <td class="text-center text-secondary">115.9</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, FAMB11, HDEL11, KEVE11…</td>
+          <td class="text-center" style="color:#ef4444">-0.3%</td>
+          <td class="text-center text-secondary">109.9</td>
+          <td style="color:#7dd3fc;font-size:.78rem">BBFI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">RNDP11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFHI11, HDEL11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-05</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+0.7%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-5.2%</td>
           <td class="text-center" style="color:#38bdf8">+0.7%</td>
-          <td class="text-center" style="color:#ef4444">-0.1%</td>
-          <td class="text-center text-secondary">116.7</td>
-          <td style="color:#7dd3fc;font-size:.78rem">RNDP11</td>
-          <td style="color:#fca5a5;font-size:.78rem">PNCR11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, FAMB11, HDEL11, KEVE11…</td>
+          <td class="text-center" style="color:#ef4444">-5.9%</td>
+          <td class="text-center text-secondary">104.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFHI11, HDEL11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-06</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+7.9%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+4.3%</td>
           <td class="text-center" style="color:#ef4444">-1.4%</td>
-          <td class="text-center" style="color:#38bdf8">+9.3%</td>
-          <td class="text-center text-secondary">126.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">SJAU11</td>
-          <td style="color:#fca5a5;font-size:.78rem">BBFI11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, FAMB11, HDEL11, KEVE11, LFTT11…</td>
+          <td class="text-center" style="color:#38bdf8">+5.7%</td>
+          <td class="text-center text-secondary">108.7</td>
+          <td style="color:#7dd3fc;font-size:.78rem">PNPR11, RNDP11</td>
+          <td style="color:#fca5a5;font-size:.78rem">BBFI11, CFHI11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, HDEL11, KEVE11, LLAO11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-07</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-4.1%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.6%</td>
           <td class="text-center" style="color:#38bdf8">+1.1%</td>
-          <td class="text-center" style="color:#ef4444">-5.2%</td>
-          <td class="text-center text-secondary">120.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">CFHI11</td>
-          <td style="color:#fca5a5;font-size:.78rem">HDEL11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, CFHI11, FAMB11, KEVE11, LFTT11…</td>
+          <td class="text-center" style="color:#ef4444">-2.8%</td>
+          <td class="text-center text-secondary">107.0</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RBRI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">RCFF11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, HDEL11, KEVE11, LLAO11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-08</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-2.1%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.0%</td>
           <td class="text-center" style="color:#38bdf8">+3.4%</td>
-          <td class="text-center" style="color:#ef4444">-5.6%</td>
-          <td class="text-center text-secondary">118.2</td>
-          <td style="color:#7dd3fc;font-size:.78rem">CFII11, RBRI11</td>
-          <td style="color:#fca5a5;font-size:.78rem">PRSN11, RNDP11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, CFHI11, CFII11, FAMB11, KEVE11…</td>
+          <td class="text-center" style="color:#ef4444">-3.5%</td>
+          <td class="text-center text-secondary">106.9</td>
+          <td style="color:#7dd3fc;font-size:.78rem">BPML11, CFII11, URPR11</td>
+          <td style="color:#fca5a5;font-size:.78rem">LLAO11, PRSN11, RNDP11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BPML11, BRIM11, BRIP11, CFII11, HDEL11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-09</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+1.5%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-0.7%</td>
           <td class="text-center" style="color:#38bdf8">+0.2%</td>
-          <td class="text-center" style="color:#38bdf8">+1.3%</td>
-          <td class="text-center text-secondary">120.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, CFHI11, CFII11, FAMB11, KEVE11…</td>
+          <td class="text-center" style="color:#ef4444">-0.9%</td>
+          <td class="text-center text-secondary">106.2</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RBTS11, RNDP11</td>
+          <td style="color:#fca5a5;font-size:.78rem">BPML11, BRIM11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, PNCR11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-10</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+4.3%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.3%</td>
           <td class="text-center" style="color:#38bdf8">+1.6%</td>
-          <td class="text-center" style="color:#38bdf8">+2.7%</td>
-          <td class="text-center text-secondary">125.1</td>
+          <td class="text-center" style="color:#ef4444">-1.3%</td>
+          <td class="text-center text-secondary">106.5</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, CFHI11, CFII11, FAMB11, KEVE11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, PNCR11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-11</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-1.4%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+2.7%</td>
           <td class="text-center" style="color:#38bdf8">+3.0%</td>
-          <td class="text-center" style="color:#ef4444">-4.4%</td>
-          <td class="text-center text-secondary">123.4</td>
-          <td style="color:#7dd3fc;font-size:.78rem">BRIP11, HYPI11, KOPA11</td>
-          <td style="color:#fca5a5;font-size:.78rem">KEVE11, LFTT11, PNPR11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, CFHI11, CFII11, FAMB11…</td>
+          <td class="text-center" style="color:#ef4444">-0.3%</td>
+          <td class="text-center text-secondary">109.4</td>
+          <td style="color:#7dd3fc;font-size:.78rem">KOPA11</td>
+          <td style="color:#fca5a5;font-size:.78rem">PNPR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, KOPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2025-12</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-1.1%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.1%</td>
           <td class="text-center" style="color:#38bdf8">+2.1%</td>
-          <td class="text-center" style="color:#ef4444">-3.2%</td>
-          <td class="text-center text-secondary">122.0</td>
-          <td style="color:#7dd3fc;font-size:.78rem">LPLP11</td>
-          <td style="color:#fca5a5;font-size:.78rem">HYPI11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIM11, BRIP11, CFHI11, CFII11, FAMB11…</td>
+          <td class="text-center" style="color:#ef4444">-2.0%</td>
+          <td class="text-center text-secondary">109.5</td>
+          <td style="color:#7dd3fc;font-size:.78rem">LPLP11, PLRI11, ROOF11</td>
+          <td style="color:#fca5a5;font-size:.78rem">RBRI11, RNDP11, URPR11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, KOPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2026-01</td>
-          <td class="text-center fw-bold" style="color:#38bdf8">+6.0%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.2%</td>
           <td class="text-center" style="color:#38bdf8">+1.2%</td>
-          <td class="text-center" style="color:#38bdf8">+4.8%</td>
-          <td class="text-center text-secondary">129.2</td>
-          <td style="color:#7dd3fc;font-size:.78rem">BBFI11</td>
-          <td style="color:#fca5a5;font-size:.78rem">FAMB11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFHI11, CFII11…</td>
+          <td class="text-center" style="color:#ef4444">-0.9%</td>
+          <td class="text-center text-secondary">109.7</td>
+          <td style="color:#7dd3fc;font-size:.78rem">—</td>
+          <td style="color:#fca5a5;font-size:.78rem">—</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, KOPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2026-02</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-3.4%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-1.3%</td>
           <td class="text-center" style="color:#ef4444">-1.3%</td>
-          <td class="text-center" style="color:#ef4444">-2.1%</td>
-          <td class="text-center text-secondary">124.8</td>
-          <td style="color:#7dd3fc;font-size:.78rem">—</td>
-          <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFHI11, CFII11…</td>
+          <td class="text-center" style="color:#38bdf8">+0.0%</td>
+          <td class="text-center text-secondary">108.3</td>
+          <td style="color:#7dd3fc;font-size:.78rem">RBRI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">PLRI11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, KOPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2026-03</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-3.3%</td>
+          <td class="text-center fw-bold" style="color:#38bdf8">+0.2%</td>
           <td class="text-center" style="color:#38bdf8">+2.0%</td>
-          <td class="text-center" style="color:#ef4444">-5.2%</td>
-          <td class="text-center text-secondary">120.8</td>
+          <td class="text-center" style="color:#ef4444">-1.8%</td>
+          <td class="text-center text-secondary">108.5</td>
           <td style="color:#7dd3fc;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFHI11, CFII11…</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, CFII11, HDEL11, KEVE11, KOPA11…</td>
         </tr>
         <tr>
           <td class="text-center fw-semibold">2026-04</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-12.6%</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-9.3%</td>
           <td class="text-center" style="color:#ef4444">-1.4%</td>
-          <td class="text-center" style="color:#ef4444">-11.3%</td>
-          <td class="text-center text-secondary">105.5</td>
-          <td style="color:#7dd3fc;font-size:.78rem">HDEL11, PNPR11</td>
-          <td style="color:#fca5a5;font-size:.78rem">CFHI11, RBTS11</td>
-          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BBFI11, BRIM11, BRIP11, CFII11, HDEL11…</td>
+          <td class="text-center" style="color:#ef4444">-8.0%</td>
+          <td class="text-center text-secondary">98.4</td>
+          <td style="color:#7dd3fc;font-size:.78rem">DEVA11, MFII11, PEMA11, RSPD11, VGRI11</td>
+          <td style="color:#fca5a5;font-size:.78rem">CFII11, HDEL11, KOPA11, RBRI11, RBTS11</td>
+          <td class="text-secondary" style="font-size:.75rem;max-width:180px">BRIP11, DEVA11, KEVE11, LPLP11, MFII11…</td>
         </tr></tbody>
       </table>
     </div>
@@ -1195,15 +1172,15 @@ document.querySelectorAll('nav a').forEach(a => {
 
 </div>
 
-<footer>Backtest FII DY Limpo · 08/06/2026 14:40 · Não é recomendação de investimento · Survivorship bias presente</footer>
+<footer>Backtest FII DY Limpo · 08/06/2026 14:55 · Não é recomendação de investimento · Survivorship bias presente</footer>
 
 <script>
-const labels = ["2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const fiiValues = [100.0, 101.61, 103.74, 103.45, 103.27, 105.09, 108.31, 106.81, 108.14, 109.26, 111.26, 116.38, 122.12, 120.47, 124.24, 125.45, 126.14, 123.04, 124.36, 127.26, 124.57, 124.32, 122.09, 130.29, 130.98, 131.87, 128.43, 122.04, 121.61, 118.47, 120.82, 120.33, 108.52, 111.46, 115.82, 115.66, 111.43, 117.81, 115.05, 115.92, 116.7, 125.96, 120.8, 118.21, 119.99, 125.12, 123.39, 121.99, 129.25, 124.83, 120.76, 105.5];
-const ifixValues = [100.0, 101.56, 101.67, 103.33, 103.94, 103.54, 109.05, 108.94, 109.36, 104.99, 105.09, 103.32, 103.63, 100.83, 105.72, 112.29, 116.45, 118.02, 119.06, 119.06, 117.38, 117.7, 122.71, 123.33, 124.37, 125.94, 125.2, 124.99, 123.65, 124.16, 125.11, 121.78, 118.44, 115.52, 115.63, 112.2, 115.43, 122.21, 126.26, 127.51, 128.45, 126.68, 128.14, 132.51, 132.82, 134.91, 138.97, 141.89, 143.55, 141.67, 144.49, 142.51];
-const cdiValues = [100.73, 101.5, 102.44, 103.29, 104.35, 105.42, 106.5, 107.75, 108.9, 110.01, 111.14, 112.38, 113.64, 114.68, 116.03, 117.09, 118.41, 119.67, 120.95, 122.33, 123.52, 124.75, 125.9, 127.02, 128.25, 129.28, 130.35, 131.51, 132.6, 133.65, 134.87, 136.04, 137.18, 138.46, 139.55, 140.85, 142.27, 143.68, 145.06, 146.6, 148.27, 149.9, 151.82, 153.58, 155.46, 157.45, 159.1, 161.04, 162.91, 164.54, 166.53, 168.34];
-const monthlyRets = [0, 1.61, 2.09, -0.28, -0.18, 1.75, 3.07, -1.38, 1.24, 1.03, 1.83, 4.6, 4.93, -1.35, 3.13, 0.97, 0.55, -2.46, 1.07, 2.33, -2.12, -0.2, -1.8, 6.71, 0.53, 0.68, -2.61, -4.97, -0.35, -2.59, 1.99, -0.4, -9.82, 2.71, 3.92, -0.14, -3.65, 5.72, -2.34, 0.75, 0.68, 7.93, -4.09, -2.15, 1.51, 4.27, -1.39, -1.13, 5.95, -3.41, -3.26, -12.63];
-const barColors = ["rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)"];
+const labels = ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
+const fiiValues = [100.0, 98.85, 101.28, 103.21, 101.19, 93.18, 95.03, 92.05, 95.32, 90.47, 99.98, 106.85, 106.06, 108.38, 107.24, 104.34, 106.6, 106.77, 111.94, 105.59, 97.38, 99.36, 103.85, 101.67, 101.18, 101.98, 109.17, 109.92, 104.24, 108.73, 106.95, 106.91, 106.21, 106.54, 109.39, 109.45, 109.71, 108.32, 108.51, 98.4];
+const ifixValues = [100.0, 97.29, 102.01, 108.35, 112.37, 113.88, 114.89, 114.89, 113.27, 113.58, 118.4, 119.01, 120.01, 121.53, 120.82, 120.61, 119.31, 119.81, 120.72, 117.51, 114.29, 111.48, 111.58, 108.27, 111.39, 117.92, 121.83, 123.04, 123.95, 122.24, 123.65, 127.87, 128.18, 130.18, 134.1, 136.92, 138.52, 136.71, 139.42, 137.52];
+const cdiValues = [101.12, 102.05, 103.24, 104.19, 105.36, 106.49, 107.63, 108.85, 109.91, 111.01, 112.03, 113.03, 114.12, 115.04, 115.99, 117.02, 118.0, 118.93, 120.01, 121.05, 122.07, 123.21, 124.18, 125.33, 126.6, 127.85, 129.08, 130.45, 131.94, 133.39, 135.1, 136.66, 138.33, 140.1, 141.57, 143.3, 144.96, 146.41, 148.18, 149.8];
+const monthlyRets = [0, -1.15, 2.46, 1.9, -1.95, -7.91, 1.98, -3.14, 3.55, -5.08, 10.51, 6.87, -0.74, 2.18, -1.05, -2.71, 2.17, 0.15, 4.85, -5.67, -7.78, 2.03, 4.52, -2.1, -0.48, 0.79, 7.05, 0.69, -5.16, 4.31, -1.64, -0.04, -0.66, 0.31, 2.68, 0.05, 0.24, -1.27, 0.17, -9.32];
+const barColors = ["rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)", "rgba(56,189,248,.85)", "rgba(239,68,68,.85)"];
 
 new Chart(document.getElementById('chartEquity'), {
   type: 'line',
@@ -1268,6 +1245,46 @@ new Chart(document.getElementById('chartMonthly'), {
     }
   }
 });
+
+const dyMedioVals = [36.96, 37.7, 35.52, 34.04, 34.41, 34.64, 34.87, 31.56, 30.39, 29.02, 32.62, 31.59, 37.88, 37.03, 37.22, 34.48, 33.1, 35.64, 34.68, 29.73, 32.55, 33.17, 29.81, 33.68, 31.7, 31.9, 36.08, 37.7, 32.97, 39.55, 36.79, 40.55, 45.18, 46.48, 48.9, 42.9, 42.42, 46.25, 45.16, 28.96];
+const ifixDyVals  = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
+if (document.getElementById('chartDY')) {
+  new Chart(document.getElementById('chartDY'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'DY Médio Estratégia',
+          data: dyMedioVals,
+          borderColor: '#38bdf8',
+          backgroundColor: 'rgba(56,189,248,.08)',
+          borderWidth: 2, pointRadius: 2, fill: true, tension: 0.3,
+          spanGaps: true,
+        },
+        {
+          label: 'DY IFIX (XFIX11)',
+          data: ifixDyVals,
+          borderColor: '#6e7681',
+          borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3,
+          spanGaps: true,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#8b949e', font: { size: 11 } } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A'}` } },
+      },
+      scales: {
+        x: { ticks: { color: '#6e7681', maxTicksLimit: 18, font: { size: 10 } }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#8b949e', callback: v => v.toFixed(0) + '%' }, grid: { color: '#30363d' } },
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>

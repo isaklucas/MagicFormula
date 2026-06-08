@@ -4,6 +4,7 @@ Universo: todos os FIIs do cache Fundamentus.
 Benchmark: IFIX11.SA (ETF que replica o índice IFIX).
 """
 
+import re
 import sys
 import io
 import json
@@ -14,6 +15,8 @@ import argparse
 import glob
 from pathlib import Path
 from datetime import date
+
+_VALID_FII = re.compile(r"^[A-Z]{4}11$")
 
 import pandas as pd
 import numpy as np
@@ -45,10 +48,10 @@ def _safe_float(v) -> float | None:
 _IFIX_CANDIDATES = ["IFIX11.SA", "XFIX11.SA", "BVAR11.SA"]
 
 
-def fetch_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
+def fetch_prices(tickers: list[str], start: str, end: str) -> tuple[pd.DataFrame, str | None]:
     """
     Usa auto_adjust=False (preços brutos) para evitar distorções de dividendos mensais.
-    Dividendos são somados separadamente no cálculo de retorno.
+    Retorna (prices_df, ifix_base_name) onde ifix_base_name é o ticker sem .SA (ex: "XFIX11").
     """
     # Detecta qual ticker IFIX tem dados disponíveis
     ifix_ticker = None
@@ -61,6 +64,8 @@ def fetch_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
             break
     if ifix_ticker is None:
         print("[backtest_fii] AVISO: nenhum benchmark IFIX encontrado — gráfico sem referência")
+
+    ifix_base = ifix_ticker.replace(".SA", "") if ifix_ticker else None
 
     print(f"[backtest_fii] Baixando preços para {len(tickers)} tickers...")
     sa_tickers = [_sa(t) for t in tickers]
@@ -80,14 +85,14 @@ def fetch_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
     rename_map = {}
     for c in prices.columns:
         cs = str(c)
-        if ifix_ticker and ifix_ticker.replace(".SA", "") in cs:
+        if ifix_base and ifix_base in cs:
             rename_map[c] = "IFIX"
         elif cs.endswith(".SA"):
             rename_map[c] = cs[:-3]
     if rename_map:
         prices = prices.rename(columns=rename_map)
 
-    return prices
+    return prices, ifix_base
 
 
 # ── Dividendos com cache ──────────────────────────────────────────────────────
@@ -176,9 +181,13 @@ def rank_at_date(
 
     metrics = []
     for ticker in tickers:
+        if not _VALID_FII.match(ticker):
+            continue
         price = _safe_float(price_row.get(ticker))
+        if price is None or price < 5:   # exclui FIIs em liquidação (preço < R$5)
+            continue
         dy = _dy_limpo_at(ticker, cutoff, dividends, price)
-        if dy is None or dy <= 0:
+        if dy is None or dy <= 0 or dy > 80:  # DY > 80% = evento corporativo/erro
             continue
         metrics.append({
             "TICKER":   ticker,
@@ -204,8 +213,9 @@ def run_backtest(
     end      = end or str(date.today())
     buffer_n = int(top_n * hold_buffer)
 
-    prices_df = fetch_prices(tickers, start, end)
-    dividends = fetch_dividends(tickers)
+    prices_df, ifix_base = fetch_prices(tickers, start, end)
+    div_tickers = list(tickers) + ([ifix_base] if ifix_base else [])
+    dividends = fetch_dividends(div_tickers)
 
     rebal_dates = pd.date_range(start=start, end=end, freq="ME")
     if rebal_dates.empty:
@@ -288,6 +298,14 @@ def run_backtest(
             if p:
                 precos_saida[t] = round(p, 2)
 
+        # DY médio da carteira neste mês
+        dy_vals = [r["dy_limpo"] for r in top_detail if r.get("dy_limpo")]
+        dy_medio = round(np.mean(dy_vals), 2) if dy_vals else None
+
+        # DY do benchmark IFIX (XFIX11)
+        ifix_price_now = _safe_float(cur_row.get("IFIX")) if "IFIX" in cur_row.index else None
+        ifix_dy = _dy_limpo_at(ifix_base, cutoff, dividends, ifix_price_now) if ifix_base else None
+
         monthly_results.append({
             "data":                  str(cutoff),
             "top15":                 sorted(new_portfolio),
@@ -297,6 +315,8 @@ def run_backtest(
             "retorno_mes_pct":       round(monthly_return, 2) if monthly_return is not None else None,
             "portfolio_valor":       round(portfolio_value, 2),
             "ifix_retorno_mes_pct":  round(ifix_ret, 2) if ifix_ret is not None else None,
+            "dy_medio_pct":          dy_medio,
+            "ifix_dy_pct":           ifix_dy,
             "detalhes": [
                 {
                     "ticker":   r["TICKER"],
@@ -367,8 +387,8 @@ def _load_universe() -> tuple[list[str], dict]:
         with open(cache_files[-1], encoding="utf-8") as f:
             data = json.load(f)
         rows = data.get("rows", [])
-        tickers     = [r["TICKER"] for r in rows]
-        pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows}
+        tickers     = [r["TICKER"] for r in rows if _VALID_FII.match(r.get("TICKER", ""))]
+        pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows if _VALID_FII.match(r.get("TICKER", ""))}
         print(f"[backtest_fii] Universo: {len(tickers)} FIIs do cache {Path(cache_files[-1]).name}")
         return tickers, pvp_current
 
@@ -388,7 +408,7 @@ def _load_universe() -> tuple[list[str], dict]:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Backtest FII — DY Limpo vs IFIX")
-    parser.add_argument("--start",       default="2022-01-01")
+    parser.add_argument("--start",       default="2023-01-01")
     parser.add_argument("--end",         default=str(date.today()))
     parser.add_argument("--top",         type=int,   default=10)
     parser.add_argument("--hold-buffer", type=float, default=1.5)
