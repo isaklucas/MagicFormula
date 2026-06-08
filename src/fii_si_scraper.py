@@ -1,7 +1,6 @@
 """
-Fundamentus — scraper de FIIs com cache mensal JSON.
-Cache em data/fii_cache/YYYY_MM.json (válido o mês inteiro).
-Substitui yfinance P/VP scan como fonte primária de dados quantitativos.
+Fundamentus — scraper de FIIs e FIAgros com cache mensal JSON.
+Cache em data/fii_cache/YYYY_MM.json e YYYY_MM_fiagro.json.
 
 Colunas retornadas: TICKER, TIPO, NOME, SEGMENTO, PRECO, PVP, DY,
                     DY_12M_MED, VPA, LIQUIDEZ, PATRIMONIO
@@ -18,7 +17,8 @@ ROOT      = Path(__file__).parent.parent
 CACHE_DIR = ROOT / "data" / "fii_cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
-_URL = "https://www.fundamentus.com.br/fii_resultado.php"
+_FII_URL    = "https://www.fundamentus.com.br/fii_resultado.php"
+_FIAGRO_URL = "https://www.fundamentus.com.br/fiagro_resultado.php"
 _HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -47,16 +47,18 @@ def _parse_br_number(s: str) -> float | None:
         return None
 
 
-def _scrape_fundamentus() -> pd.DataFrame:
-    print("[fii_si_scraper] Fundamentus fii_resultado.php...", end=" ", flush=True)
+def _scrape_url(url: str, tipo: str) -> pd.DataFrame:
+    """Scrapa tabela tabelaResultado de qualquer página Fundamentus."""
+    label = tipo
+    print(f"[fii_si_scraper] Fundamentus {label}...", end=" ", flush=True)
     with httpx.Client(headers=_HEADERS, follow_redirects=True, timeout=30) as c:
-        r = c.get(_URL)
+        r = c.get(url)
         r.raise_for_status()
 
     soup = BeautifulSoup(r.content, "html.parser", from_encoding="utf-8")
     tbl  = soup.find("table", id="tabelaResultado")
     if tbl is None:
-        raise RuntimeError("Tabela 'tabelaResultado' não encontrada no Fundamentus")
+        raise RuntimeError(f"Tabela 'tabelaResultado' não encontrada em {url}")
 
     all_rows = tbl.find_all("tr")
     print(f"{len(all_rows) - 1} fundos")
@@ -70,7 +72,7 @@ def _scrape_fundamentus() -> pd.DataFrame:
         # colunas: Papel, Segmento, Cotação, FFO Yield, Dividend Yield, P/VP,
         #          Valor de Mercado, Liquidez, ...
         ticker = cells[0].strip().upper()
-        if not (len(ticker) == 6 and ticker.endswith("11") and ticker[:4].isalpha()):
+        if not (len(ticker) >= 5 and ticker.endswith("11") and ticker[:4].isalpha()):
             continue
 
         preco   = _parse_br_number(cells[2])
@@ -85,7 +87,7 @@ def _scrape_fundamentus() -> pd.DataFrame:
 
         rows.append({
             "TICKER":     ticker,
-            "TIPO":       "FII",
+            "TIPO":       tipo,
             "NOME":       ticker,
             "SEGMENTO":   cells[1].strip() if len(cells) > 1 else "",
             "PRECO":      preco,
@@ -102,14 +104,8 @@ def _scrape_fundamentus() -> pd.DataFrame:
     return df
 
 
-def fetch_all_si(force: bool = False) -> pd.DataFrame:
-    """
-    Retorna DataFrame com todos FIIs do Fundamentus.
-    Cache mensal: se YYYY_MM.json existe, retorna sem re-scraper.
-    force=True ignora cache.
-    """
-    today      = date.today()
-    cache_key  = f"{today.year}_{today.month:02d}"
+def _load_or_scrape(cache_key: str, scrape_fn, label: str, force: bool) -> pd.DataFrame:
+    """Cache mensal: retorna do JSON se existir, senão scrapa e salva."""
     cache_path = CACHE_DIR / f"{cache_key}.json"
 
     if not force and cache_path.exists():
@@ -117,15 +113,16 @@ def fetch_all_si(force: bool = False) -> pd.DataFrame:
         with open(cache_path, encoding="utf-8") as f:
             cached = json.load(f)
         df = pd.DataFrame(cached["rows"])
-        print(f"[fii_si_scraper] {len(df)} fundos carregados do cache")
+        print(f"[fii_si_scraper] {len(df)} {label} carregados do cache")
         return df
 
-    df = _scrape_fundamentus()
+    df = scrape_fn()
     if df.empty:
-        raise RuntimeError("Fundamentus retornou 0 fundos")
+        raise RuntimeError(f"Fundamentus retornou 0 {label}")
 
-    print(f"[fii_si_scraper] Total: {len(df)} fundos únicos")
+    print(f"[fii_si_scraper] Total {label}: {len(df)} únicos")
 
+    today = date.today()
     cache_data = {
         "data":  str(today),
         "mes":   cache_key,
@@ -137,3 +134,17 @@ def fetch_all_si(force: bool = False) -> pd.DataFrame:
         json.dump(cache_data, f, ensure_ascii=False, indent=2, default=str)
     print(f"[fii_si_scraper] Cache salvo: {cache_path}")
     return df
+
+
+def fetch_all_si(force: bool = False) -> pd.DataFrame:
+    """Retorna DataFrame com todos FIIs do Fundamentus. Cache mensal."""
+    today     = date.today()
+    cache_key = f"{today.year}_{today.month:02d}"
+    return _load_or_scrape(cache_key, lambda: _scrape_url(_FII_URL, "FII"), "FIIs", force)
+
+
+def fetch_all_fiagro(force: bool = False) -> pd.DataFrame:
+    """Retorna DataFrame com todos FIAgros do Fundamentus. Cache mensal."""
+    today     = date.today()
+    cache_key = f"{today.year}_{today.month:02d}_fiagro"
+    return _load_or_scrape(cache_key, lambda: _scrape_url(_FIAGRO_URL, "FIAgro"), "FIAgros", force)

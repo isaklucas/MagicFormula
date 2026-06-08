@@ -368,6 +368,62 @@ function filterRemovidos() {{
 </script>"""
 
 
+def _top_comprar_section(top10: list[dict], analyses: dict) -> str:
+    """Seção compacta TOP COMPRAR no topo do relatório."""
+    if not analyses:
+        return ""
+    comprars = [
+        r for r in top10
+        if analyses.get(r["TICKER"], {}).get("recomendacao") == "COMPRAR"
+    ]
+    if not comprars:
+        return ""
+
+    items_html = ""
+    for r in comprars:
+        ticker = r["TICKER"]
+        tipo   = r.get("TIPO", "FII")
+        a      = analyses.get(ticker, {})
+        score  = a.get("score_compra", "—")
+        pvp    = r.get("PVP")
+        dy_l   = r.get("dy_info", {}).get("dy_limpo_12m")
+        pos    = r.get("posicao", "—")
+        motivo = a.get("motivo", "")
+        tipo_color = "#58a6ff" if tipo == "FII" else "#bc8cff"
+        motivo_html = (
+            f'<div style="font-size:.78rem;color:#8b949e;margin-top:.2rem">{motivo}</div>'
+            if motivo else ""
+        )
+        items_html += f"""
+        <div class="d-flex align-items-start gap-3 py-2" style="border-bottom:1px solid #30363d">
+          <span class="badge rounded-pill" style="background:#3fb95022;color:#3fb950;border:1px solid #3fb95044;min-width:2rem;text-align:center">#{pos}</span>
+          <div>
+            <span class="fw-bold" style="color:{tipo_color};font-size:1rem">{ticker}</span>
+            <span style="font-size:.72rem;color:{tipo_color};opacity:.8;margin-left:.4rem">{tipo}</span>
+            <div class="d-flex gap-3 mt-1 flex-wrap" style="font-size:.8rem">
+              <span>P/VP <strong style="color:#3fb950">{_fmt(pvp, 3)}</strong></span>
+              <span>DY Limpo <strong style="color:#3fb950">{_fmt(dy_l)}%</strong></span>
+              <span>Score <strong style="color:#3fb950">{score}/10</strong></span>
+            </div>
+            {motivo_html}
+          </div>
+        </div>"""
+
+    return f"""
+  <section class="mb-5">
+    <div class="section-title">TOP COMPRAR — Recomendações IA</div>
+    <div class="card" style="border:1px solid #3fb95044;background:#161b22">
+      <div class="card-header py-2" style="background:#3fb95011;border-bottom:1px solid #3fb95033">
+        <span style="color:#3fb950;font-weight:600;font-size:.9rem">✓ {len(comprars)} fundos recomendados para compra</span>
+        <span class="text-muted ms-2" style="font-size:.75rem">Score IA ≥ 7 · análise quantitativa + qualitativa</span>
+      </div>
+      <div class="card-body py-2 px-3">
+        {items_html}
+      </div>
+    </div>
+  </section>"""
+
+
 def generate_html(
     top10: list[dict],
     meta: dict,
@@ -388,8 +444,9 @@ def generate_html(
         _build_card(r, analyses.get(r["TICKER"]) if analyses else None)
         for r in top10
     )
-    rows_html     = "".join(_table_row(r) for r in top10)
+    rows_html      = "".join(_table_row(r) for r in top10)
     removidos_html = _build_removidos_section_fii(meta.get("removidos", []))
+    comprar_html   = _top_comprar_section(top10, analyses or {})
 
     # IA summary badge
     ia_badge = ""
@@ -488,6 +545,8 @@ def generate_html(
 </div>
 
 <div class="container-fluid px-3 px-md-4 py-4">
+
+  {comprar_html}
 
   <!-- Tabela -->
   <section class="mb-5">

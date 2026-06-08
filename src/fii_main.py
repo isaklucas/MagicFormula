@@ -24,12 +24,12 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 
-from fii_si_scraper  import fetch_all_si
+from fii_si_scraper  import fetch_all_si, fetch_all_fiagro
 from fii_loader      import load_fiis_fiagros
-from fii_scraper     import fetch_all as scrape_funds_explorer
+from fii_scraper     import fetch_all as scrape_funds_explorer, fetch_fiagros as fe_fetch_fiagros
 from fii_enricher    import enrich_fiis
 from fii_dy_cleaner  import clean_dy
-from fii_ranking     import apply_age_filter, rank_by_dy_limpo
+from fii_ranking     import apply_age_filter, rank_by_dy_limpo, _MIN_LIQUIDEZ_FII, _TOP_N_FII, _TOP_N_FIAGRO
 from fii_report      import generate_html
 
 _PVP_LIMIT   = 0.90
@@ -133,14 +133,41 @@ def main() -> None:
     com_ia = not args.sem_ia
 
     # ── Passo 1: Lista de fundos ───────────────────────────────────
-    _step(1, "Buscando fundos no StatusInvest (cache mensal)")
-    fonte = "StatusInvest"
-    df_tickers = pd.DataFrame()
+    _step(1, "Buscando FIIs + FIAgros no Fundamentus (cache mensal)")
+    fonte = "Fundamentus"
+    df_fiis    = pd.DataFrame()
+    df_fiagros = pd.DataFrame()
 
     try:
-        df_tickers = fetch_all_si(force=args.force_refresh)
-    except RuntimeError as e:
-        print(f"[fii_main] StatusInvest falhou: {e}")
+        df_fiis = fetch_all_si(force=args.force_refresh)
+    except Exception as e:
+        print(f"[fii_main] Fundamentus FII falhou: {e}")
+
+    try:
+        df_fiagros = fetch_all_fiagro(force=args.force_refresh)
+        print(f"[fii_main] {len(df_fiagros)} FIAgros carregados")
+    except Exception as e:
+        print(f"[fii_main] Fundamentus FIAgro falhou (sem FIAgros): {e}")
+
+    if not df_fiis.empty and not df_fiagros.empty:
+        df_tickers = pd.concat([df_fiis, df_fiagros], ignore_index=True)
+        df_tickers = df_tickers.drop_duplicates(subset=["TICKER"], keep="first").reset_index(drop=True)
+    elif not df_fiis.empty:
+        df_tickers = df_fiis.copy()
+        # Fundamentus FIAgro indisponível → usa Funds Explorer para identificar FIAgros
+        # dentro do próprio listing FII do Fundamentus e re-taggea corretamente
+        try:
+            df_fe_fiagros = fe_fetch_fiagros()
+            if not df_fe_fiagros.empty:
+                fiagro_set = set(df_fe_fiagros["TICKER"].tolist())
+                mask = df_tickers["TICKER"].isin(fiagro_set)
+                df_tickers.loc[mask, "TIPO"] = "FIAgro"
+                tagged = int(mask.sum())
+                print(f"[fii_main] {tagged} FIAgros re-taggeados via Funds Explorer ({len(fiagro_set)} FIAgros conhecidos)")
+        except Exception as e:
+            print(f"[fii_main] FIAgro tagging falhou: {e}")
+    else:
+        df_tickers = df_fiagros
 
     # Fallback 1: CSV manual
     if df_tickers.empty:
@@ -195,6 +222,16 @@ def main() -> None:
     if not tickers_pvp:
         print("[fii_main] Nenhum fundo passou o filtro P/VP. Verifique conexão/dados.")
         sys.exit(1)
+
+    # Filtro de liquidez: 1M para FIIs; FIAgros passam sem restrição
+    before_liq = len(tickers_pvp)
+    tickers_pvp = [
+        t for t in tickers_pvp
+        if ticker_meta.get(t, {}).get("TIPO") == "FIAgro"
+        or ticker_meta.get(t, {}).get("LIQUIDEZ") is None
+        or (ticker_meta.get(t, {}).get("LIQUIDEZ") or 0) >= _MIN_LIQUIDEZ_FII
+    ]
+    print(f"[fii_main] Liquidez ≥ R${_MIN_LIQUIDEZ_FII:,.0f} (FIIs): {before_liq} → {len(tickers_pvp)}")
 
     # ── Passo 4: Enriquecimento yfinance (dividendos + idade) ─────
     _step(4, f"Coletando dividendos de {after_pvp} fundos (yfinance)")
@@ -347,9 +384,16 @@ def main() -> None:
         removidos.append({"ticker": r["TICKER"], "etapa": "DY Insuficiente", "motivo": motivo})
     print(f"[fii_main] Fundos com DY válido: {len(validos)}/{len(records)}")
 
-    # ── Passo 7: TOP 10 ───────────────────────────────────────────
-    _step(7, "Rankeando TOP 10 por DY Limpo")
-    top10 = rank_by_dy_limpo(records, top_n=10)
+    # ── Passo 7: TOP 20 FIIs + TOP 10 FIAgros ────────────────────
+    _step(7, f"Rankeando TOP {_TOP_N_FII} FIIs + TOP {_TOP_N_FIAGRO} FIAgros por DY Limpo")
+    fii_records    = [r for r in records if r.get("TIPO", "FII") != "FIAgro"]
+    fiagro_records = [r for r in records if r.get("TIPO", "FII") == "FIAgro"]
+    print(f"[fii_main] FIIs válidos: {len(fii_records)} | FIAgros válidos: {len(fiagro_records)}")
+    top_fiis    = rank_by_dy_limpo(fii_records,    top_n=_TOP_N_FII)
+    top_fiagros = rank_by_dy_limpo(fiagro_records, top_n=_TOP_N_FIAGRO)
+    top10 = top_fiis + top_fiagros
+    for i, r in enumerate(top10):
+        r["posicao"] = i + 1
 
     # ── Passo 8: Relatório HTML ────────────────────────────────────
     _step(8, "Gerando relatório HTML + fii_candidates.json")
@@ -382,7 +426,7 @@ def main() -> None:
 
     # ── Resumo terminal ────────────────────────────────────────────
     print(f"\n{'='*70}")
-    print(f"  TOP 10 FIIs e FIAgros — DY Limpo — {date.today()}")
+    print(f"  TOP {_TOP_N_FII} FIIs + TOP {_TOP_N_FIAGRO} FIAgros — DY Limpo — {date.today()}")
     print(f"{'='*70}")
     header = (
         f"{'#':>3}  {'Ticker':<8}  {'Tipo':<6}  {'Segmento':<18}  "

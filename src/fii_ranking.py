@@ -1,15 +1,17 @@
 """
-Filtra e rankeia FIIs/FIAgros por DY Limpo 12M. Retorna TOP 10.
+Filtra e rankeia FIIs/FIAgros por DY Limpo 12M.
+TOP 20 FIIs + TOP 10 FIAgros = 30 candidatos totais.
 """
 
 import pandas as pd
 
-_MIN_LIQUIDEZ  = 100_000   # R$ 100k liquidez diária mínima
-_MIN_AGE_DAYS  = 365
-_TOP_N         = 10
+_MIN_LIQUIDEZ_FII = 1_000_000  # R$ 1M liquidez diária mínima (FIIs)
+_MIN_AGE_DAYS     = 365
+_TOP_N_FII        = 20
+_TOP_N_FIAGRO     = 10
 
 
-def apply_basic_filters(df: pd.DataFrame, min_liquidez: float = _MIN_LIQUIDEZ) -> pd.DataFrame:
+def apply_basic_filters(df: pd.DataFrame, min_liquidez: float = _MIN_LIQUIDEZ_FII) -> pd.DataFrame:
     """
     Filtra:
     - P/VP < 0.90
@@ -52,7 +54,7 @@ def apply_age_filter(records: list[dict], enriched: dict[str, dict]) -> list[dic
     return result
 
 
-def rank_by_dy_limpo(records: list[dict], top_n: int = _TOP_N) -> list[dict]:
+def rank_by_dy_limpo(records: list[dict], top_n: int = _TOP_N_FII) -> list[dict]:
     """
     Ordena por dy_limpo_12m descrescente.
     Descarta fundos com dados DY insuficientes.
