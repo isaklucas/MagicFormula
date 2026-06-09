@@ -153,6 +153,19 @@ def enrich_ticker(ticker: str) -> dict:
         result["receita_trimestral_mi"] = receita_hist
         result["receita_tendencia"] = _trend_label(receita_hist)
 
+        # Indicadores adicionais (sem custo extra — mesma chamada yfinance)
+        result["preco_sobre_vpa"] = _safe_get(info, "priceToBook")
+        result["gross_margin"] = _safe_get(info, "grossMargins")
+        result["current_ratio"] = _safe_get(info, "currentRatio")
+        result["payout_ratio"] = _safe_get(info, "payoutRatio")
+        result["dividend_yield"] = _safe_get(info, "dividendYield")
+        fcf = _safe_get(info, "freeCashflow")
+        mktcap = _safe_get(info, "marketCap")
+        if fcf and mktcap and mktcap > 0:
+            result["fcf_yield"] = round(fcf / mktcap * 100, 2)
+        else:
+            result["fcf_yield"] = None
+
     except Exception as e:
         result["erro"] = str(e)
 
@@ -227,5 +240,36 @@ def format_for_agent(ticker: str, enriched: dict, candidate: dict) -> str:
     if rec_hist:
         hist_str = " → ".join(f"R${v}M" for v in rec_hist)
         lines.append(f"- Receita trimestral: {hist_str} [{rec_tend}]")
+
+    # Bloco de indicadores adicionais
+    extras = []
+    pvpa = enriched.get("preco_sobre_vpa")
+    if pvpa is not None:
+        extras.append(f"P/VPA: {pvpa:.2f}x")
+
+    gm = enriched.get("gross_margin")
+    if gm is not None:
+        extras.append(f"Margem Bruta: {gm * 100:.1f}%")
+
+    fcf_y = enriched.get("fcf_yield")
+    if fcf_y is not None:
+        extras.append(f"FCF Yield: {fcf_y:.1f}%")
+
+    dy = enriched.get("dividend_yield")
+    payout = enriched.get("payout_ratio")
+    div_parts = []
+    if dy is not None:
+        div_parts.append(f"DY {dy * 100:.1f}%")
+    if payout is not None:
+        div_parts.append(f"Payout {payout * 100:.0f}%")
+    if div_parts:
+        extras.append(" | ".join(div_parts))
+
+    cr = enriched.get("current_ratio")
+    if cr is not None:
+        extras.append(f"Liq. Corrente: {cr:.1f}x")
+
+    if extras:
+        lines.append(f"- Indicadores adicionais: {' | '.join(extras)}")
 
     return "\n".join(lines)
