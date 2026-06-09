@@ -27,9 +27,24 @@ FILTERS = {
 }
 
 
-def apply_filters(records: list) -> list:
+def _compute_raw_mf_rank(records: list) -> dict[str, int]:
+    valid = [r for r in records if r.get("EV/EBIT") and r.get("ROIC") and r["EV/EBIT"] > 0 and r["ROIC"] > 0]
+    if not valid:
+        return {}
+    df = pd.DataFrame(valid).dropna(subset=["EV/EBIT", "ROIC"])
+    df["_rev"] = df["EV/EBIT"].rank(ascending=True)
+    df["_rroic"] = df["ROIC"].rank(ascending=False)
+    df["_score"] = df["_rev"] + df["_rroic"]
+    df = df.sort_values("_score").reset_index(drop=True)
+    df["_pos"] = df.index + 1
+    return dict(zip(df["TICKER"], df["_pos"].astype(int)))
+
+
+def apply_filters(records: list) -> tuple[list, list[dict]]:
     kept = []
+    removidos = []
     for r in records:
+        ticker = r.get("TICKER", "?")
         ev = r.get("EV/EBIT")
         roic = r.get("ROIC")
         div = r.get("DIVIDA LIQUIDA / EBIT")
@@ -37,19 +52,25 @@ def apply_filters(records: list) -> list:
         setor = r.get("setor", "")
 
         if not ev or not roic:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": "EV/EBIT ou ROIC indisponível"})
             continue
         if ev <= FILTERS["min_ev_ebit"] or ev > FILTERS["max_ev_ebit"]:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"EV/EBIT {ev:.1f}x fora do range (0, {FILTERS['max_ev_ebit']}]"})
             continue
         if roic <= 0:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"ROIC {roic:.1f}% ≤ 0"})
             continue
         if liq < FILTERS["min_liq_usd"]:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"Liquidez ${liq:,.0f}/dia < ${FILTERS['min_liq_usd']:,.0f}"})
             continue
         if div is not None and div >= FILTERS["max_div_ebit"]:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"Dívida/EBIT {div:.1f}x ≥ {FILTERS['max_div_ebit']}"})
             continue
         if setor in EXCLUDED_SECTORS:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"Setor excluído: {setor}"})
             continue
         kept.append(r)
-    return kept
+    return kept, removidos
 
 
 def compute_magic_formula(records: list, top_n: int = 30) -> list:
@@ -63,15 +84,19 @@ def compute_magic_formula(records: list, top_n: int = 30) -> list:
     return df.to_dict(orient="records")
 
 
-def apply_sector_limit(records: list, max_per_sector: int = 3) -> list:
+def apply_sector_limit(records: list, max_per_sector: int = 3) -> tuple[list, list[dict]]:
     counts: dict[str, int] = {}
     result = []
+    removidos = []
     for r in records:
         setor = r.get("setor") or "Outros"
+        ticker = r.get("TICKER", "?")
         if counts.get(setor, 0) < max_per_sector:
             counts[setor] = counts.get(setor, 0) + 1
             result.append(r)
-    return result
+        else:
+            removidos.append({"ticker": ticker, "etapa": "Limite de setor", "motivo": f"Setor '{setor}' já tem {max_per_sector} representantes"})
+    return result, removidos
 
 
 def run(top_n: int = 30, force_refresh: bool = False):
@@ -80,14 +105,20 @@ def run(top_n: int = 30, force_refresh: bool = False):
     raw = load_sp500(force_refresh=force_refresh)
     print(f"[main_sp500] Total carregado: {len(raw)}")
 
-    filtered = apply_filters(raw)
+    rank_lookup = _compute_raw_mf_rank(raw)
+
+    filtered, removidos_filtros = apply_filters(raw)
     print(f"[main_sp500] Após filtros: {len(filtered)}")
 
     ranked = compute_magic_formula(filtered, top_n=top_n)
     print(f"[main_sp500] Top {top_n} Magic Formula calculado")
 
-    final = apply_sector_limit(ranked, max_per_sector=3)
+    final, removidos_setor = apply_sector_limit(ranked, max_per_sector=3)
     print(f"[main_sp500] Após limite setorial: {len(final)}")
+
+    all_removidos = removidos_filtros + removidos_setor
+    for r in all_removidos:
+        r["posicao_mf_bruta"] = rank_lookup.get(r["ticker"])
 
     output = {
         "data_execucao": datetime.now().strftime("%Y-%m-%d"),
@@ -96,6 +127,7 @@ def run(top_n: int = 30, force_refresh: bool = False):
         "apos_setor_limit": len(final),
         "mercado": "US",
         "indice": "S&P 500",
+        "removidos": all_removidos,
         "candidatos": final,
     }
 

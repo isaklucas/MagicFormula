@@ -5,6 +5,8 @@ import os
 from datetime import date
 from pathlib import Path
 
+import pandas as pd
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 ROOT = Path(__file__).parent.parent
@@ -15,6 +17,22 @@ from filters import apply_filters, apply_sector_limit
 from ranking import compute_magic_formula, to_records
 from scraper import check_recuperacao_judicial
 from enricher import enrich_candidates, format_for_agent
+
+
+def _compute_raw_mf_rank_br(df_raw: pd.DataFrame) -> dict[str, int]:
+    try:
+        df = df_raw[["TICKER", "EV/EBIT", "ROIC"]].dropna()
+        df = df[(df["EV/EBIT"] > 0) & (df["ROIC"] > 0)].copy()
+        if df.empty:
+            return {}
+        df["_rev"] = df["EV/EBIT"].rank(ascending=True)
+        df["_rroic"] = df["ROIC"].rank(ascending=False)
+        df["_score"] = df["_rev"] + df["_rroic"]
+        df = df.sort_values("_score").reset_index(drop=True)
+        df["_pos"] = df.index + 1
+        return dict(zip(df["TICKER"], df["_pos"].astype(int)))
+    except Exception:
+        return {}
 
 
 CSV_PATH = ROOT / "data" / "statusinvest-busca-avancada.csv"
@@ -32,6 +50,8 @@ def main():
     print("[main] Carregando CSV...")
     df_raw = load_csv(str(CSV_PATH))
     total_csv = len(df_raw)
+
+    rank_lookup = _compute_raw_mf_rank_br(df_raw)
 
     print("[main] Aplicando filtros...")
     df_filtered, removidos_filtros = apply_filters(df_raw)
@@ -99,6 +119,10 @@ def main():
         }
         r["contexto_agente"] = format_for_agent(ticker, enriched, r)
 
+    all_removidos = removidos_filtros + removidos_rj + removidos_setor
+    for r in all_removidos:
+        r["posicao_mf_bruta"] = rank_lookup.get(r["ticker"])
+
     output = {
         "data_execucao": str(date.today()),
         "total_empresas_csv": int(total_csv),
@@ -106,7 +130,7 @@ def main():
         "apos_rj_check": int(len(df_clean)),
         "apos_setor_limit": len(records),
         "removidos_rj": removidos_rj_tickers,
-        "removidos": removidos_filtros + removidos_rj + removidos_setor,
+        "removidos": all_removidos,
         "guardrail_detalhes": {t: rj_results[t] for t in tickers},
         "candidatos": records,
     }

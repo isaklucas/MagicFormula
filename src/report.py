@@ -260,6 +260,7 @@ def _build_removidos_section_mf(removidos: list[dict]) -> str:
         f'color:{badge_colors.get(r["etapa"],"#aaa")};border:1px solid {badge_colors.get(r["etapa"],"#444")}55;'
         f'font-size:.65rem">{r["etapa"]}</span></td>'
         f'<td class="text-secondary" style="font-size:.78rem">{r["motivo"]}</td>'
+        f'<td class="text-center text-muted" style="font-size:.78rem">{"#" + str(r["posicao_mf_bruta"]) if r.get("posicao_mf_bruta") else "—"}</td>'
         f'</tr>'
         for r in removidos
     )
@@ -299,6 +300,7 @@ def _build_removidos_section_mf(removidos: list[dict]) -> str:
                 <th style="font-size:.72rem;color:#58a6ff">Ticker</th>
                 <th style="font-size:.72rem;color:#58a6ff">Etapa</th>
                 <th style="font-size:.72rem;color:#58a6ff">Motivo</th>
+                <th style="font-size:.72rem;color:#58a6ff">Pos. MF</th>
               </tr>
             </thead>
             <tbody>{rows_html}</tbody>

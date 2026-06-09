@@ -12,6 +12,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent))
 from report import (
     _fmt, _color_roic, _color_ev, _color_div, _motivo, _badge_rec,
+    _build_removidos_section_mf,
 )
 from navbar import get_navbar
 from report_us import _fmt_usd
@@ -138,6 +139,7 @@ def generate_html_sc(data: dict, analyses: dict, output_path: str, top_n: int = 
     total       = data.get("total_empresas", "—")
     apos_filtros = data.get("apos_filtros", "—")
     apos_setor  = data.get("apos_setor_limit", "—")
+    removidos   = data.get("removidos", [])
 
     comprar_list, neutro_list = [], []
     for ticker, ag in analyses.items():
@@ -305,6 +307,8 @@ def generate_html_sc(data: dict, analyses: dict, output_path: str, top_n: int = 
     <div class="section-sep mt-5"><span class="sep-badge sep-amber">⚠ NEUTRO / CAUTELA — {n_neutro} ações</span></div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">{neutro_cards}</div>
   </section>
+
+{_build_removidos_section_mf(removidos)}
 
 </div>
 

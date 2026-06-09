@@ -300,6 +300,7 @@ def _build_removidos_section_fii(removidos: list[dict]) -> str:
         for r in removidos
     )
 
+
     return f"""
   <section class="mb-4">
     <div class="section-title">Fundos removidos — transparência do filtro</div>
