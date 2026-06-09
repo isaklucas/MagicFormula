@@ -47,8 +47,24 @@ def main():
     args = parser.parse_args()
     top_n = args.top
 
-    print("[main] Carregando CSV...")
-    df_raw = load_csv(str(CSV_PATH))
+    # Tenta API SI primeiro; fallback para CSV se existir
+    df_raw = None
+    try:
+        from si_fetcher import fetch_all_stocks
+        print("[main] Buscando dados no Status Invest (API busca avançada)...")
+        df_raw = fetch_all_stocks()
+        print(f"[main] {len(df_raw)} ações carregadas via API SI")
+    except Exception as e:
+        print(f"[main] API SI falhou: {e}")
+
+    if df_raw is None or df_raw.empty:
+        if CSV_PATH.exists():
+            print(f"[main] Fallback → CSV: {CSV_PATH}")
+            df_raw = load_csv(str(CSV_PATH))
+        else:
+            print("[main] Sem dados (API SI falhou e CSV não existe). Abortando.")
+            sys.exit(1)
+
     total_csv = len(df_raw)
 
     rank_lookup = _compute_raw_mf_rank_br(df_raw)
