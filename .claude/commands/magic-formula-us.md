@@ -61,12 +61,24 @@ RULES:
 5. ROIC < 10% → score_compra maximum 7
 6. EV/EBIT > 20x with ROIC < 30% → do NOT recommend COMPRAR
 
+WEB SEARCH (required — max 2 searches):
+To validate the points you identified, do targeted searches:
+- If bull_case mentions "margin expansion" → search "{TICKER} margin latest earnings"
+- If bear_case mentions "rising leverage" → search "{TICKER} debt latest filing"
+- Use terms like "latest earnings", "recent results", "last quarter" — NO hardcoded year
+Use findings to confirm/correct points and fill web_resumo.
+If no useful results: web_resumo = "No relevant web data found."
+Do NOT invent facts not present in the search.
+
 Return EXACTLY this JSON (no markdown, no text outside):
 {
   "ticker": "{TICKER}",
   "recomendacao": "COMPRAR" | "NEUTRO" | "CAUTELA",
   "score_compra": <1-10>,
-  "motivo": "<1-2 objective sentences based only on the data, max 160 chars>"
+  "motivo": "<executive summary, max 160 chars>",
+  "bull_case": ["<strong point 1>", "<strong point 2>", "<strong point 3 optional>"],
+  "bear_case": ["<weak point 1>", "<weak point 2>", "<weak point 3 optional>"],
+  "web_resumo": "<1-2 sentences from web search findings. If no result: 'No relevant web data found.'>"
 }
 ```
 

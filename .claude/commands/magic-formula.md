@@ -62,12 +62,24 @@ REGRAS:
 5. ROIC < 10% → score_compra máximo 7
 6. EV/EBIT > 15x com ROIC < 25% → NÃO recomende COMPRAR
 
+BUSCA WEB (obrigatória — máx 2 buscas):
+Para validar os pontos que você identificou, faça buscas direcionadas:
+- Se bull_case menciona "expansão de margens" → busque "{TICKER} margem resultado recente"
+- Se bear_case menciona "alavancagem crescente" → busque "{TICKER} dívida último balanço"
+- Use termos como "último balanço", "resultado recente", "últimos resultados" — SEM ano fixo
+Use os achados para confirmar/corrigir pontos e preencher web_resumo.
+Se busca não retornar nada útil: web_resumo = "Sem dados web relevantes."
+NÃO invente fatos não presentes na busca.
+
 Retorne EXATAMENTE este JSON (sem markdown, sem texto fora):
 {
   "ticker": "{TICKER}",
   "recomendacao": "COMPRAR" | "NEUTRO" | "CAUTELA",
   "score_compra": <1-10>,
-  "motivo": "<1-2 frases objetivas baseadas apenas nos dados, máx 160 chars>"
+  "motivo": "<resumo executivo, máx 160 chars>",
+  "bull_case": ["<ponto forte 1>", "<ponto forte 2>", "<ponto forte 3 opcional>"],
+  "bear_case": ["<ponto fraco 1>", "<ponto fraco 2>", "<ponto fraco 3 opcional>"],
+  "web_resumo": "<1-2 frases do que a busca web confirmou ou adicionou. Se sem resultado: 'Sem dados web relevantes.'>"
 }
 ```
 

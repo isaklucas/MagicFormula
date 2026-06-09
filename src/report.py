@@ -107,6 +107,29 @@ def _build_card(c, ag, rank, group):
     recomendacao = ag.get("recomendacao", "")
     motivo_text = _motivo(ag, c, group)
 
+    # Bull / Bear / Web
+    bull = ag.get("bull_case") or []
+    bear = ag.get("bear_case") or []
+    web_res = (ag.get("web_resumo") or "").strip()
+    bull_items = "".join(f"<li>{item}</li>" for item in bull) or "<li style='color:#8b949e'>—</li>"
+    bear_items = "".join(f"<li>{item}</li>" for item in bear) or "<li style='color:#8b949e'>—</li>"
+    bull_bear_html = (
+        '<div class="d-flex gap-1 mt-2">'
+        '<div style="flex:1;background:#0d2818;border:1px solid #238636;border-radius:6px;padding:5px 8px">'
+        '<div style="color:#3fb950;font-size:.68rem;font-weight:700">▲ Bull</div>'
+        f'<ul style="font-size:.71rem;color:#e6edf3;margin:3px 0 0;padding-left:13px">{bull_items}</ul>'
+        '</div>'
+        '<div style="flex:1;background:#2d1216;border:1px solid #da3633;border-radius:6px;padding:5px 8px">'
+        '<div style="color:#f85149;font-size:.68rem;font-weight:700">▼ Bear</div>'
+        f'<ul style="font-size:.71rem;color:#e6edf3;margin:3px 0 0;padding-left:13px">{bear_items}</ul>'
+        '</div>'
+        '</div>'
+    ) if bull or bear else ""
+    web_html = (
+        f'<div class="mt-1 rounded-1 px-2 py-1" style="background:#1c2128;border:1px solid #30363d;font-size:.68rem;color:#8b949e">🌐 {web_res}</div>'
+        if web_res and "sem dados" not in web_res.lower() and "sem resultado" not in web_res.lower() else ""
+    )
+
     border_color = "#3fb950" if group == "COMPRAR" else "#d29922"
     motivo_bg = "rgba(63,185,80,.1)" if group == "COMPRAR" else "rgba(210,153,34,.1)"
     motivo_border = "#3fb95033" if group == "COMPRAR" else "#d2992233"
@@ -155,6 +178,8 @@ def _build_card(c, ag, rank, group):
             <span class="text-muted fw-semibold"> {motivo_label}: </span>
             <span style="color:#e6edf3">{motivo_text}</span>
           </div>
+          {bull_bear_html}
+          {web_html}
         </div>
       </div>
     </div>"""

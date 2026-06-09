@@ -88,8 +88,11 @@ def validate_analysis(analysis: dict, candidate: dict) -> EvalResult:
                 f"score={score} suspeito: CAGR Lucros={cagr_lucros:.1f}% fortemente negativo"
             )
 
-    # --- Consistencia pontos_fortes / motivo x dados ---
-    all_positive_text = list(pontos_fortes) + ([motivo] if motivo else [])
+    # --- Consistencia pontos_fortes / motivo / bull_case x dados ---
+    bull_text = " ".join(analysis.get("bull_case") or []).lower()
+    web_text  = (analysis.get("web_resumo") or "").lower()
+
+    all_positive_text = list(pontos_fortes) + ([motivo] if motivo else []) + ([bull_text] if bull_text else [])
     for pf in all_positive_text:
         if any(k in pf for k in ("divida baixa", "sem divida", "caixa liquido", "divida negativa")):
             if div_ebit > 1:
@@ -106,6 +109,23 @@ def validate_analysis(analysis: dict, candidate: dict) -> EvalResult:
                 inconsistencias.append(
                     f"Analise menciona 'margem alta' mas Margem EBIT={margem_ebit:.1f}%"
                 )
+
+    # --- Validacao web_resumo vs dados quantitativos ---
+    if web_text:
+        if any(k in web_text for k in ("lucro recorde", "crescimento forte", "lucros crescendo", "earnings growth")):
+            if cagr_lucros is not None and cagr_lucros < -10:
+                avisos.append(
+                    f"web_resumo menciona crescimento de lucros mas CAGR Lucros={cagr_lucros:.1f}%"
+                )
+        if any(k in web_text for k in ("sem divida", "caixa liquido", "divida baixa", "debt free", "net cash")):
+            if div_ebit > 1:
+                inconsistencias.append(
+                    f"web_resumo menciona divida baixa/caixa mas DIV/EBIT={div_ebit:.1f}x"
+                )
+
+    # bear_case deve existir para analise completa
+    if not analysis.get("bear_case"):
+        avisos.append("bear_case ausente — analise incompleta")
 
     # --- Consistencia valuation tag ---
     if valuation == "MUITO_BARATO" and ev_ebit > 8:
