@@ -82,12 +82,13 @@ def deduplicate_by_company(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
 def apply_sector_limit(
     records: list[dict],
     setor_map: dict[str, str],
-    max_per_sector: int = 3,
+    max_per_sector: int = 5,
+    desired_n: int | None = None,
 ) -> tuple[list[dict], list[dict]]:
     """
-    Remove excesso de empresas do mesmo setor.
-    Preserva as de melhor posicao MF (menor mf_score = melhor).
-    records ja devem estar ordenados por mf_score asc.
+    Remove excesso de empresas do mesmo setor, com reposição do pool.
+    Itera pelo ranking completo até ter desired_n candidatos (ou esgotar o pool).
+    records devem estar ordenados por mf_score asc (melhor = menor score).
     Retorna (kept, removidos).
     """
     sector_count: dict[str, int] = {}
@@ -95,6 +96,8 @@ def apply_sector_limit(
     removidos: list[dict] = []
 
     for r in records:
+        if desired_n and len(kept) >= desired_n:
+            break
         ticker = r["TICKER"]
         setor = setor_map.get(ticker, "Desconhecido")
         r["setor"] = setor

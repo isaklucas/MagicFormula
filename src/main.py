@@ -74,7 +74,7 @@ def main():
 
     # Aplica limite de setor ANTES do yfinance (economiza requisicoes)
     setor_map = {t: rj_results[t].get("setor", "Desconhecido") for t in rj_results}
-    records, removidos_setor = apply_sector_limit(records, setor_map, max_per_sector=3)
+    records, removidos_setor = apply_sector_limit(records, setor_map, max_per_sector=5, desired_n=30)
 
     # Enriquece apenas os sobreviventes com dados históricos yfinance
     print(f"[main] Enriquecendo {len(records)} candidatos com yfinance...")
