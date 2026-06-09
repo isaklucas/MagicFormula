@@ -34,7 +34,7 @@ def main():
     total_csv = len(df_raw)
 
     print("[main] Aplicando filtros...")
-    df_filtered = apply_filters(df_raw)
+    df_filtered, removidos_filtros = apply_filters(df_raw)
 
     print(f"[main] Calculando Magic Formula (top {top_n})...")
     df_top30 = compute_magic_formula(df_filtered, top_n=top_n)
@@ -52,9 +52,13 @@ def main():
     df_clean = df_top30[~df_top30["em_rj"]].reset_index(drop=True)
     df_clean["posicao_mf"] = range(1, len(df_clean) + 1)
 
-    removidos_rj = [t for t in tickers if _em_rj(t)]
-    if removidos_rj:
-        print(f"[main] Removidos por RJ: {removidos_rj}")
+    removidos_rj_tickers = [t for t in tickers if _em_rj(t)]
+    removidos_rj = [
+        {"ticker": t, "etapa": "Recuperação Judicial", "motivo": "Em recuperação judicial (guardrail StatusInvest)"}
+        for t in removidos_rj_tickers
+    ]
+    if removidos_rj_tickers:
+        print(f"[main] Removidos por RJ: {removidos_rj_tickers}")
     print(f"[main] Apos remocao RJ: {len(df_clean)} candidatos")
 
     records = to_records(df_clean)
@@ -70,7 +74,7 @@ def main():
 
     # Aplica limite de setor ANTES do yfinance (economiza requisicoes)
     setor_map = {t: rj_results[t].get("setor", "Desconhecido") for t in rj_results}
-    records = apply_sector_limit(records, setor_map, max_per_sector=3)
+    records, removidos_setor = apply_sector_limit(records, setor_map, max_per_sector=3)
 
     # Enriquece apenas os sobreviventes com dados históricos yfinance
     print(f"[main] Enriquecendo {len(records)} candidatos com yfinance...")
@@ -101,7 +105,8 @@ def main():
         "apos_filtros": int(len(df_filtered)),
         "apos_rj_check": int(len(df_clean)),
         "apos_setor_limit": len(records),
-        "removidos_rj": removidos_rj,
+        "removidos_rj": removidos_rj_tickers,
+        "removidos": removidos_filtros + removidos_rj + removidos_setor,
         "guardrail_detalhes": {t: rj_results[t] for t in tickers},
         "candidatos": records,
     }

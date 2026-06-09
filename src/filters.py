@@ -26,18 +26,26 @@ def _suffix_priority(ticker: str) -> int:
 def _company_base(ticker: str) -> str:
     """Extrai base da empresa (4 chars) ignorando o sufixo numerico."""
     t = ticker.upper().strip()
-    # Remove sufixo numerico (1-2 digitos no final)
     i = len(t) - 1
     while i >= 0 and t[i].isdigit():
         i -= 1
     return t[: i + 1]
 
 
-def deduplicate_by_company(df: pd.DataFrame) -> pd.DataFrame:
+def _safe_float(val, default: float = 0.0) -> float:
+    try:
+        f = float(val)
+        return f if f == f else default
+    except (TypeError, ValueError):
+        return default
+
+
+def deduplicate_by_company(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
     """
     Remove tickers duplicados da mesma empresa.
     Prioridade: 11 (Units) > 4 (PN) > 3 (ON) > outros.
     Em caso de empate de sufixo, prefere maior DY.
+    Retorna (df_dedupicado, lista_removidos).
     """
     df = df.copy()
     df["_base"] = df["TICKER"].apply(_company_base)
@@ -49,28 +57,42 @@ def deduplicate_by_company(df: pd.DataFrame) -> pd.DataFrame:
     if dy_col:
         df[dy_col] = pd.to_numeric(df[dy_col], errors="coerce").fillna(0)
         sort_cols.append(dy_col)
-        sort_asc.append(False)  # maior DY = melhor em empate
+        sort_asc.append(False)
 
     df_sorted = df.sort_values(sort_cols, ascending=sort_asc)
     df_dedup = df_sorted.drop_duplicates(subset="_base", keep="first")
 
-    removidos = len(df) - len(df_dedup)
-    if removidos > 0:
-        print(f"[filtros] {removidos} tickers duplicados removidos (mesmo empresa, sufixo inferior)")
+    tickers_kept = set(df_dedup["TICKER"])
+    removidos = [
+        {
+            "ticker": row["TICKER"],
+            "etapa": "Deduplicação",
+            "motivo": "Sufixo inferior (mesma empresa tem ticket melhor)",
+        }
+        for _, row in df.iterrows()
+        if row["TICKER"] not in tickers_kept
+    ]
 
-    return df_dedup.drop(columns=["_base", "_prio"]).reset_index(drop=True)
+    if removidos:
+        print(f"[filtros] {len(removidos)} tickers duplicados removidos (mesmo empresa, sufixo inferior)")
+
+    return df_dedup.drop(columns=["_base", "_prio"]).reset_index(drop=True), removidos
 
 
-def apply_sector_limit(records: list[dict], setor_map: dict[str, str], max_per_sector: int = 3) -> list[dict]:
+def apply_sector_limit(
+    records: list[dict],
+    setor_map: dict[str, str],
+    max_per_sector: int = 3,
+) -> tuple[list[dict], list[dict]]:
     """
     Remove excesso de empresas do mesmo setor.
     Preserva as de melhor posicao MF (menor mf_score = melhor).
     records ja devem estar ordenados por mf_score asc.
-    setor_map: {ticker: setor}
+    Retorna (kept, removidos).
     """
     sector_count: dict[str, int] = {}
     kept = []
-    removed = []
+    removidos: list[dict] = []
 
     for r in records:
         ticker = r["TICKER"]
@@ -81,38 +103,58 @@ def apply_sector_limit(records: list[dict], setor_map: dict[str, str], max_per_s
             sector_count[setor] = count + 1
             kept.append(r)
         else:
-            removed.append(ticker)
+            removidos.append({
+                "ticker": ticker,
+                "etapa": "Limite de setor",
+                "motivo": f"Setor '{setor}' já tem {max_per_sector} representantes",
+            })
 
-    if removed:
-        print(f"[filtros] Removidos por limite de setor (max {max_per_sector}): {removed}")
+    if removidos:
+        print(f"[filtros] Removidos por limite de setor (max {max_per_sector}): {[r['ticker'] for r in removidos]}")
     print(f"[filtros] {len(kept)} empresas apos limite de setor")
-    return kept
+    return kept, removidos
 
 
-def apply_filters(df: pd.DataFrame) -> pd.DataFrame:
+def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
+    """
+    Aplica filtros básicos à Magic Formula.
+    Retorna (df_filtrado, lista_removidos) onde cada remoção tem ticker+etapa+motivo.
+    """
     total = len(df)
-    mask = pd.Series([True] * total, index=df.index)
+    removidos: list[dict] = []
 
-    # Remove financeiros (Magic Formula nao se aplica)
-    mask &= ~df["TICKER"].apply(_is_financial)
+    m_fin  = df["TICKER"].apply(_is_financial)
+    m_liq  = df["LIQUIDEZ MEDIA DIARIA"].fillna(0) < 500_000
+    m_ev   = df["EV/EBIT"].fillna(0) <= 0
+    m_roic = df["ROIC"].fillna(0) <= 0
+    m_div  = df["DIVIDA LIQUIDA / EBIT"].fillna(99) >= 5
 
-    # Liquidez minima 500k/dia
-    mask &= df["LIQUIDEZ MEDIA DIARIA"].fillna(0) >= 500_000
+    mask_keep = ~m_fin & ~m_liq & ~m_ev & ~m_roic & ~m_div
 
-    # EV/EBIT positivo (negativo = prejuizo ou divida > ativos)
-    mask &= df["EV/EBIT"].fillna(0) > 0
+    for idx in df[~mask_keep].index:
+        row    = df.loc[idx]
+        ticker = str(row["TICKER"])
+        if m_fin[idx]:
+            motivo = "Setor financeiro (MF não aplicável)"
+        elif m_liq[idx]:
+            liq = _safe_float(row.get("LIQUIDEZ MEDIA DIARIA"), 0)
+            motivo = f"Liquidez R${liq/1_000:,.0f}k/dia < R$500k"
+        elif m_ev[idx]:
+            ev = _safe_float(row.get("EV/EBIT"), 0)
+            motivo = f"EV/EBIT {ev:.1f} ≤ 0"
+        elif m_roic[idx]:
+            roic = _safe_float(row.get("ROIC"), 0)
+            motivo = f"ROIC {roic:.1f}% ≤ 0"
+        else:
+            div = _safe_float(row.get("DIVIDA LIQUIDA / EBIT"), 0)
+            motivo = f"Dívida/EBIT {div:.1f}x ≥ 5"
+        removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": motivo})
 
-    # ROIC positivo — FIIs reais nao tem ROIC, sao eliminados aqui naturalmente
-    mask &= df["ROIC"].fillna(0) > 0
-
-    # Divida/EBIT controlada
-    mask &= df["DIVIDA LIQUIDA / EBIT"].fillna(99) < 5
-
-    result = df[mask].copy()
+    result = df[mask_keep].copy()
     print(f"[filtros] {total} -> {len(result)} empresas apos filtros basicos")
 
-    # Deduplica: uma acao por empresa, melhor sufixo
-    result = deduplicate_by_company(result)
+    result, removidos_dup = deduplicate_by_company(result)
+    removidos.extend(removidos_dup)
     print(f"[filtros] {len(result)} empresas unicas apos deduplicacao")
 
-    return result
+    return result, removidos

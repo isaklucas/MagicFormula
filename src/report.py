@@ -231,6 +231,107 @@ def _build_ticker_data(candidates: list, analyses: dict) -> dict:
     return result
 
 
+def _build_removidos_section_mf(removidos: list[dict]) -> str:
+    if not removidos:
+        return ""
+
+    # Counts by stage
+    from collections import Counter
+    counts = Counter(r["etapa"] for r in removidos)
+    etapas_order = ["Filtros básicos", "Deduplicação", "Recuperação Judicial", "Limite de setor"]
+    badge_colors = {
+        "Filtros básicos":       "#f85149",
+        "Deduplicação":          "#8b949e",
+        "Recuperação Judicial":  "#d29922",
+        "Limite de setor":       "#bc8cff",
+    }
+
+    badges_html = "".join(
+        f'<span class="badge me-1" style="background:{badge_colors.get(e,"#444")}22;'
+        f'color:{badge_colors.get(e,"#aaa")};border:1px solid {badge_colors.get(e,"#444")}55;'
+        f'font-size:.68rem">{e}: {counts[e]}</span>'
+        for e in etapas_order if e in counts
+    )
+
+    rows_html = "".join(
+        f'<tr data-etapa="{r["etapa"]}">'
+        f'<td class="fw-bold" style="color:#e6edf3;font-size:.82rem">{r["ticker"]}</td>'
+        f'<td><span class="badge" style="background:{badge_colors.get(r["etapa"],"#444")}22;'
+        f'color:{badge_colors.get(r["etapa"],"#aaa")};border:1px solid {badge_colors.get(r["etapa"],"#444")}55;'
+        f'font-size:.65rem">{r["etapa"]}</span></td>'
+        f'<td class="text-secondary" style="font-size:.78rem">{r["motivo"]}</td>'
+        f'</tr>'
+        for r in removidos
+    )
+
+    return f"""
+  <section class="mb-4">
+    <div class="section-title">Removidos do ranking — transparência</div>
+    <div class="card">
+      <div class="card-header d-flex align-items-center gap-2 py-2 flex-wrap"
+           style="background:#0d1117;cursor:pointer"
+           onclick="toggleRemovidos()">
+        <span style="color:#d29922;font-size:1rem">⚠</span>
+        <span class="fw-semibold" style="font-size:.85rem">{len(removidos)} empresas removidas antes da análise IA</span>
+        <div class="ms-2 d-flex gap-1 flex-wrap">{badges_html}</div>
+        <span id="removidos-chevron" class="ms-auto text-muted" style="font-size:.8rem">▼ expandir</span>
+      </div>
+      <div id="removidos-body" style="display:none">
+        <div class="p-3 border-bottom" style="border-color:#30363d!important">
+          <div class="d-flex gap-2 align-items-center flex-wrap">
+            <input type="text" id="removidos-search" class="form-control form-control-sm"
+                   style="max-width:200px;background:#0d1117;border-color:#30363d;color:#e6edf3"
+                   placeholder="Buscar ticker..."
+                   oninput="filterRemovidos()">
+            <select id="removidos-filter" class="form-select form-select-sm"
+                    style="max-width:220px;background:#0d1117;border-color:#30363d;color:#e6edf3"
+                    onchange="filterRemovidos()">
+              <option value="">Todas as etapas</option>
+              {"".join(f'<option value="{e}">{e} ({counts[e]})</option>' for e in etapas_order if e in counts)}
+            </select>
+            <span id="removidos-count" class="text-muted" style="font-size:.75rem">{len(removidos)} itens</span>
+          </div>
+        </div>
+        <div class="table-responsive" style="max-height:400px;overflow-y:auto">
+          <table class="table table-dark table-sm mb-0" id="removidos-table">
+            <thead style="position:sticky;top:0;background:#161b22">
+              <tr>
+                <th style="font-size:.72rem;color:#58a6ff">Ticker</th>
+                <th style="font-size:.72rem;color:#58a6ff">Etapa</th>
+                <th style="font-size:.72rem;color:#58a6ff">Motivo</th>
+              </tr>
+            </thead>
+            <tbody>{rows_html}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+<script>
+function toggleRemovidos() {{
+  const body = document.getElementById('removidos-body');
+  const chev = document.getElementById('removidos-chevron');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  chev.textContent = open ? '▼ expandir' : '▲ recolher';
+}}
+function filterRemovidos() {{
+  const q     = document.getElementById('removidos-search').value.toUpperCase();
+  const etapa = document.getElementById('removidos-filter').value;
+  const rows  = document.querySelectorAll('#removidos-table tbody tr');
+  let visible = 0;
+  rows.forEach(tr => {{
+    const ticker = tr.cells[0].textContent.toUpperCase();
+    const rowEtapa = tr.dataset.etapa || '';
+    const show = ticker.includes(q) && (!etapa || rowEtapa === etapa);
+    tr.style.display = show ? '' : 'none';
+    if (show) visible++;
+  }});
+  document.getElementById('removidos-count').textContent = visible + ' itens';
+}}
+</script>"""
+
+
 def generate_html(data: dict, analyses: dict, output_path: str, top_n: int = 15):
     cand_lookup = {c["TICKER"]: c for c in data["candidatos"]}
     data_exec = data.get("data_execucao", "")
@@ -269,6 +370,8 @@ def generate_html(data: dict, analyses: dict, output_path: str, top_n: int = 15)
 
     comprar_cards = "".join(_build_card(cand_lookup[t], ag, r+1, "COMPRAR") for r,(t,ag,*_) in enumerate(comprar_list))
     neutro_cards  = "".join(_build_card(cand_lookup[t], ag, r+1, "NEUTRO")  for r,(t,ag,*_) in enumerate(neutro_list))
+
+    removidos_html = _build_removidos_section_mf(data.get("removidos", []))
 
     tickers_js    = [t for t,*_ in comprar_list]
     roics_js      = [round(float(cand_lookup[t].get("ROIC") or 0), 2) for t in tickers_js]
@@ -460,6 +563,8 @@ document.querySelectorAll('nav a').forEach(a => {{
       {neutro_cards}
     </div>
   </section>
+
+  {removidos_html}
 
   <!-- ── Metodologia ─────────────────────────────────────────────────────── -->
   <section class="mb-4">

@@ -202,10 +202,13 @@ def format_for_agent(ticker: str, enriched: dict, candidate: dict) -> str:
         p_cur = preco.get("preco_atual", candidate.get("PRECO", "?"))
         pct_max = preco.get("pct_vs_max")
         pct_min = preco.get("pct_vs_min")
-        lines.append(
-            f"- Preço 52 semanas: Mín R${p_min} | Máx R${p_max} | "
-            f"Atual {pct_max:+.1f}% vs máx / {pct_min:+.1f}% vs mín"
-        )
+        if pct_max is not None and pct_min is not None:
+            lines.append(
+                f"- Preço 52 semanas: Mín R${p_min} | Máx R${p_max} | "
+                f"Atual {pct_max:+.1f}% vs máx / {pct_min:+.1f}% vs mín"
+            )
+        else:
+            lines.append(f"- Preço 52 semanas: Mín R${p_min} | Máx R${p_max}")
 
     roic_hist = enriched.get("roic_trimestral", [])
     roic_tend = enriched.get("roic_tendencia", "")
