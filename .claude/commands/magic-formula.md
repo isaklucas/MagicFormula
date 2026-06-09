@@ -17,6 +17,8 @@ Pipeline: Python quantitativo → agentes paralelos por ticker → EVAL anti-alu
 python src/main.py
 ```
 
+Busca dados direto do Status Invest (API busca avançada — sem CSV manual).
+Se a API falhar, usa `data/statusinvest-busca-avancada.csv` como fallback (se existir).
 Aguarda finalizar. Salva `output/candidates.json` com candidatos + resultado do guardrail RJ por ticker.
 
 ---
