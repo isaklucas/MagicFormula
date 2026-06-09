@@ -260,6 +260,8 @@ def _build_removidos_section_mf(removidos: list[dict]) -> str:
     if not removidos:
         return ""
 
+    removidos = sorted(removidos, key=lambda r: (r.get("posicao_mf_bruta") is None, r.get("posicao_mf_bruta") or 0))
+
     # Counts by stage
     from collections import Counter
     counts = Counter(r["etapa"] for r in removidos)
