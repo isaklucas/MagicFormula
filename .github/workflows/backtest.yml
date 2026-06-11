@@ -1,4 +1,4 @@
-name: Backtest Semanal Magic Formula BR + US
+name: Backtest Semanal Magic Formula BR + US + FII
 
 on:
   schedule:
@@ -21,7 +21,7 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependências
-        run: pip install pandas numpy yfinance beautifulsoup4 httpx lxml
+        run: pip install pandas numpy yfinance beautifulsoup4 httpx lxml rich
 
       # ── Backtest BR ────────────────────────────────────────────────────────
 
@@ -101,12 +101,38 @@ jobs:
       - name: Copiar Small Cap para docs/
         run: cp output/relatorio_backtest_sc.html docs/backtest_sc.html
 
+      # ── Backtest FII ───────────────────────────────────────────────────────
+
+      - name: Gerar universo FII (cache Fundamentus)
+        run: python -c "import sys; sys.path.insert(0,'src'); from fii_si_scraper import fetch_all_si; fetch_all_si(force=True)"
+
+      - name: Rodar backtest FII
+        run: python src/backtester_fii.py --start 2023-01-01 --output output/backtest_fii.json
+
+      - name: Gerar relatório HTML FII
+        run: python src/report_backtest_fii.py --json output/backtest_fii.json
+
+      - name: Injetar data de atualização — FII
+        run: |
+          DATA=$(date '+%d/%m/%Y %H:%M UTC')
+          python3 -c "
+          with open('output/relatorio_backtest_fii.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#1a1a2e;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #333;font-family:monospace;z-index:9999\">Atualizado em $DATA</div>'
+          html = html.replace('</body>', badge + '</body>')
+          with open('output/relatorio_backtest_fii.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          "
+
+      - name: Copiar FII para docs/
+        run: cp output/relatorio_backtest_fii.html docs/backtest_fii.html
+
       # ── Commit e push ──────────────────────────────────────────────────────
 
       - name: Commit e push
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add docs/backtest.html docs/backtest_us.html docs/backtest_sc.html
-          git diff --staged --quiet || git commit -m "Backtest BR + US + SC — $(date '+%Y-%m-%d')"
+          git add docs/backtest.html docs/backtest_us.html docs/backtest_sc.html docs/backtest_fii.html
+          git diff --staged --quiet || git commit -m "Backtest BR + US + SC + FII — $(date '+%Y-%m-%d')"
           git push
