@@ -187,6 +187,7 @@ def rank_at_date(
     dividends: dict,
     prices_df: pd.DataFrame,
     pvp_current: dict[str, float | None],
+    vpa_current: dict[str, float | None],
     top_n: int = 10,
 ) -> list[dict]:
     price_row = prices_df[prices_df.index.date <= cutoff]
@@ -201,13 +202,25 @@ def rank_at_date(
         price = _safe_float(price_row.get(ticker))
         if price is None or price < 5:   # exclui FIIs em liquidação (preço < R$5)
             continue
+
+        # P/VP histórico estimado: preço_na_data / VPA_atual (VPA muda devagar)
+        vpa = vpa_current.get(ticker)
+        if vpa and vpa > 0:
+            pvp_hist = price / vpa
+        else:
+            pvp_hist = pvp_current.get(ticker)  # fallback: P/VP snapshot atual
+
+        # Filtro P/VP < 0.9 — mesmo critério do screener live
+        if pvp_hist is None or pvp_hist >= 0.9:
+            continue
+
         dy = _dy_limpo_at(ticker, cutoff, dividends, price)
-        if dy is None or dy <= 0 or dy > 25:  # DY > 25% = distorção amortização/liquidação
+        if dy is None or dy <= 0 or dy > 50:  # IQR já filtra amortização; 50% só bloqueia erros de dados
             continue
         metrics.append({
             "TICKER":   ticker,
             "dy_limpo": dy,
-            "pvp":      pvp_current.get(ticker),
+            "pvp":      round(pvp_hist, 3),
             "preco":    round(price, 2) if price else None,
         })
 
@@ -220,6 +233,7 @@ def rank_at_date(
 def run_backtest(
     tickers: list[str],
     pvp_current: dict[str, float | None],
+    vpa_current: dict[str, float | None],
     start: str = "2022-01-01",
     end: str | None = None,
     top_n: int = 10,
@@ -238,14 +252,16 @@ def run_backtest(
 
     monthly_results = []
     portfolio: set[str] = set()
-    portfolio_value     = 100.0
-    first_active_date   = None
+    portfolio_value      = 100.0
+    portfolio_price_val  = 100.0   # acumula só valorização de preço
+    portfolio_dy_val     = 100.0   # acumula só retorno de DY
+    first_active_date    = None
 
     for i, rebal_dt in enumerate(rebal_dates[:-1]):
         cutoff  = rebal_dt.date()
         next_dt = rebal_dates[i + 1]
 
-        all_ranked  = rank_at_date(tickers, cutoff, dividends, prices_df, pvp_current, top_n=buffer_n)
+        all_ranked  = rank_at_date(tickers, cutoff, dividends, prices_df, pvp_current, vpa_current, top_n=buffer_n)
         buffer_set  = {r["TICKER"] for r in all_ranked}
         ranked_list = [r["TICKER"] for r in all_ranked]
 
@@ -269,10 +285,13 @@ def run_backtest(
         if new_portfolio and first_active_date is None:
             first_active_date = str(cutoff)
 
-        # Retorno do portfolio anterior (preço + dividendos, cap ±50% por ticker)
-        monthly_return = None
+        # Retorno do portfolio anterior — rastreia preço e DY separadamente
+        monthly_return      = None
+        monthly_price_ret   = None
+        monthly_dy_ret      = None
         if portfolio:
-            rets = []
+            price_rets = []
+            dy_rets    = []
             for t in portfolio:
                 if t in prices_df.columns:
                     p0_s = prices_df.loc[prices_df.index <= rebal_dt, t]
@@ -280,22 +299,31 @@ def run_backtest(
                     p0   = _safe_float(p0_s.iloc[-1]) if not p0_s.empty else None
                     p1   = _safe_float(p1_s.iloc[-1]) if not p1_s.empty else None
                     if p0 and p1 and p0 > 0:
-                        price_ret = (p1 - p0) / p0
-                        # Adiciona dividendos pagos no período
+                        pr = (p1 - p0) / p0
+                        # Dividendos pagos no período
                         divs_t = dividends.get(t, pd.Series(dtype=float))
+                        dr = 0.0
                         if not divs_t.empty:
                             period_divs = divs_t[
                                 (divs_t.index > rebal_dt) & (divs_t.index <= next_dt)
                             ].sum()
-                            price_ret += period_divs / p0
+                            dr = period_divs / p0
+                        total_ret = pr + dr
                         # Cap ±50%: filtra eventos corporativos e erros de dados
-                        if -0.50 <= price_ret <= 0.50:
-                            rets.append(price_ret)
-            if rets:
-                monthly_return = np.mean(rets) * 100
+                        if -0.50 <= total_ret <= 0.50:
+                            price_rets.append(pr)
+                            dy_rets.append(dr)
+            if price_rets:
+                monthly_price_ret = np.mean(price_rets) * 100
+                monthly_dy_ret    = np.mean(dy_rets) * 100
+                monthly_return    = monthly_price_ret + monthly_dy_ret
 
         if monthly_return is not None:
-            portfolio_value *= (1 + monthly_return / 100)
+            portfolio_value     *= (1 + monthly_return / 100)
+        if monthly_price_ret is not None:
+            portfolio_price_val *= (1 + monthly_price_ret / 100)
+        if monthly_dy_ret is not None:
+            portfolio_dy_val    *= (1 + monthly_dy_ret / 100)
 
         # IFIX benchmark — total return (preço + dividendos XFIX11)
         ifix_ret = None
@@ -335,16 +363,20 @@ def run_backtest(
         ifix_dy = _dy_monthly_at(ifix_base, rebal_dt, next_dt, dividends, ifix_price_now) if ifix_base else None
 
         monthly_results.append({
-            "data":                  str(cutoff),
-            "top15":                 sorted(new_portfolio),
-            "entradas":              sorted(entries),
-            "saidas":                sorted(exits),
-            "precos_saida":          precos_saida,
-            "retorno_mes_pct":       round(monthly_return, 2) if monthly_return is not None else None,
-            "portfolio_valor":       round(portfolio_value, 2),
-            "ifix_retorno_mes_pct":  round(ifix_ret, 2) if ifix_ret is not None else None,
-            "dy_medio_pct":          dy_medio,
-            "ifix_dy_pct":           ifix_dy,
+            "data":                     str(cutoff),
+            "top15":                    sorted(new_portfolio),
+            "entradas":                 sorted(entries),
+            "saidas":                   sorted(exits),
+            "precos_saida":             precos_saida,
+            "retorno_mes_pct":          round(monthly_return, 2) if monthly_return is not None else None,
+            "retorno_preco_mes_pct":    round(monthly_price_ret, 2) if monthly_price_ret is not None else None,
+            "retorno_dy_mes_pct":       round(monthly_dy_ret, 2) if monthly_dy_ret is not None else None,
+            "portfolio_valor":          round(portfolio_value, 2),
+            "portfolio_preco_valor":    round(portfolio_price_val, 2),
+            "portfolio_dy_valor":       round(portfolio_dy_val, 2),
+            "ifix_retorno_mes_pct":     round(ifix_ret, 2) if ifix_ret is not None else None,
+            "dy_medio_pct":             dy_medio,
+            "ifix_dy_pct":              ifix_dy,
             "detalhes": [
                 {
                     "ticker":   r["TICKER"],
@@ -383,11 +415,15 @@ def run_backtest(
             max_dd = dd
 
     periodo_start = first_active_date or start
+    retorno_preco_total = portfolio_price_val - 100
+    retorno_dy_total    = portfolio_dy_val - 100
     stats = {
         "periodo":                  f"{periodo_start} ate {end}",
         "periodo_completo":         f"{start} ate {end}",
         "meses":                    len(retornos),
         "retorno_total_pct":        round(total_return, 2),
+        "retorno_preco_total_pct":  round(retorno_preco_total, 2),
+        "retorno_dy_total_pct":     round(retorno_dy_total, 2),
         "ifix_total_pct":           round(ifix_total, 2),
         "alpha_pct":                round(total_return - ifix_total, 2),
         "retorno_medio_mensal_pct": round(np.mean(retornos), 2) if retornos else None,
@@ -425,27 +461,72 @@ def _row_valido(r: dict) -> bool:
     return True
 
 
-def _load_universe() -> tuple[list[str], dict]:
-    """Carrega universo de FIIs do cache Fundamentus mais recente."""
+def _load_universe() -> tuple[list[str], dict, dict]:
+    """Carrega universo de FIIs: Fundamentus cache + yfinance cache mesclados.
+    Retorna (tickers, pvp_current, vpa_current).
+    """
+    tickers_set: set[str] = set()
+    pvp_current: dict[str, float | None] = {}
+    vpa_current: dict[str, float | None] = {}
+
+    # Fonte 1: Fundamentus cache mensal
     cache_files = sorted(glob.glob(str(ROOT / "data" / "fii_cache" / "????_??.json")))
     if cache_files:
         with open(cache_files[-1], encoding="utf-8") as f:
             data = json.load(f)
-        rows        = [r for r in data.get("rows", []) if _row_valido(r)]
-        tickers     = [r["TICKER"] for r in rows]
-        pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows}
-        print(f"[backtest_fii] Universo: {len(tickers)} FIIs (liquidez≥R$500k, patrimônio≥R$100M) — {Path(cache_files[-1]).name}")
-        return tickers, pvp_current
+        rows = [r for r in data.get("rows", []) if _row_valido(r)]
+        for r in rows:
+            t = r["TICKER"]
+            tickers_set.add(t)
+            pvp_current[t] = _safe_float(r.get("PVP"))
+            vpa_current[t] = _safe_float(r.get("VPA"))
+        print(f"[backtest_fii] Fundamentus: {len(rows)} FIIs — {Path(cache_files[-1]).name}")
 
+    # Fonte 2: yfinance cache por ticker (output/fii_yf_cache/)
+    yf_cache_dir = ROOT / "output" / "fii_yf_cache"
+    if yf_cache_dir.exists():
+        added = 0
+        for jf in yf_cache_dir.glob("*.json"):
+            try:
+                with open(jf, encoding="utf-8") as f:
+                    r = json.load(f)
+                if not _row_valido(r):
+                    continue
+                t = r.get("TICKER", "")
+                if not t:
+                    continue
+                if t not in tickers_set:
+                    tickers_set.add(t)
+                    added += 1
+                # yfinance cache tem VPA mais atualizado — prefere sobre Fundamentus
+                pvp_yf = _safe_float(r.get("PVP"))
+                vpa_yf = _safe_float(r.get("VPA"))
+                if pvp_yf is not None:
+                    pvp_current[t] = pvp_yf
+                if vpa_yf is not None:
+                    vpa_current[t] = vpa_yf
+            except Exception:
+                continue
+        if added:
+            print(f"[backtest_fii] yfinance cache: +{added} FIIs adicionais")
+
+    if tickers_set:
+        tickers = sorted(tickers_set)
+        vpa_filled = sum(1 for v in vpa_current.values() if v is not None)
+        print(f"[backtest_fii] Universo total: {len(tickers)} FIIs | VPA disponível: {vpa_filled}")
+        return tickers, pvp_current, vpa_current
+
+    # Último fallback: fii_candidates.json
     cand_path = ROOT / "output" / "fii_candidates.json"
     if cand_path.exists():
         with open(cand_path, encoding="utf-8") as f:
             data = json.load(f)
-        rows        = data.get("top10", [])
-        tickers     = [r["TICKER"] for r in rows]
+        rows = data.get("top10", [])
+        tickers = [r["TICKER"] for r in rows]
         pvp_current = {r["TICKER"]: _safe_float(r.get("PVP")) for r in rows}
-        print(f"[backtest_fii] Universo (fallback): {len(tickers)} candidatos de fii_candidates.json")
-        return tickers, pvp_current
+        vpa_current = {r["TICKER"]: _safe_float(r.get("VPA")) for r in rows}
+        print(f"[backtest_fii] Universo (fallback): {len(tickers)} candidatos")
+        return tickers, pvp_current, vpa_current
 
     raise FileNotFoundError("Nenhum cache de FIIs encontrado. Execute fii_main.py primeiro.")
 
@@ -459,11 +540,12 @@ if __name__ == "__main__":
     parser.add_argument("--output",      default=str(ROOT / "output" / "backtest_fii.json"))
     args = parser.parse_args()
 
-    tickers, pvp_current = _load_universe()
+    tickers, pvp_current, vpa_current = _load_universe()
 
     result = run_backtest(
         tickers,
         pvp_current,
+        vpa_current,
         start=args.start,
         end=args.end,
         top_n=args.top,
