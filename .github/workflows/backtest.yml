@@ -81,7 +81,7 @@ jobs:
         run: python src/export_tickers_smallcap.py
 
       - name: Rodar backtest Small Cap
-        run: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "^SP600" --benchmark-name "S&P 600 Small Cap" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
+        run: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "IJR" --benchmark-name "S&P SmallCap 600 (IJR)" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
 
       - name: Gerar relatório HTML Small Cap
         run: python src/report_backtest_us.py --json output/backtest_sc.json --output output/relatorio_backtest_sc.html --title "Magic Formula Small Cap"

@@ -305,7 +305,9 @@ def run_backtest(tickers: list[str], start: str = "2023-01-01", end: str | None 
                 p0 = _safe_float(prices_df.loc[prices_df.index <= rebal_dt, t].iloc[-1]) if t in prices_df.columns else None
                 p1 = _safe_float(prices_df.loc[prices_df.index <= next_dt, t].iloc[-1]) if t in prices_df.columns else None
                 if p0 and p1 and p0 > 0:
-                    rets.append((p1 - p0) / p0)
+                    ret = (p1 - p0) / p0
+                    if -0.60 <= ret <= 0.60:  # cap: filtra halts e erros de dados
+                        rets.append(ret)
             if rets:
                 monthly_return = np.mean(rets) * 100
 
@@ -415,8 +417,8 @@ if __name__ == "__main__":
     parser.add_argument("--end", default=str(date.today()))
     parser.add_argument("--top", type=int, default=15)
     parser.add_argument("--hold-buffer", type=float, default=2.0)
-    parser.add_argument("--benchmark", default="^GSPC", help="Símbolo do benchmark (ex: ^GSPC, ^SP600)")
-    parser.add_argument("--benchmark-name", default="S&P 500", help="Nome legível do benchmark")
+    parser.add_argument("--benchmark", default="SPY", help="ETF de benchmark total return (ex: SPY, IJR)")
+    parser.add_argument("--benchmark-name", default="S&P 500 (SPY)", help="Nome legível do benchmark")
     parser.add_argument("--cache-dir", default=str(CACHE_DIR))
     parser.add_argument("--output", default=str(ROOT / "output" / "backtest_us.json"))
     args = parser.parse_args()

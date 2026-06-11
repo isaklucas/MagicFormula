@@ -188,7 +188,8 @@ def _latest_before(series: dict, cutoff: date) -> float | None:
 def fetch_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
     """Retorna DataFrame de precos mensais com tickers como colunas."""
     print(f"[backtest] Baixando precos mensais para {len(tickers)} tickers...")
-    sa_tickers = [_sa(t) for t in tickers] + ["^BVSP"]
+    # BOVA11.SA = ETF Ibovespa total return (inclui dividendos) — benchmark justo vs portfolio total return
+    sa_tickers = [_sa(t) for t in tickers] + ["BOVA11.SA"]
     raw = yf.download(sa_tickers, start=start, end=end, interval="1mo", progress=False, auto_adjust=True)
 
     if isinstance(raw.columns, pd.MultiIndex):
@@ -198,11 +199,11 @@ def fetch_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
 
     prices.index = pd.to_datetime(prices.index)
 
-    # Normaliza: remove .SA, mapeia ^BVSP -> IBOV
+    # Normaliza: remove .SA, mapeia BOVA11 -> IBOV
     rename_map = {}
     for c in prices.columns:
         cs = str(c)
-        if "^BVSP" in cs or "BVSP" == cs:
+        if "BOVA11" in cs:
             rename_map[c] = "IBOV"
         elif cs.endswith(".SA"):
             rename_map[c] = cs[:-3]
@@ -376,7 +377,9 @@ def run_backtest(
                 p0 = _safe_float(prices_df.loc[prices_df.index <= rebal_dt, t].iloc[-1]) if t in prices_df.columns else None
                 p1 = _safe_float(prices_df.loc[prices_df.index <= next_dt, t].iloc[-1]) if t in prices_df.columns else None
                 if p0 and p1 and p0 > 0:
-                    rets.append((p1 - p0) / p0)
+                    ret = (p1 - p0) / p0
+                    if -0.60 <= ret <= 0.60:  # cap: filtra halts e erros de dados
+                        rets.append(ret)
             if rets:
                 monthly_return = np.mean(rets) * 100
 
