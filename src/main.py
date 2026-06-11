@@ -47,22 +47,31 @@ def main():
     args = parser.parse_args()
     top_n = args.top
 
-    # Tenta API SI primeiro; fallback para CSV se existir
+    # Tenta yfinance (xlsx B3) → fallback SI API → fallback CSV
     df_raw = None
     try:
-        from si_fetcher import fetch_all_stocks
-        print("[main] Buscando dados no Status Invest (API busca avançada)...")
+        from yf_fetcher import fetch_all_stocks
+        print("[main] Buscando dados via yfinance (EmpresasB3Porsetor.xlsx)...")
         df_raw = fetch_all_stocks()
-        print(f"[main] {len(df_raw)} ações carregadas via API SI")
+        print(f"[main] {len(df_raw)} ações carregadas via yfinance")
     except Exception as e:
-        print(f"[main] API SI falhou: {e}")
+        print(f"[main] yfinance fetcher falhou: {e}")
+
+    if df_raw is None or df_raw.empty:
+        try:
+            from si_fetcher import fetch_all_stocks as _si_fetch
+            print("[main] Fallback → Status Invest API...")
+            df_raw = _si_fetch()
+            print(f"[main] {len(df_raw)} ações carregadas via SI API")
+        except Exception as e2:
+            print(f"[main] SI API falhou: {e2}")
 
     if df_raw is None or df_raw.empty:
         if CSV_PATH.exists():
             print(f"[main] Fallback → CSV: {CSV_PATH}")
             df_raw = load_csv(str(CSV_PATH))
         else:
-            print("[main] Sem dados (API SI falhou e CSV não existe). Abortando.")
+            print("[main] Sem dados. Abortando.")
             sys.exit(1)
 
     total_csv = len(df_raw)

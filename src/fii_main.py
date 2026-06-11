@@ -24,6 +24,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 
+from fii_yf_fetcher  import fetch_all_fiis
 from fii_si_scraper  import fetch_all_si, fetch_all_fiagro
 from fii_loader      import load_fiis_fiagros
 from fii_scraper     import fetch_all as scrape_funds_explorer, fetch_fiagros as fe_fetch_fiagros
@@ -133,50 +134,31 @@ def main() -> None:
     com_ia = not args.sem_ia
 
     # ── Passo 1: Lista de fundos ───────────────────────────────────
-    _step(1, "Buscando FIIs + FIAgros no Fundamentus (cache mensal)")
-    fonte = "Fundamentus"
-    df_fiis    = pd.DataFrame()
+    _step(1, "Buscando FIIs via yfinance (cache 7 dias) + SI fallback por ticker")
+    fonte      = "yfinance"
     df_fiagros = pd.DataFrame()
 
     try:
-        df_fiis = fetch_all_si(force=args.force_refresh)
+        df_tickers = fetch_all_fiis(force=args.force_refresh)
     except Exception as e:
-        print(f"[fii_main] Fundamentus FII falhou: {e}")
-
-    try:
-        df_fiagros = fetch_all_fiagro(force=args.force_refresh)
-        print(f"[fii_main] {len(df_fiagros)} FIAgros carregados")
-    except Exception as e:
-        print(f"[fii_main] Fundamentus FIAgro falhou (sem FIAgros): {e}")
-
-    if not df_fiis.empty and not df_fiagros.empty:
-        df_tickers = pd.concat([df_fiis, df_fiagros], ignore_index=True)
-        df_tickers = df_tickers.drop_duplicates(subset=["TICKER"], keep="first").reset_index(drop=True)
-    elif not df_fiis.empty:
-        df_tickers = df_fiis.copy()
-        # Fundamentus FIAgro indisponível → usa Funds Explorer para identificar FIAgros
-        # dentro do próprio listing FII do Fundamentus e re-taggea corretamente
+        print(f"[fii_main] fii_yf_fetcher falhou: {e} — tentando Fundamentus")
+        fonte      = "Fundamentus"
+        df_tickers = pd.DataFrame()
         try:
-            df_fe_fiagros = fe_fetch_fiagros()
-            if not df_fe_fiagros.empty:
-                fiagro_set = set(df_fe_fiagros["TICKER"].tolist())
-                mask = df_tickers["TICKER"].isin(fiagro_set)
-                df_tickers.loc[mask, "TIPO"] = "FIAgro"
-                tagged = int(mask.sum())
-                print(f"[fii_main] {tagged} FIAgros re-taggeados via Funds Explorer ({len(fiagro_set)} FIAgros conhecidos)")
-        except Exception as e:
-            print(f"[fii_main] FIAgro tagging falhou: {e}")
-    else:
-        df_tickers = df_fiagros
+            df_fiis    = fetch_all_si(force=args.force_refresh)
+            df_fiagros = fetch_all_fiagro(force=args.force_refresh)
+            parts = [d for d in [df_fiis, df_fiagros] if not d.empty]
+            df_tickers = pd.concat(parts, ignore_index=True).drop_duplicates("TICKER") if parts else pd.DataFrame()
+        except Exception as e2:
+            print(f"[fii_main] Fundamentus também falhou: {e2}")
 
-    # Fallback 1: CSV manual
+    # Fallback: CSV manual
     if df_tickers.empty:
         if _CSV_FIIS.exists() or _CSV_FIAGROS.exists():
             print("[fii_main] Fallback → CSV StatusInvest (exportação manual)")
             fonte      = "CSV"
             df_tickers = load_fiis_fiagros(str(_CSV_FIIS), str(_CSV_FIAGROS))
         else:
-            # Fallback 2: Funds Explorer + yfinance (modo antigo)
             print("[fii_main] Fallback → Funds Explorer")
             fonte      = "FundsExplorer"
             df_tickers = scrape_funds_explorer()
@@ -287,7 +269,7 @@ def main() -> None:
         divs  = enriched.get(r["TICKER"], {}).get("dividendos_24m")
         r["dy_info"] = clean_dy(divs, price)
 
-    # Mapa DY Fundamentus para cross-validação e fallback
+    # Mapa DY da fonte primária (yfinance info ou Fundamentus) para cross-validação e fallback
     si_dy_map: dict[str, float] = {}
     for t, meta in ticker_meta.items():
         for col in ("DY_12M_MED", "DY"):
@@ -324,7 +306,7 @@ def main() -> None:
                 "valores_removidos": [],
                 "valido":            True,
                 "motivo_invalido":   "",
-                "fonte":             "Fundamentus (yfinance inflado por amortização)",
+                "fonte":             "SI/yfinance info (yfinance history inflado por amortização)",
             }
             overridden += 1
     if overridden:
@@ -371,11 +353,11 @@ def main() -> None:
                 "valores_removidos": [],
                 "valido":            True,
                 "motivo_invalido":   "",
-                "fonte":             "Fundamentus",
+                "fonte":             "yfinance info",
             }
             recovered += 1
     if recovered:
-        print(f"[fii_main] {recovered} fundos recuperados via DY Fundamentus (yfinance sem dados)")
+        print(f"[fii_main] {recovered} fundos recuperados via DY da fonte primária (yfinance sem histórico)")
 
     validos   = [r for r in records if r.get("dy_info", {}).get("valido")]
     invalidos = [r for r in records if not r.get("dy_info", {}).get("valido")]

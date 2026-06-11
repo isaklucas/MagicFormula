@@ -5,3 +5,4 @@ beautifulsoup4>=4.12
 rich>=13.0
 yfinance>=0.2.40
 anthropic>=0.40
+openpyxl>=3.1
