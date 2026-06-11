@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Backtest Magic Formula US</title>
+<title>Backtest Magic Formula Small Cap</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -60,18 +60,18 @@ document.querySelectorAll('nav a').forEach(a => {
 
 <div class="hero">
   <div class="container-fluid px-3 px-md-4">
-    <h1>Backtest <em>Magic Formula US</em> &#127482;&#127480;</h1>
-    <p class="mb-3" style="color:#bfdbfe;font-size:.85rem">Period: 2023-01-31 ate 2026-06-07 · 39 months · Generated 08/06/2026 14:41</p>
+    <h1>Backtest <em>Magic Formula Small Cap</em> &#127482;&#127480;</h1>
+    <p class="mb-3" style="color:#bfdbfe;font-size:.85rem">Period: 2023-01-31 ate 2026-06-11 · 39 months · Generated 11/06/2026 12:31</p>
     <div class="warn-box mb-3">
       ⚠ <strong>Survivorship bias:</strong> fixed universe from current index.
       Companies delisted before today are not included — real returns would be lower.
     </div>
     <div class="d-flex flex-wrap gap-2">
-      <div class="kpi-pill"><div class="val" style="color:#10b981">+61.0%</div><div class="lbl">Magic Formula</div></div>
-      <div class="kpi-pill"><div class="val">+33.0%</div><div class="lbl">S&P 600 Small Cap</div></div>
+      <div class="kpi-pill"><div class="val" style="color:#10b981">+67.9%</div><div class="lbl">Magic Formula</div></div>
+      <div class="kpi-pill"><div class="val">+40.9%</div><div class="lbl">S&P SmallCap 600 (IJR)</div></div>
       <div class="kpi-pill"><div class="val">+7.3%</div><div class="lbl">T-Bill</div></div>
-      <div class="kpi-pill"><div class="val" style="color:#10b981">+27.9%</div><div class="lbl">Alpha vs S&P 600 Small Cap</div></div>
-      <div class="kpi-pill"><div class="val" style="color:#10b981">+53.6%</div><div class="lbl">Alpha vs T-Bill</div></div>
+      <div class="kpi-pill"><div class="val" style="color:#10b981">+27.0%</div><div class="lbl">Alpha vs S&P SmallCap 600 (IJR)</div></div>
+      <div class="kpi-pill"><div class="val" style="color:#10b981">+60.5%</div><div class="lbl">Alpha vs T-Bill</div></div>
       <div class="kpi-pill"><div class="val" style="color:#ef4444">-26.0%</div><div class="lbl">Max Drawdown</div></div>
       <div class="kpi-pill"><div class="val">23W/16L</div><div class="lbl">Win/Loss Months</div></div>
     </div>
@@ -85,7 +85,7 @@ document.querySelectorAll('nav a').forEach(a => {
     <div class="row g-3">
       <div class="col-12">
         <div class="chart-card">
-          <h3>Magic Formula vs S&P 600 Small Cap vs T-Bill (base 100)</h3>
+          <h3>Magic Formula vs S&P SmallCap 600 (IJR) vs T-Bill (base 100)</h3>
           <canvas id="chartEquity" style="max-height:320px"></canvas>
         </div>
       </div>
@@ -98,12 +98,12 @@ document.querySelectorAll('nav a').forEach(a => {
       <div class="col-12 col-lg-6">
         <div class="section-title mt-2">KPIs</div>
         <div class="row g-2">
-          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval" style="color:#10b981">+61.0%</div><div class="klbl">Total Return</div></div></div>
-          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">+1.42%</div><div class="klbl">Avg Monthly</div></div></div>
-          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">6.22%</div><div class="klbl">Vol/Month</div></div></div>
+          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval" style="color:#10b981">+67.9%</div><div class="klbl">Total Return</div></div></div>
+          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">+1.52%</div><div class="klbl">Avg Monthly</div></div></div>
+          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">6.11%</div><div class="klbl">Vol/Month</div></div></div>
           <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval" style="color:#ef4444">-26.0%</div><div class="klbl">Max Drawdown</div></div></div>
-          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval" style="color:#10b981">+27.9%</div><div class="klbl">Alpha S&P 600 Small Cap</div></div></div>
-          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">0.23</div><div class="klbl">Simple Sharpe</div></div></div>
+          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval" style="color:#10b981">+27.0%</div><div class="klbl">Alpha S&P SmallCap 600 (IJR)</div></div></div>
+          <div class="col-6 col-sm-4"><div class="kpi-box"><div class="kval">0.25</div><div class="klbl">Simple Sharpe</div></div></div>
         </div>
       </div>
     </div>
@@ -191,7 +191,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+43.0%</td>
           <td class="text-center" style="color:#d29922">9.39x</td>
           <td class="text-center" style="color:#10b981">35.7%</td>
-          <td class="text-center text-secondary">52</td>
+          <td class="text-center text-secondary">53</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">8</td>
@@ -202,7 +202,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+4.6%</td>
           <td class="text-center" style="color:#d29922">9.85x</td>
           <td class="text-center" style="color:#10b981">43.8%</td>
-          <td class="text-center text-secondary">52</td>
+          <td class="text-center text-secondary">54</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">9</td>
@@ -213,7 +213,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+0.8%</td>
           <td class="text-center" style="color:#d29922">8.57x</td>
           <td class="text-center" style="color:#d29922">24.0%</td>
-          <td class="text-center text-secondary">65</td>
+          <td class="text-center text-secondary">66</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">10</td>
@@ -224,21 +224,10 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+75.9%</td>
           <td class="text-center" style="color:#ef4444">10.81x</td>
           <td class="text-center" style="color:#10b981">61.6%</td>
-          <td class="text-center text-secondary">71</td>
+          <td class="text-center text-secondary">72</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">11</td>
-          <td class="fw-semibold">PRDO</td>
-          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
-          <td class="text-center">$ 31.74</td>
-          <td class="text-center">$ 33.78</td>
-          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+6.4%</td>
-          <td class="text-center" style="color:#d29922">9.02x</td>
-          <td class="text-center" style="color:#d29922">23.5%</td>
-          <td class="text-center text-secondary">74</td>
-        </tr>
-        <tr>
-          <td class="text-center fw-bold" style="color:#10b981">12</td>
           <td class="fw-semibold">ASO</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2023-12</td>
           <td class="text-center">$ 64.53</td>
@@ -249,6 +238,17 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center text-secondary">75</td>
         </tr>
         <tr>
+          <td class="text-center fw-bold" style="color:#10b981">12</td>
+          <td class="fw-semibold">PRDO</td>
+          <td class="text-center text-secondary" style="font-size:.78rem">2026-01</td>
+          <td class="text-center">$ 31.74</td>
+          <td class="text-center">$ 33.78</td>
+          <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+6.4%</td>
+          <td class="text-center" style="color:#d29922">9.02x</td>
+          <td class="text-center" style="color:#d29922">23.5%</td>
+          <td class="text-center text-secondary">76</td>
+        </tr>
+        <tr>
           <td class="text-center fw-bold" style="color:#10b981">13</td>
           <td class="fw-semibold">AZZ</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-12</td>
@@ -257,7 +257,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+33.7%</td>
           <td class="text-center" style="color:#d29922">9.97x</td>
           <td class="text-center" style="color:#10b981">26.2%</td>
-          <td class="text-center text-secondary">75</td>
+          <td class="text-center text-secondary">77</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">14</td>
@@ -268,7 +268,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-bold" style="color:#10b981;font-size:1rem">+11.9%</td>
           <td class="text-center" style="color:#d29922">8.80x</td>
           <td class="text-center" style="color:#d29922">21.6%</td>
-          <td class="text-center text-secondary">79</td>
+          <td class="text-center text-secondary">81</td>
         </tr>
         <tr>
           <td class="text-center fw-bold" style="color:#10b981">15</td>
@@ -335,8 +335,8 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="fw-semibold">SM</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2023-01</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2024-03</td>
-          <td class="text-center">$ 30.21</td>
-          <td class="text-center">$ 46.86</td>
+          <td class="text-center">$ 30.00</td>
+          <td class="text-center">$ 46.54</td>
           <td class="text-center fw-bold" style="color:#10b981">▲ +55.1%</td>
         </tr>
         <tr>
@@ -375,8 +375,8 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="fw-semibold">SHOO</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-03</td>
           <td class="text-center text-secondary" style="font-size:.78rem">2025-09</td>
-          <td class="text-center">$ 25.77</td>
-          <td class="text-center">$ 32.90</td>
+          <td class="text-center">$ 25.64</td>
+          <td class="text-center">$ 32.74</td>
           <td class="text-center fw-bold" style="color:#10b981">▲ +27.7%</td>
         </tr>
         <tr>
@@ -539,12 +539,12 @@ document.querySelectorAll('nav a').forEach(a => {
     <div class="section-title">Monthly History</div>
     <div class="table-responsive rounded-3" style="border:1px solid #30363d">
       <table class="table table-dark table-hover table-sm mb-0">
-        <thead><tr><th>Month</th><th>MF Return</th><th>S&P 600 Small Cap</th><th>Alpha</th><th>Portfolio</th><th>Entries</th><th>Exits</th><th>Top 5</th></tr></thead>
+        <thead><tr><th>Month</th><th>MF Return</th><th>S&P SmallCap 600 (IJR)</th><th>Alpha</th><th>Portfolio</th><th>Entries</th><th>Exits</th><th>Top 5</th></tr></thead>
         <tbody>
         <tr>
           <td class="text-center fw-semibold">2023-01</td>
           <td class="text-center fw-bold" style="color:#8b949e">—</td>
-          <td class="text-center" style="color:#ef4444">-1.4%</td>
+          <td class="text-center" style="color:#ef4444">-1.2%</td>
           <td class="text-center" style="color:#8b949e">—</td>
           <td class="text-center text-secondary">100.0</td>
           <td style="color:#86efac;font-size:.78rem">AMR, BCC, BKE, BTU, CNR, CRK, CVI, HCC, IIIN, MATX, MGY, NOG, PARR, SM, VIR</td>
@@ -554,8 +554,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-02</td>
           <td class="text-center fw-bold" style="color:#ef4444">-3.3%</td>
-          <td class="text-center" style="color:#ef4444">-5.4%</td>
-          <td class="text-center" style="color:#10b981">+2.1%</td>
+          <td class="text-center" style="color:#ef4444">-5.6%</td>
+          <td class="text-center" style="color:#10b981">+2.3%</td>
           <td class="text-center text-secondary">96.7</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -564,8 +564,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-03</td>
           <td class="text-center fw-bold" style="color:#ef4444">-1.2%</td>
-          <td class="text-center" style="color:#ef4444">-2.9%</td>
-          <td class="text-center" style="color:#10b981">+1.7%</td>
+          <td class="text-center" style="color:#ef4444">-2.5%</td>
+          <td class="text-center" style="color:#10b981">+1.3%</td>
           <td class="text-center text-secondary">95.6</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -574,8 +574,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-04</td>
           <td class="text-center fw-bold" style="color:#ef4444">-6.5%</td>
-          <td class="text-center" style="color:#ef4444">-1.9%</td>
-          <td class="text-center" style="color:#ef4444">-4.5%</td>
+          <td class="text-center" style="color:#ef4444">-1.7%</td>
+          <td class="text-center" style="color:#ef4444">-4.8%</td>
           <td class="text-center text-secondary">89.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -584,8 +584,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-05</td>
           <td class="text-center fw-bold" style="color:#10b981">+17.9%</td>
-          <td class="text-center" style="color:#10b981">+8.0%</td>
-          <td class="text-center" style="color:#10b981">+9.8%</td>
+          <td class="text-center" style="color:#10b981">+7.8%</td>
+          <td class="text-center" style="color:#10b981">+10.1%</td>
           <td class="text-center text-secondary">105.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -594,8 +594,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-06</td>
           <td class="text-center fw-bold" style="color:#10b981">+8.1%</td>
-          <td class="text-center" style="color:#10b981">+5.4%</td>
-          <td class="text-center" style="color:#10b981">+2.7%</td>
+          <td class="text-center" style="color:#10b981">+5.9%</td>
+          <td class="text-center" style="color:#10b981">+2.2%</td>
           <td class="text-center text-secondary">113.9</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -604,8 +604,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-07</td>
           <td class="text-center fw-bold" style="color:#10b981">+2.5%</td>
-          <td class="text-center" style="color:#ef4444">-4.3%</td>
-          <td class="text-center" style="color:#10b981">+6.8%</td>
+          <td class="text-center" style="color:#ef4444">-4.2%</td>
+          <td class="text-center" style="color:#10b981">+6.6%</td>
           <td class="text-center text-secondary">116.8</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -614,8 +614,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-08</td>
           <td class="text-center fw-bold" style="color:#10b981">+3.3%</td>
-          <td class="text-center" style="color:#ef4444">-6.2%</td>
-          <td class="text-center" style="color:#10b981">+9.5%</td>
+          <td class="text-center" style="color:#ef4444">-6.4%</td>
+          <td class="text-center" style="color:#10b981">+9.7%</td>
           <td class="text-center text-secondary">120.6</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -624,8 +624,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-09</td>
           <td class="text-center fw-bold" style="color:#ef4444">-5.5%</td>
-          <td class="text-center" style="color:#ef4444">-5.8%</td>
-          <td class="text-center" style="color:#10b981">+0.3%</td>
+          <td class="text-center" style="color:#ef4444">-5.3%</td>
+          <td class="text-center" style="color:#ef4444">-0.2%</td>
           <td class="text-center text-secondary">114.0</td>
           <td style="color:#86efac;font-size:.78rem">CALM</td>
           <td style="color:#fca5a5;font-size:.78rem">IIIN</td>
@@ -634,8 +634,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-10</td>
           <td class="text-center fw-bold" style="color:#10b981">+6.2%</td>
-          <td class="text-center" style="color:#10b981">+8.0%</td>
-          <td class="text-center" style="color:#ef4444">-1.8%</td>
+          <td class="text-center" style="color:#10b981">+8.3%</td>
+          <td class="text-center" style="color:#ef4444">-2.0%</td>
           <td class="text-center text-secondary">121.0</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -644,8 +644,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-11</td>
           <td class="text-center fw-bold" style="color:#10b981">+7.7%</td>
-          <td class="text-center" style="color:#10b981">+12.6%</td>
-          <td class="text-center" style="color:#ef4444">-4.9%</td>
+          <td class="text-center" style="color:#10b981">+12.5%</td>
+          <td class="text-center" style="color:#ef4444">-4.8%</td>
           <td class="text-center text-secondary">130.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -654,8 +654,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2023-12</td>
           <td class="text-center fw-bold" style="color:#ef4444">-0.9%</td>
-          <td class="text-center" style="color:#ef4444">-4.0%</td>
-          <td class="text-center" style="color:#10b981">+3.1%</td>
+          <td class="text-center" style="color:#ef4444">-3.7%</td>
+          <td class="text-center" style="color:#10b981">+2.8%</td>
           <td class="text-center text-secondary">129.2</td>
           <td style="color:#86efac;font-size:.78rem">ASO, CCOI, LBRT</td>
           <td style="color:#fca5a5;font-size:.78rem">CRK, MATX, VIR</td>
@@ -664,8 +664,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-01</td>
           <td class="text-center fw-bold" style="color:#10b981">+3.2%</td>
-          <td class="text-center" style="color:#10b981">+3.1%</td>
-          <td class="text-center" style="color:#10b981">+0.1%</td>
+          <td class="text-center" style="color:#10b981">+3.2%</td>
+          <td class="text-center" style="color:#ef4444">-0.0%</td>
           <td class="text-center text-secondary">133.3</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -675,7 +675,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-semibold">2024-02</td>
           <td class="text-center fw-bold" style="color:#10b981">+1.6%</td>
           <td class="text-center" style="color:#10b981">+3.0%</td>
-          <td class="text-center" style="color:#ef4444">-1.5%</td>
+          <td class="text-center" style="color:#ef4444">-1.4%</td>
           <td class="text-center text-secondary">135.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -684,8 +684,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-03</td>
           <td class="text-center fw-bold" style="color:#ef4444">-4.4%</td>
-          <td class="text-center" style="color:#ef4444">-5.7%</td>
-          <td class="text-center" style="color:#10b981">+1.3%</td>
+          <td class="text-center" style="color:#ef4444">-5.3%</td>
+          <td class="text-center" style="color:#10b981">+0.8%</td>
           <td class="text-center text-secondary">129.4</td>
           <td style="color:#86efac;font-size:.78rem">ETD</td>
           <td style="color:#fca5a5;font-size:.78rem">SM</td>
@@ -694,8 +694,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-04</td>
           <td class="text-center fw-bold" style="color:#10b981">+3.1%</td>
-          <td class="text-center" style="color:#10b981">+4.9%</td>
-          <td class="text-center" style="color:#ef4444">-1.8%</td>
+          <td class="text-center" style="color:#10b981">+5.0%</td>
+          <td class="text-center" style="color:#ef4444">-2.0%</td>
           <td class="text-center text-secondary">133.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -704,8 +704,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-05</td>
           <td class="text-center fw-bold" style="color:#ef4444">-6.6%</td>
-          <td class="text-center" style="color:#ef4444">-2.5%</td>
-          <td class="text-center" style="color:#ef4444">-4.1%</td>
+          <td class="text-center" style="color:#ef4444">-2.7%</td>
+          <td class="text-center" style="color:#ef4444">-3.9%</td>
           <td class="text-center text-secondary">124.6</td>
           <td style="color:#86efac;font-size:.78rem">CRC</td>
           <td style="color:#fca5a5;font-size:.78rem">CALM</td>
@@ -714,8 +714,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-06</td>
           <td class="text-center fw-bold" style="color:#10b981">+9.1%</td>
-          <td class="text-center" style="color:#10b981">+10.7%</td>
-          <td class="text-center" style="color:#ef4444">-1.6%</td>
+          <td class="text-center" style="color:#10b981">+11.3%</td>
+          <td class="text-center" style="color:#ef4444">-2.2%</td>
           <td class="text-center text-secondary">135.9</td>
           <td style="color:#86efac;font-size:.78rem">PLAB</td>
           <td style="color:#fca5a5;font-size:.78rem">ETD</td>
@@ -725,7 +725,7 @@ document.querySelectorAll('nav a').forEach(a => {
           <td class="text-center fw-semibold">2024-07</td>
           <td class="text-center fw-bold" style="color:#ef4444">-5.2%</td>
           <td class="text-center" style="color:#ef4444">-1.6%</td>
-          <td class="text-center" style="color:#ef4444">-3.6%</td>
+          <td class="text-center" style="color:#ef4444">-3.7%</td>
           <td class="text-center text-secondary">128.8</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -734,8 +734,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-08</td>
           <td class="text-center fw-bold" style="color:#ef4444">-0.8%</td>
-          <td class="text-center" style="color:#10b981">+0.7%</td>
-          <td class="text-center" style="color:#ef4444">-1.4%</td>
+          <td class="text-center" style="color:#10b981">+0.4%</td>
+          <td class="text-center" style="color:#ef4444">-1.2%</td>
           <td class="text-center text-secondary">127.8</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -744,8 +744,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-09</td>
           <td class="text-center fw-bold" style="color:#ef4444">-5.0%</td>
-          <td class="text-center" style="color:#ef4444">-2.7%</td>
-          <td class="text-center" style="color:#ef4444">-2.3%</td>
+          <td class="text-center" style="color:#ef4444">-2.2%</td>
+          <td class="text-center" style="color:#ef4444">-2.8%</td>
           <td class="text-center text-secondary">121.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -754,8 +754,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-10</td>
           <td class="text-center fw-bold" style="color:#10b981">+11.1%</td>
-          <td class="text-center" style="color:#10b981">+10.8%</td>
-          <td class="text-center" style="color:#10b981">+0.3%</td>
+          <td class="text-center" style="color:#10b981">+11.1%</td>
+          <td class="text-center" style="color:#10b981">+0.0%</td>
           <td class="text-center text-secondary">134.9</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -764,8 +764,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-11</td>
           <td class="text-center fw-bold" style="color:#ef4444">-8.7%</td>
-          <td class="text-center" style="color:#ef4444">-8.1%</td>
-          <td class="text-center" style="color:#ef4444">-0.6%</td>
+          <td class="text-center" style="color:#ef4444">-8.9%</td>
+          <td class="text-center" style="color:#10b981">+0.3%</td>
           <td class="text-center text-secondary">123.2</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -774,8 +774,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2024-12</td>
           <td class="text-center fw-bold" style="color:#ef4444">-4.2%</td>
-          <td class="text-center" style="color:#10b981">+2.9%</td>
-          <td class="text-center" style="color:#ef4444">-7.1%</td>
+          <td class="text-center" style="color:#10b981">+3.8%</td>
+          <td class="text-center" style="color:#ef4444">-8.0%</td>
           <td class="text-center text-secondary">118.0</td>
           <td style="color:#86efac;font-size:.78rem">CENX, GRBK, LAUR, LPG, PTGX, SIG, SLVM</td>
           <td style="color:#fca5a5;font-size:.78rem">AMR, BTU, CCOI, CRC, CVI, HCC, PARR</td>
@@ -784,8 +784,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-01</td>
           <td class="text-center fw-bold" style="color:#ef4444">-7.3%</td>
-          <td class="text-center" style="color:#ef4444">-5.8%</td>
-          <td class="text-center" style="color:#ef4444">-1.4%</td>
+          <td class="text-center" style="color:#ef4444">-5.6%</td>
+          <td class="text-center" style="color:#ef4444">-1.7%</td>
           <td class="text-center text-secondary">109.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -794,8 +794,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-02</td>
           <td class="text-center fw-bold" style="color:#10b981">+1.8%</td>
-          <td class="text-center" style="color:#ef4444">-6.4%</td>
-          <td class="text-center" style="color:#10b981">+8.2%</td>
+          <td class="text-center" style="color:#ef4444">-6.5%</td>
+          <td class="text-center" style="color:#10b981">+8.3%</td>
           <td class="text-center text-secondary">111.4</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -804,8 +804,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-03</td>
           <td class="text-center fw-bold" style="color:#ef4444">-9.6%</td>
-          <td class="text-center" style="color:#ef4444">-4.3%</td>
-          <td class="text-center" style="color:#ef4444">-5.3%</td>
+          <td class="text-center" style="color:#ef4444">-4.0%</td>
+          <td class="text-center" style="color:#ef4444">-5.7%</td>
           <td class="text-center text-secondary">100.7</td>
           <td style="color:#86efac;font-size:.78rem">ACLS, AEO, SHOO</td>
           <td style="color:#fca5a5;font-size:.78rem">CNR, LPG, PTGX</td>
@@ -814,8 +814,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-04</td>
           <td class="text-center fw-bold" style="color:#10b981">+5.2%</td>
-          <td class="text-center" style="color:#10b981">+5.1%</td>
-          <td class="text-center" style="color:#10b981">+0.1%</td>
+          <td class="text-center" style="color:#10b981">+5.2%</td>
+          <td class="text-center" style="color:#ef4444">-0.1%</td>
           <td class="text-center text-secondary">105.9</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -824,8 +824,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-05</td>
           <td class="text-center fw-bold" style="color:#10b981">+6.0%</td>
-          <td class="text-center" style="color:#10b981">+3.9%</td>
-          <td class="text-center" style="color:#10b981">+2.2%</td>
+          <td class="text-center" style="color:#10b981">+3.7%</td>
+          <td class="text-center" style="color:#10b981">+2.3%</td>
           <td class="text-center text-secondary">112.2</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -834,8 +834,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-06</td>
           <td class="text-center fw-bold" style="color:#10b981">+3.8%</td>
-          <td class="text-center" style="color:#10b981">+0.8%</td>
-          <td class="text-center" style="color:#10b981">+3.0%</td>
+          <td class="text-center" style="color:#10b981">+1.3%</td>
+          <td class="text-center" style="color:#10b981">+2.5%</td>
           <td class="text-center text-secondary">116.5</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -844,8 +844,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-07</td>
           <td class="text-center fw-bold" style="color:#10b981">+9.2%</td>
-          <td class="text-center" style="color:#10b981">+6.9%</td>
-          <td class="text-center" style="color:#10b981">+2.3%</td>
+          <td class="text-center" style="color:#10b981">+7.0%</td>
+          <td class="text-center" style="color:#10b981">+2.1%</td>
           <td class="text-center text-secondary">127.2</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -854,8 +854,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-08</td>
           <td class="text-center fw-bold" style="color:#10b981">+7.6%</td>
-          <td class="text-center" style="color:#10b981">+0.8%</td>
-          <td class="text-center" style="color:#10b981">+6.8%</td>
+          <td class="text-center" style="color:#10b981">+0.7%</td>
+          <td class="text-center" style="color:#10b981">+7.0%</td>
           <td class="text-center text-secondary">136.9</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -864,8 +864,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-09</td>
           <td class="text-center fw-bold" style="color:#ef4444">-1.7%</td>
-          <td class="text-center" style="color:#ef4444">-0.9%</td>
-          <td class="text-center" style="color:#ef4444">-0.8%</td>
+          <td class="text-center" style="color:#ef4444">-0.5%</td>
+          <td class="text-center" style="color:#ef4444">-1.2%</td>
           <td class="text-center text-secondary">134.5</td>
           <td style="color:#86efac;font-size:.78rem">CALM, EMBC</td>
           <td style="color:#fca5a5;font-size:.78rem">ACLS, SHOO</td>
@@ -874,8 +874,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-10</td>
           <td class="text-center fw-bold" style="color:#10b981">+3.8%</td>
-          <td class="text-center" style="color:#10b981">+2.5%</td>
-          <td class="text-center" style="color:#10b981">+1.3%</td>
+          <td class="text-center" style="color:#10b981">+2.6%</td>
+          <td class="text-center" style="color:#10b981">+1.2%</td>
           <td class="text-center text-secondary">139.7</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -884,8 +884,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-11</td>
           <td class="text-center fw-bold" style="color:#10b981">+4.2%</td>
-          <td class="text-center" style="color:#ef4444">-0.3%</td>
-          <td class="text-center" style="color:#10b981">+4.5%</td>
+          <td class="text-center" style="color:#ef4444">-0.6%</td>
+          <td class="text-center" style="color:#10b981">+4.8%</td>
           <td class="text-center text-secondary">145.6</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -894,8 +894,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2025-12</td>
           <td class="text-center fw-bold" style="color:#10b981">+7.5%</td>
-          <td class="text-center" style="color:#10b981">+5.5%</td>
-          <td class="text-center" style="color:#10b981">+1.9%</td>
+          <td class="text-center" style="color:#10b981">+6.2%</td>
+          <td class="text-center" style="color:#10b981">+1.3%</td>
           <td class="text-center text-secondary">156.5</td>
           <td style="color:#86efac;font-size:.78rem">AZZ, INVA, KNTK, PARR, PTCT</td>
           <td style="color:#fca5a5;font-size:.78rem">BCC, CENX, LBRT, NOG, SLVM</td>
@@ -904,7 +904,7 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2026-01</td>
           <td class="text-center fw-bold" style="color:#10b981">+6.6%</td>
-          <td class="text-center" style="color:#10b981">+2.0%</td>
+          <td class="text-center" style="color:#10b981">+2.1%</td>
           <td class="text-center" style="color:#10b981">+4.5%</td>
           <td class="text-center text-secondary">166.7</td>
           <td style="color:#86efac;font-size:.78rem">LRN, PRDO, YELP</td>
@@ -914,8 +914,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2026-02</td>
           <td class="text-center fw-bold" style="color:#10b981">+1.7%</td>
-          <td class="text-center" style="color:#ef4444">-4.3%</td>
-          <td class="text-center" style="color:#10b981">+6.0%</td>
+          <td class="text-center" style="color:#ef4444">-4.2%</td>
+          <td class="text-center" style="color:#10b981">+5.8%</td>
           <td class="text-center text-secondary">169.6</td>
           <td style="color:#86efac;font-size:.78rem">—</td>
           <td style="color:#fca5a5;font-size:.78rem">—</td>
@@ -924,8 +924,8 @@ document.querySelectorAll('nav a').forEach(a => {
         <tr>
           <td class="text-center fw-semibold">2026-03</td>
           <td class="text-center fw-bold" style="color:#10b981">+2.4%</td>
-          <td class="text-center" style="color:#10b981">+10.3%</td>
-          <td class="text-center" style="color:#ef4444">-7.9%</td>
+          <td class="text-center" style="color:#10b981">+10.5%</td>
+          <td class="text-center" style="color:#ef4444">-8.0%</td>
           <td class="text-center text-secondary">173.7</td>
           <td style="color:#86efac;font-size:.78rem">PAYC, TDC</td>
           <td style="color:#fca5a5;font-size:.78rem">LAUR, PTCT</td>
@@ -933,10 +933,10 @@ document.querySelectorAll('nav a').forEach(a => {
         </tr>
         <tr>
           <td class="text-center fw-semibold">2026-04</td>
-          <td class="text-center fw-bold" style="color:#ef4444">-7.3%</td>
-          <td class="text-center" style="color:#10b981">+0.9%</td>
-          <td class="text-center" style="color:#ef4444">-8.2%</td>
-          <td class="text-center text-secondary">160.9</td>
+          <td class="text-center fw-bold" style="color:#ef4444">-3.3%</td>
+          <td class="text-center" style="color:#10b981">+1.1%</td>
+          <td class="text-center" style="color:#ef4444">-4.5%</td>
+          <td class="text-center text-secondary">167.9</td>
           <td style="color:#86efac;font-size:.78rem">AEO</td>
           <td style="color:#fca5a5;font-size:.78rem">LRN</td>
           <td class="text-secondary" style="font-size:.75rem;max-width:180px">AEO, ASO, AZZ, BKE, CALM…</td>
@@ -947,14 +947,14 @@ document.querySelectorAll('nav a').forEach(a => {
 
 </div>
 
-<footer>Backtest Magic Formula US · 08/06/2026 14:41 · Not investment advice · Survivorship bias present</footer>
+<footer>Backtest Magic Formula Small Cap · 11/06/2026 12:31 · Not investment advice · Survivorship bias present</footer>
 
 <script>
 const labels = ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"];
-const mfValues = [100.0, 96.72, 95.58, 89.4, 105.37, 113.94, 116.76, 120.61, 113.96, 121.04, 130.36, 129.16, 133.29, 135.36, 129.38, 133.37, 124.58, 135.95, 128.81, 127.81, 121.4, 134.88, 123.17, 117.99, 109.39, 111.37, 100.65, 105.86, 112.22, 116.48, 127.17, 136.88, 134.53, 139.7, 145.62, 156.47, 166.73, 169.55, 173.65, 160.95];
-const bmValues = [100.0, 94.62, 91.9, 90.12, 97.35, 102.65, 98.2, 92.15, 86.78, 93.71, 105.52, 101.27, 104.46, 107.62, 101.48, 106.42, 103.8, 114.92, 113.06, 113.82, 110.72, 122.66, 112.69, 115.9, 109.13, 102.2, 97.82, 102.79, 106.74, 107.64, 115.06, 115.99, 114.88, 117.77, 117.46, 123.98, 126.52, 121.1, 133.6, 134.82];
+const mfValues = [100.0, 96.72, 95.58, 89.4, 105.37, 113.94, 116.76, 120.61, 113.96, 121.04, 130.36, 129.16, 133.29, 135.36, 129.38, 133.37, 124.58, 135.95, 128.81, 127.81, 121.4, 134.88, 123.17, 117.99, 109.39, 111.37, 100.65, 105.86, 112.22, 116.48, 127.17, 136.88, 134.53, 139.7, 145.62, 156.47, 166.73, 169.55, 173.65, 167.86];
+const bmValues = [100.0, 94.44, 92.12, 90.59, 97.66, 103.43, 99.12, 92.77, 87.85, 95.12, 106.98, 103.06, 106.38, 109.52, 103.76, 108.99, 106.01, 118.04, 116.22, 116.66, 114.13, 126.77, 115.44, 119.77, 113.05, 105.74, 101.57, 106.88, 110.85, 112.27, 120.17, 120.98, 120.39, 123.53, 122.83, 130.43, 133.17, 127.63, 140.98, 142.59];
 const tbillValues = [100.0, 100.38, 100.75, 101.16, 101.59, 102.01, 102.45, 102.9, 103.34, 103.79, 104.22, 104.66, 105.1, 105.56, 106.0, 106.46, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91, 106.91];
-const monthlyRets = [0, -3.28, -1.18, -6.46, 17.86, 8.13, 2.47, 3.3, -5.52, 6.22, 7.7, -0.92, 3.2, 1.55, -4.42, 3.08, -6.59, 9.13, -5.25, -0.78, -5.01, 11.11, -8.68, -4.21, -7.29, 1.81, -9.62, 5.17, 6.01, 3.8, 9.17, 7.64, -1.72, 3.84, 4.24, 7.45, 6.56, 1.69, 2.42, -7.32];
+const monthlyRets = [0, -3.28, -1.18, -6.46, 17.86, 8.13, 2.47, 3.3, -5.52, 6.22, 7.7, -0.92, 3.2, 1.55, -4.42, 3.08, -6.59, 9.13, -5.25, -0.78, -5.01, 11.11, -8.68, -4.21, -7.29, 1.81, -9.62, 5.17, 6.01, 3.8, 9.17, 7.64, -1.72, 3.84, 4.24, 7.45, 6.56, 1.69, 2.42, -3.34];
 const barColors = ["rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(16,185,129,.85)", "rgba(239,68,68,.85)"];
 
 new Chart(document.getElementById('chartEquity'), {
@@ -963,7 +963,7 @@ new Chart(document.getElementById('chartEquity'), {
     labels,
     datasets: [
       { label: 'Magic Formula', data: mfValues, borderColor: '#3b82f6', backgroundColor: '#3b82f610', borderWidth: 2.5, pointRadius: 2, fill: true, tension: 0.3 },
-      { label: 'S&P 600 Small Cap', data: bmValues, borderColor: '#6e7681', borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3 },
+      { label: 'S&P SmallCap 600 (IJR)', data: bmValues, borderColor: '#6e7681', borderWidth: 1.5, pointRadius: 0, borderDash: [4,3], tension: 0.3 },
       { label: 'T-Bill', data: tbillValues, borderColor: '#d29922', borderWidth: 1.5, pointRadius: 0, borderDash: [2,4], tension: 0.1 },
     ]
   },
