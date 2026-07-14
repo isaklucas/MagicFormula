@@ -244,10 +244,19 @@ def compute_metrics_at(
     fund = fundamentals.get(ticker, {})
 
     ebit_anual = _ttm_ebit_at(fund, cutoff)
-    inv_cap = _latest_before(fund.get("inv_cap", {}), cutoff)
     net_debt = _latest_before(fund.get("net_debt", {}), cutoff)
     shares = _latest_before(fund.get("shares", {}), cutoff)
     equity = _latest_before(fund.get("equity", {}), cutoff)
+
+    # Capital investido = patrimonio liquido + divida LIQUIDA, igual ao yf_fetcher.
+    # A linha "Invested Capital" do yfinance usa divida BRUTA e ignora o caixa, o que
+    # dobra o capital de empresas cheias de caixa e corta o ROIC pela metade (CMIN3:
+    # 16,2bi contra 7,4bi reais => ROIC 12% em vez de 35%). Greenblatt exclui caixa em
+    # excesso do capital investido. So cai na linha crua se faltar patrimonio liquido.
+    if equity is not None and net_debt is not None:
+        inv_cap = equity + net_debt
+    else:
+        inv_cap = _latest_before(fund.get("inv_cap", {}), cutoff)
 
     if ebit_anual is None or ebit_anual <= 0:
         return None
