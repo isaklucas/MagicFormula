@@ -1,15 +1,66 @@
-name: Backtest Semanal Magic Formula BR + US + FII
+name: Backtest Semanal Magic Formula BR + US + SC + FII
 
 on:
   schedule:
     - cron: '0 11 * * 1'  # Segunda-feira 11h UTC (8h BRT)
   workflow_dispatch:        # Permite rodar manualmente pelo GitHub
 
+concurrency:
+  group: backtest-semanal
+  cancel-in-progress: false
+
 jobs:
   backtest:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    strategy:
+      fail-fast: false   # um backtest quebrado não derruba os outros
+      max-parallel: 4
+      matrix:
+        include:
+          - name: BR
+            universe_cmd: python src/export_tickers.py
+            backtest_cmd: python src/backtester.py --tickers output/universe_tickers.json --start 2023-01-01 --top 15
+            report_cmd: python src/report_backtest.py --json output/backtest.json --output output/relatorio_backtest.html
+            html: output/relatorio_backtest.html
+            docs: docs/backtest.html
+            badge_bg: '#1a1a2e'
+            badge_border: '#333'
+            badge_label: 'Atualizado em'
+
+          - name: US
+            universe_cmd: python src/export_tickers_us.py
+            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_us.json --start 2023-01-01 --top 15
+            report_cmd: python src/report_backtest_us.py --json output/backtest_us.json --output output/relatorio_backtest_us.html
+            html: output/relatorio_backtest_us.html
+            docs: docs/backtest_us.html
+            badge_bg: '#0d1117'
+            badge_border: '#30363d'
+            badge_label: 'Updated'
+
+          - name: SmallCap
+            universe_cmd: python src/export_tickers_smallcap.py
+            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "IJR" --benchmark-name "S&P SmallCap 600 (IJR)" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
+            report_cmd: python src/report_backtest_us.py --json output/backtest_sc.json --output output/relatorio_backtest_sc.html --title "Magic Formula Small Cap"
+            html: output/relatorio_backtest_sc.html
+            docs: docs/backtest_sc.html
+            badge_bg: '#0d1117'
+            badge_border: '#30363d'
+            badge_label: 'Updated'
+
+          - name: FII
+            universe_cmd: 'python -c "import sys; sys.path.insert(0, ''src''); from fii_si_scraper import fetch_all_si; fetch_all_si(force=True)"'
+            backtest_cmd: python src/backtester_fii.py --start 2023-01-01 --output output/backtest_fii.json
+            report_cmd: python src/report_backtest_fii.py --json output/backtest_fii.json --output output/relatorio_backtest_fii.html
+            html: output/relatorio_backtest_fii.html
+            docs: docs/backtest_fii.html
+            badge_bg: '#1a1a2e'
+            badge_border: '#333'
+            badge_label: 'Atualizado em'
+
+    name: Backtest ${{ matrix.name }}
 
     steps:
       - name: Checkout repositório
@@ -19,120 +70,78 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
 
       - name: Instalar dependências
         run: pip install pandas numpy yfinance beautifulsoup4 httpx lxml rich
 
-      # ── Backtest BR ────────────────────────────────────────────────────────
+      - name: Exportar universo — ${{ matrix.name }}
+        run: ${{ matrix.universe_cmd }}
 
-      - name: Exportar universo de tickers BR
-        run: python src/export_tickers.py
+      - name: Rodar backtest — ${{ matrix.name }}
+        run: ${{ matrix.backtest_cmd }}
 
-      - name: Rodar backtest BR
-        run: python src/backtester.py --tickers output/universe_tickers.json --start 2023-01-01 --top 15
+      - name: Gerar relatório HTML — ${{ matrix.name }}
+        run: ${{ matrix.report_cmd }}
 
-      - name: Gerar relatório HTML BR
-        run: python src/report_backtest.py --json output/backtest.json
-
-      - name: Injetar data de atualização — BR
+      - name: Injetar data de atualização — ${{ matrix.name }}
+        env:
+          HTML_PATH: ${{ matrix.html }}
+          BADGE_BG: ${{ matrix.badge_bg }}
+          BADGE_BORDER: ${{ matrix.badge_border }}
+          BADGE_LABEL: ${{ matrix.badge_label }}
         run: |
-          DATA=$(date '+%d/%m/%Y %H:%M UTC')
-          python3 -c "
-          with open('output/relatorio_backtest.html', 'r', encoding='utf-8') as f:
-              html = f.read()
-          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#1a1a2e;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #333;font-family:monospace;z-index:9999\">Atualizado em $DATA</div>'
-          html = html.replace('</body>', badge + '</body>')
-          with open('output/relatorio_backtest.html', 'w', encoding='utf-8') as f:
-              f.write(html)
-          "
+          python - <<'PY'
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
 
-      - name: Copiar BR para docs/
-        run: cp output/relatorio_backtest.html docs/backtest.html
+          path = Path(os.environ["HTML_PATH"])
+          data = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
+          badge = (
+              '<div style="position:fixed;bottom:12px;right:16px;'
+              f'background:{os.environ["BADGE_BG"]};color:#888;font-size:11px;padding:4px 10px;'
+              f'border-radius:6px;border:1px solid {os.environ["BADGE_BORDER"]};'
+              'font-family:monospace;z-index:9999">'
+              f'{os.environ["BADGE_LABEL"]} {data}</div>'
+          )
+          html = path.read_text(encoding="utf-8")
+          html = html.replace("</body>", badge + "</body>")
+          path.write_text(html, encoding="utf-8")
+          print(f"badge injetado em {path}")
+          PY
 
-      # ── Backtest US ────────────────────────────────────────────────────────
+      - name: Copiar para docs/ — ${{ matrix.name }}
+        run: cp "${{ matrix.html }}" "${{ matrix.docs }}"
 
-      - name: Exportar universo de tickers US
-        run: python src/export_tickers_us.py
+      - name: Upload artefato — ${{ matrix.name }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-${{ matrix.name }}
+          path: ${{ matrix.html }}
+          retention-days: 14
 
-      - name: Rodar backtest US
-        run: python src/backtester_us.py --tickers output/universe_tickers_us.json --start 2023-01-01 --top 15
-
-      - name: Gerar relatório HTML US
-        run: python src/report_backtest_us.py --json output/backtest_us.json
-
-      - name: Injetar data de atualização — US
-        run: |
-          DATA=$(date '+%d/%m/%Y %H:%M UTC')
-          python3 -c "
-          with open('output/relatorio_backtest_us.html', 'r', encoding='utf-8') as f:
-              html = f.read()
-          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#0d1117;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;font-family:monospace;z-index:9999\">Updated $DATA</div>'
-          html = html.replace('</body>', badge + '</body>')
-          with open('output/relatorio_backtest_us.html', 'w', encoding='utf-8') as f:
-              f.write(html)
-          "
-
-      - name: Copiar US para docs/
-        run: cp output/relatorio_backtest_us.html docs/backtest_us.html
-
-      # ── Backtest Small Cap ─────────────────────────────────────────────────
-
-      - name: Exportar universo de tickers Small Cap
-        run: python src/export_tickers_smallcap.py
-
-      - name: Rodar backtest Small Cap
-        run: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "IJR" --benchmark-name "S&P SmallCap 600 (IJR)" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
-
-      - name: Gerar relatório HTML Small Cap
-        run: python src/report_backtest_us.py --json output/backtest_sc.json --output output/relatorio_backtest_sc.html --title "Magic Formula Small Cap"
-
-      - name: Injetar data de atualização — Small Cap
-        run: |
-          DATA=$(date '+%d/%m/%Y %H:%M UTC')
-          python3 -c "
-          with open('output/relatorio_backtest_sc.html', 'r', encoding='utf-8') as f:
-              html = f.read()
-          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#0d1117;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #30363d;font-family:monospace;z-index:9999\">Updated $DATA</div>'
-          html = html.replace('</body>', badge + '</body>')
-          with open('output/relatorio_backtest_sc.html', 'w', encoding='utf-8') as f:
-              f.write(html)
-          "
-
-      - name: Copiar Small Cap para docs/
-        run: cp output/relatorio_backtest_sc.html docs/backtest_sc.html
-
-      # ── Backtest FII ───────────────────────────────────────────────────────
-
-      - name: Gerar universo FII (cache Fundamentus)
-        run: python -c "import sys; sys.path.insert(0,'src'); from fii_si_scraper import fetch_all_si; fetch_all_si(force=True)"
-
-      - name: Rodar backtest FII
-        run: python src/backtester_fii.py --start 2023-01-01 --output output/backtest_fii.json
-
-      - name: Gerar relatório HTML FII
-        run: python src/report_backtest_fii.py --json output/backtest_fii.json
-
-      - name: Injetar data de atualização — FII
-        run: |
-          DATA=$(date '+%d/%m/%Y %H:%M UTC')
-          python3 -c "
-          with open('output/relatorio_backtest_fii.html', 'r', encoding='utf-8') as f:
-              html = f.read()
-          badge = '<div style=\"position:fixed;bottom:12px;right:16px;background:#1a1a2e;color:#888;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #333;font-family:monospace;z-index:9999\">Atualizado em $DATA</div>'
-          html = html.replace('</body>', badge + '</body>')
-          with open('output/relatorio_backtest_fii.html', 'w', encoding='utf-8') as f:
-              f.write(html)
-          "
-
-      - name: Copiar FII para docs/
-        run: cp output/relatorio_backtest_fii.html docs/backtest_fii.html
-
-      # ── Commit e push ──────────────────────────────────────────────────────
-
-      - name: Commit e push
+      - name: Commit e push — ${{ matrix.name }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add docs/backtest.html docs/backtest_us.html docs/backtest_sc.html docs/backtest_fii.html
-          git diff --staged --quiet || git commit -m "Backtest BR + US + SC + FII — $(date '+%Y-%m-%d')"
-          git push
+          git add "${{ matrix.docs }}"
+
+          if git diff --staged --quiet; then
+            echo "Sem alterações em ${{ matrix.docs }} — nada a commitar."
+            exit 0
+          fi
+
+          git commit -m "Backtest ${{ matrix.name }} — $(date '+%Y-%m-%d')"
+
+          # jobs paralelos empurram para o mesmo branch: rebase + retry
+          for tentativa in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "push OK na tentativa $tentativa"
+              exit 0
+            fi
+            echo "push falhou (tentativa $tentativa), retry..."
+            sleep $(( RANDOM % 10 + 5 ))
+          done
+          echo "::error::push falhou após 5 tentativas"
+          exit 1
