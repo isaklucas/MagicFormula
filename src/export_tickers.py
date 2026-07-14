@@ -10,7 +10,7 @@ from loader import load_csv
 from filters import apply_filters
 
 df = load_csv(str(ROOT / "data" / "statusinvest-busca-avancada.csv"))
-df2 = apply_filters(df)
+df2, _ = apply_filters(df)
 tickers = df2["TICKER"].tolist()
 
 out = ROOT / "output" / "universe_tickers.json"
