@@ -6,7 +6,11 @@ Colunas retornadas: TICKER, TIPO, NOME, SEGMENTO, PRECO, PVP, DY,
                     DY_12M_MED, VPA, LIQUIDEZ, PATRIMONIO
 """
 
+import re
 import json
+import time
+import random
+
 import httpx
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -16,6 +20,9 @@ from datetime import date
 ROOT      = Path(__file__).parent.parent
 CACHE_DIR = ROOT / "data" / "fii_cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+_RETRIES = 4        # o Fundamentus derruba conexao de runner de CI com alguma frequencia
+_TIMEOUT = 30.0
 
 _FII_URL    = "https://www.fundamentus.com.br/fii_resultado.php"
 _FIAGRO_URL = "https://www.fundamentus.com.br/fiagro_resultado.php"
@@ -47,13 +54,35 @@ def _parse_br_number(s: str) -> float | None:
         return None
 
 
+def _get_with_retry(url: str) -> httpx.Response:
+    """GET com backoff exponencial. Timeout e reset de conexao sao a falha comum aqui."""
+    last_exc: Exception | None = None
+    for tentativa in range(1, _RETRIES + 1):
+        try:
+            with httpx.Client(headers=_HEADERS, follow_redirects=True, timeout=_TIMEOUT) as c:
+                r = c.get(url)
+                r.raise_for_status()
+                return r
+        except (httpx.HTTPError, httpx.StreamError) as e:
+            last_exc = e
+            if tentativa == _RETRIES:
+                break
+            espera = 2 ** tentativa + random.uniform(0, 1.5)
+            print(
+                f"\n[fii_si_scraper] {type(e).__name__} em {url} "
+                f"(tentativa {tentativa}/{_RETRIES}) — retry em {espera:.1f}s",
+                flush=True,
+            )
+            time.sleep(espera)
+
+    raise RuntimeError(f"Fundamentus inacessivel apos {_RETRIES} tentativas: {last_exc}") from last_exc
+
+
 def _scrape_url(url: str, tipo: str) -> pd.DataFrame:
     """Scrapa tabela tabelaResultado de qualquer página Fundamentus."""
     label = tipo
     print(f"[fii_si_scraper] Fundamentus {label}...", end=" ", flush=True)
-    with httpx.Client(headers=_HEADERS, follow_redirects=True, timeout=30) as c:
-        r = c.get(url)
-        r.raise_for_status()
+    r = _get_with_retry(url)
 
     soup = BeautifulSoup(r.content, "html.parser", from_encoding="utf-8")
     tbl  = soup.find("table", id="tabelaResultado")
@@ -104,19 +133,44 @@ def _scrape_url(url: str, tipo: str) -> pd.DataFrame:
     return df
 
 
+def _read_cache(path: Path, label: str) -> pd.DataFrame:
+    with open(path, encoding="utf-8") as f:
+        cached = json.load(f)
+    df = pd.DataFrame(cached["rows"])
+    print(f"[fii_si_scraper] {len(df)} {label} carregados de {path.name} (data: {cached.get('data')})")
+    return df
+
+
+def _latest_cache(cache_key: str) -> Path | None:
+    """Cache mais recente do mesmo tipo (FII ou FIAgro), de qualquer mês."""
+    sufixo = "_fiagro" if cache_key.endswith("_fiagro") else ""
+    padrao = re.compile(rf"^\d{{4}}_\d{{2}}{re.escape(sufixo)}\.json$")
+    candidatos = [p for p in CACHE_DIR.glob("*.json") if padrao.match(p.name)]
+    return max(candidatos, key=lambda p: p.name) if candidatos else None
+
+
 def _load_or_scrape(cache_key: str, scrape_fn, label: str, force: bool) -> pd.DataFrame:
-    """Cache mensal: retorna do JSON se existir, senão scrapa e salva."""
+    """
+    Cache mensal: retorna do JSON se existir, senão scrapa e salva.
+    Se o scrape falhar (Fundamentus fora do ar / bloqueando o runner), cai para o cache
+    mais recente em vez de derrubar o job — dado de mês passado é melhor que pipeline morta.
+    """
     cache_path = CACHE_DIR / f"{cache_key}.json"
 
     if not force and cache_path.exists():
         print(f"[fii_si_scraper] Cache {cache_key} → {cache_path.name}")
-        with open(cache_path, encoding="utf-8") as f:
-            cached = json.load(f)
-        df = pd.DataFrame(cached["rows"])
-        print(f"[fii_si_scraper] {len(df)} {label} carregados do cache")
-        return df
+        return _read_cache(cache_path, label)
 
-    df = scrape_fn()
+    try:
+        df = scrape_fn()
+    except Exception as e:
+        fallback = _latest_cache(cache_key)
+        if fallback is None:
+            raise
+        print(f"[fii_si_scraper] AVISO: scrape de {label} falhou ({e})")
+        print(f"[fii_si_scraper] AVISO: usando cache defasado {fallback.name}")
+        return _read_cache(fallback, label)
+
     if df.empty:
         raise RuntimeError(f"Fundamentus retornou 0 {label}")
 

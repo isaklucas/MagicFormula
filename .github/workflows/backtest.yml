@@ -75,6 +75,16 @@ jobs:
       - name: Instalar dependências
         run: pip install pandas numpy yfinance beautifulsoup4 httpx lxml rich
 
+      # data/fii_cache é gitignored: sem isto o runner nasce sem cache nenhum e o
+      # fallback do scraper não tem para onde cair quando o Fundamentus não responde.
+      - name: Restaurar cache do Fundamentus — ${{ matrix.name }}
+        if: matrix.name == 'FII'
+        uses: actions/cache@v4
+        with:
+          path: data/fii_cache
+          key: fii-cache-${{ github.run_id }}
+          restore-keys: fii-cache-
+
       - name: Exportar universo — ${{ matrix.name }}
         run: ${{ matrix.universe_cmd }}
 
