@@ -1,9 +1,16 @@
 import pandas as pd
 
+# Guarda de outlier: numeros bons demais quase sempre sao EBIT contaminado por ganho
+# nao-operacional (ex.: AMER3 pos-RJ, com o perdao de divida embutido no EBIT de 2024).
+MIN_EV_EBIT = 1.0
+MAX_ROIC = 100.0
+
+# Bancos e seguradoras: a Magic Formula (EV/EBIT, ROIC) não se aplica ao balanço deles.
+# CSAN (Cosan), EGIE (Engie) e TASA (Taurus) já estiveram aqui por engano — são
+# holding/energia/indústria, não financeiras, e vinham sendo excluídas sem motivo.
 FINANCIAL_PREFIXES = {
     "BBAS", "BBDC", "ITUB", "SANB", "BRSR", "BPAC", "BMGB", "BRBI",
-    "ABCB", "PINE", "CSAN", "SULA", "PSSA", "IRBR", "BBSE", "CXSE",
-    "WIZS", "EGIE", "TASA",
+    "ABCB", "PINE", "SULA", "PSSA", "IRBR", "BBSE", "CXSE", "WIZS",
 }
 
 
@@ -132,7 +139,16 @@ def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
     m_roic = df["ROIC"].fillna(0) <= 0
     m_div  = df["DIVIDA LIQUIDA / EBIT"].fillna(99) >= 5
 
-    mask_keep = ~m_fin & ~m_liq & ~m_ev & ~m_roic & ~m_div
+    # P/VP <= 0 => patrimonio liquido negativo (empresa tecnicamente insolvente).
+    # Ausente na fonte = beneficio da duvida.
+    if "P/VP" in df.columns:
+        m_pl = pd.to_numeric(df["P/VP"], errors="coerce").fillna(1) <= 0
+    else:
+        m_pl = pd.Series(False, index=df.index)
+
+    m_out = (df["EV/EBIT"].fillna(99) < MIN_EV_EBIT) | (df["ROIC"].fillna(0) > MAX_ROIC)
+
+    mask_keep = ~m_fin & ~m_liq & ~m_ev & ~m_roic & ~m_div & ~m_pl & ~m_out
 
     for idx in df[~mask_keep].index:
         row    = df.loc[idx]
@@ -148,6 +164,16 @@ def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
         elif m_roic[idx]:
             roic = _safe_float(row.get("ROIC"), 0)
             motivo = f"ROIC {roic:.1f}% ≤ 0"
+        elif m_pl[idx]:
+            pvp = _safe_float(row.get("P/VP"), 0)
+            motivo = f"Patrimônio líquido negativo (P/VP {pvp:.2f} ≤ 0)"
+        elif m_out[idx]:
+            ev = _safe_float(row.get("EV/EBIT"), 0)
+            roic = _safe_float(row.get("ROIC"), 0)
+            if ev < MIN_EV_EBIT:
+                motivo = f"Outlier: EV/EBIT {ev:.2f} < {MIN_EV_EBIT} (EBIT provavelmente contaminado)"
+            else:
+                motivo = f"Outlier: ROIC {roic:.0f}% > {MAX_ROIC:.0f}% (EBIT provavelmente contaminado)"
         else:
             div = _safe_float(row.get("DIVIDA LIQUIDA / EBIT"), 0)
             motivo = f"Dívida/EBIT {div:.1f}x ≥ 5"

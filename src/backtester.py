@@ -25,8 +25,20 @@ logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(Path(__file__).parent))
 CACHE_DIR = ROOT / "output" / "backtest_cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+from filters import apply_sector_limit
+
+TAX_RATE = 0.34         # mesma alíquota do yf_fetcher (ROIC sobre NOPAT)
+MAX_PER_SECTOR = 5      # mesmo limite de concentração do main.py
+
+# Guarda de outlier: numeros bons demais quase sempre sao EBIT contaminado por ganho
+# nao-operacional (ex.: AMER3 pos-RJ, cujo EBIT de 2024 embute o perdao de divida e
+# produzia EV/EBIT 0,16 e ROIC 163%). Sem isso, o lixo lidera o ranking.
+MIN_EV_EBIT = 1.0
+MAX_ROIC = 100.0
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -67,19 +79,23 @@ def _save_cache(ticker: str, data: dict):
 
 # ── Fetch fundamental data por ticker ────────────────────────────────────────
 
+EQUITY_ROWS = ("Stockholders Equity", "Total Equity Gross Minority Interest")
+
+
 def _fetch_fundamentals(ticker: str) -> dict:
     """
     Retorna fundamentals historicos:
     - ebit_q: EBIT trimestral (ultimos 4-8 trimestres)
     - ebit_a: EBIT anual (ultimos 4 anos fiscais — cobre backtest desde 2022)
-    - inv_cap, net_debt, shares: trimestral + anual como fallback
-    Versao 2: suporta dados anuais para backtest historico real.
+    - inv_cap, net_debt, shares, equity: trimestral + anual como fallback
+    Versao 3: inclui patrimonio liquido (equity) para descartar PL negativo na data do
+    rebalance — ex.: AMER3 tinha PL de -R$28bi em 2022/2023 e entrava no top15.
     """
     cached = _load_cache(ticker)
-    if cached and cached.get("_v") == 2:
+    if cached and cached.get("_v") == 3:
         return cached
 
-    result = {"ebit_q": {}, "ebit_a": {}, "inv_cap": {}, "net_debt": {}, "shares": {}, "_v": 2}
+    result = {"ebit_q": {}, "ebit_a": {}, "inv_cap": {}, "net_debt": {}, "shares": {}, "equity": {}, "_v": 3}
     try:
         t = yf.Ticker(_sa(ticker))
 
@@ -93,17 +109,21 @@ def _fetch_fundamentals(ticker: str) -> dict:
                 if v is not None:
                     result["ebit_q"][str(col.date())] = v
 
+        bs_rows = [
+            ("Invested Capital", "inv_cap"),
+            ("Net Debt", "net_debt"),
+            ("Ordinary Shares Number", "shares"),
+        ] + [(row, "equity") for row in EQUITY_ROWS]  # 1o nome vence; 2o so preenche lacunas
+
         if not qbs.empty:
-            for row, key in [
-                ("Invested Capital", "inv_cap"),
-                ("Net Debt", "net_debt"),
-                ("Ordinary Shares Number", "shares"),
-            ]:
+            for row, key in bs_rows:
                 if row in qbs.index:
                     for col, val in qbs.loc[row].items():
                         v = _safe_float(val)
                         if v is not None:
-                            result[key][str(col.date())] = v
+                            date_str = str(col.date())
+                            if date_str not in result[key]:
+                                result[key][date_str] = v
 
         # Dados anuais (ultimos 4 anos fiscais — essencial para backtest 2022-2024)
         af = t.financials  # income statement anual
@@ -116,11 +136,7 @@ def _fetch_fundamentals(ticker: str) -> dict:
                     result["ebit_a"][str(col.date())] = v
 
         if not abs_.empty:
-            for row, key in [
-                ("Invested Capital", "inv_cap"),
-                ("Net Debt", "net_debt"),
-                ("Ordinary Shares Number", "shares"),
-            ]:
+            for row, key in bs_rows:
                 if row in abs_.index:
                     for col, val in abs_.loc[row].items():
                         v = _safe_float(val)
@@ -231,10 +247,15 @@ def compute_metrics_at(
     inv_cap = _latest_before(fund.get("inv_cap", {}), cutoff)
     net_debt = _latest_before(fund.get("net_debt", {}), cutoff)
     shares = _latest_before(fund.get("shares", {}), cutoff)
+    equity = _latest_before(fund.get("equity", {}), cutoff)
 
     if ebit_anual is None or ebit_anual <= 0:
         return None
     if inv_cap is None or inv_cap <= 0:
+        return None
+    # Patrimonio liquido negativo na data do rebalance: empresa tecnicamente insolvente.
+    # Point-in-time, sem look-ahead. Se o dado nao existe, beneficio da duvida.
+    if equity is not None and equity <= 0:
         return None
     if price is None or price <= 0:
         return None
@@ -247,9 +268,12 @@ def compute_metrics_at(
         return None
 
     ev_ebit = ev / ebit_anual
-    roic = (ebit_anual / inv_cap) * 100
+    # ROIC sobre NOPAT — mesma definição do yf_fetcher usado na carteira ao vivo
+    roic = (ebit_anual * (1 - TAX_RATE) / inv_cap) * 100
 
     if ev_ebit <= 0 or roic <= 0:
+        return None
+    if ev_ebit < MIN_EV_EBIT or roic > MAX_ROIC:
         return None
 
     return {
@@ -268,8 +292,12 @@ def rank_at_date(
     fundamentals: dict,
     prices_df: pd.DataFrame,
     top_n: int = 20,
+    setor_map: dict[str, str] | None = None,
 ) -> list[dict]:
-    """Retorna top_n empresas ranqueadas pela Magic Formula em cutoff."""
+    """
+    Retorna top_n empresas ranqueadas pela Magic Formula em cutoff.
+    Com setor_map, aplica o mesmo teto de MAX_PER_SECTOR por setor da carteira ao vivo.
+    """
     # Pega preco no mes mais proximo antes de cutoff
     price_row = prices_df[prices_df.index.date <= cutoff]
     if price_row.empty:
@@ -290,8 +318,16 @@ def rank_at_date(
     df["rank_ev"] = df["EV/EBIT"].rank(ascending=True, method="min")
     df["rank_roic"] = df["ROIC"].rank(ascending=False, method="min")
     df["mf_score"] = df["rank_ev"] + df["rank_roic"]
-    top = df.nsmallest(top_n, "mf_score").reset_index(drop=True)
-    return top.to_dict(orient="records")
+
+    if not setor_map:
+        top = df.nsmallest(top_n, "mf_score").reset_index(drop=True)
+        return top.to_dict(orient="records")
+
+    ranked = df.sort_values("mf_score").to_dict(orient="records")
+    kept, _ = apply_sector_limit(
+        ranked, setor_map, max_per_sector=MAX_PER_SECTOR, desired_n=top_n
+    )
+    return kept
 
 
 # ── Loop principal do backtest ────────────────────────────────────────────────
@@ -302,11 +338,15 @@ def run_backtest(
     end: str | None = None,
     top_n: int = 15,
     hold_buffer: float = 2.0,
+    setor_map: dict[str, str] | None = None,
 ) -> dict:
     """
     hold_buffer: fator de buffer para reducao de turnover.
     Uma acao so sai do portfolio se cair abaixo do top (top_n * hold_buffer).
     Ex: buffer=2.0 com top_n=15 → so sai se cair do top 30.
+
+    setor_map: ticker → setor B3. Se fornecido, limita MAX_PER_SECTOR por setor no
+    ranking de cada rebalance, igual a carteira ao vivo (main.py).
     """
     end = end or str(date.today())
     buffer_n = int(top_n * hold_buffer)
@@ -341,7 +381,9 @@ def run_backtest(
         next_dt = rebal_dates[i + 1]
 
         # Ranking com buffer: pega top buffer_n para decidir o que manter
-        all_ranked = rank_at_date(tickers, cutoff, fundamentals, prices_df, top_n=buffer_n)
+        all_ranked = rank_at_date(
+            tickers, cutoff, fundamentals, prices_df, top_n=buffer_n, setor_map=setor_map
+        )
         buffer_set = {r["TICKER"] for r in all_ranked}
         ranked_tickers = [r["TICKER"] for r in all_ranked]
 
@@ -413,7 +455,7 @@ def run_backtest(
             "portfolio_valor": round(portfolio_value, 2),
             "ibov_retorno_mes_pct": round(ibov_ret, 2) if ibov_ret is not None else None,
             "detalhes": [
-                {"ticker": r["TICKER"], "ev_ebit": r["EV/EBIT"], "roic": r["ROIC"], "mf_score": r.get("mf_score"), "preco": r.get("preco")}
+                {"ticker": r["TICKER"], "ev_ebit": r["EV/EBIT"], "roic": r["ROIC"], "mf_score": r.get("mf_score"), "preco": r.get("preco"), "setor": r.get("setor")}
                 for r in top_detail
             ],
         })
@@ -475,13 +517,26 @@ if __name__ == "__main__":
     parser.add_argument("--end", default=str(date.today()))
     parser.add_argument("--top", type=int, default=15)
     parser.add_argument("--hold-buffer", type=float, default=2.0, help="Buffer fator: acao so sai se cair do top (top*buffer). Default 2.0")
+    parser.add_argument("--sectors", default=str(ROOT / "output" / "universe_sectors.json"), help="JSON ticker->setor. Ativa limite de 5 por setor, igual a carteira ao vivo")
     parser.add_argument("--output", default=str(ROOT / "output" / "backtest.json"))
     args = parser.parse_args()
 
     with open(args.tickers, encoding="utf-8") as f:
         tickers = json.load(f)
 
-    result = run_backtest(tickers, start=args.start, end=args.end, top_n=args.top, hold_buffer=args.hold_buffer)
+    setor_map = None
+    sectors_path = Path(args.sectors) if args.sectors else None
+    if sectors_path and sectors_path.exists():
+        with open(sectors_path, encoding="utf-8") as f:
+            setor_map = json.load(f)
+        print(f"[backtest] Limite de {MAX_PER_SECTOR} por setor ativo ({len(setor_map)} tickers mapeados)")
+    else:
+        print("[backtest] Sem mapa de setores — limite por setor desativado")
+
+    result = run_backtest(
+        tickers, start=args.start, end=args.end, top_n=args.top,
+        hold_buffer=args.hold_buffer, setor_map=setor_map,
+    )
 
     with open(args.output, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
