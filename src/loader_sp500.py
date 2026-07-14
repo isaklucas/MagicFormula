@@ -79,12 +79,32 @@ def _fetch_ticker(ticker: str) -> dict | None:
         if not ebit or not revenue:
             return None
 
+        # Capital investido = patrimonio liquido + divida liquida. A linha "Invested
+        # Capital" do yfinance usa divida BRUTA e ignora o caixa, o que infla o capital
+        # de empresas cheias de caixa (boa parte do S&P 500) e corta o ROIC pela metade.
+        # Greenblatt exclui caixa em excesso. So usa a linha crua se faltar o PL.
+        equity = None
+        invested_capital = None
         try:
             bs = t.balance_sheet
-            ic_row = bs.loc["Invested Capital"].dropna()
-            invested_capital = float(ic_row.iloc[0]) if len(ic_row) > 0 else None
+            for label in ("Stockholders Equity", "Total Equity Gross Minority Interest"):
+                if label in bs.index:
+                    eq_row = bs.loc[label].dropna()
+                    if len(eq_row) > 0:
+                        equity = float(eq_row.iloc[0])
+                        break
+            if equity is not None:
+                invested_capital = equity + (total_debt - cash)
+            else:
+                ic_row = bs.loc["Invested Capital"].dropna()
+                invested_capital = float(ic_row.iloc[0]) if len(ic_row) > 0 else None
         except Exception:
             invested_capital = None
+
+        # PL negativo: empresa tecnicamente insolvente, fora da Magic Formula.
+        if equity is not None and equity <= 0:
+            return None
+
         roic = round(ebit * 0.75 / invested_capital * 100, 2) if invested_capital and invested_capital > 0 else None
         ev_ebit = None
         ev = info.get("enterpriseValue")

@@ -32,7 +32,7 @@ jobs:
 
           - name: US
             universe_cmd: python src/export_tickers_us.py
-            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_us.json --start 2023-01-01 --top 15
+            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_us.json --sectors output/universe_sectors_us.json --start 2023-01-01 --top 15
             report_cmd: python src/report_backtest_us.py --json output/backtest_us.json --output output/relatorio_backtest_us.html
             html: output/relatorio_backtest_us.html
             docs: docs/backtest_us.html
@@ -42,7 +42,7 @@ jobs:
 
           - name: SmallCap
             universe_cmd: python src/export_tickers_smallcap.py
-            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --start 2023-01-01 --top 15 --benchmark "IJR" --benchmark-name "S&P SmallCap 600 (IJR)" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
+            backtest_cmd: python src/backtester_us.py --tickers output/universe_tickers_smallcap.json --sectors output/universe_sectors_smallcap.json --start 2023-01-01 --top 15 --benchmark "IJR" --benchmark-name "S&P SmallCap 600 (IJR)" --cache-dir output/backtest_cache_sc --output output/backtest_sc.json
             report_cmd: python src/report_backtest_us.py --json output/backtest_sc.json --output output/relatorio_backtest_sc.html --title "Magic Formula Small Cap"
             html: output/relatorio_backtest_sc.html
             docs: docs/backtest_sc.html

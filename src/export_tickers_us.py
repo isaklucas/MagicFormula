@@ -18,9 +18,11 @@ _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 S
 EXCLUDED_GICS = {"Financials", "Real Estate"}
 
 OUT_PATH = Path("output/universe_tickers_us.json")
+SECTORS_PATH = Path("output/universe_sectors_us.json")
 
 
-def get_sp500_tickers_filtered() -> list[str]:
+def get_sp500_tickers_filtered() -> tuple[list[str], dict[str, str]]:
+    """Retorna (tickers, mapa ticker->setor GICS). O setor sai da mesma tabela, de graça."""
     req = urllib.request.Request(SP500_URL, headers={"User-Agent": _UA})
     with urllib.request.urlopen(req, timeout=15) as r:
         html = r.read().decode("utf-8")
@@ -33,24 +35,30 @@ def get_sp500_tickers_filtered() -> list[str]:
     symbol_col = next((c for c in df.columns if "Symbol" in str(c)), "Symbol")
 
     tickers = []
+    setores: dict[str, str] = {}
     for _, row in df.iterrows():
         symbol = str(row[symbol_col]).replace(".", "-")
         sector = str(row[sector_col]) if sector_col else ""
         if sector not in EXCLUDED_GICS:
             tickers.append(symbol)
+            setores[symbol] = sector or "Desconhecido"
 
-    return tickers
+    return tickers, setores
 
 
 if __name__ == "__main__":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
     print(f"[export_tickers_us] Buscando lista S&P 500...")
-    tickers = get_sp500_tickers_filtered()
+    tickers, setores = get_sp500_tickers_filtered()
     print(f"[export_tickers_us] {len(tickers)} tickers após excluir {EXCLUDED_GICS}")
 
     OUT_PATH.parent.mkdir(exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(tickers, f)
 
+    with open(SECTORS_PATH, "w", encoding="utf-8") as f:
+        json.dump(setores, f, ensure_ascii=False, indent=2)
+
     print(f"[export_tickers_us] Salvo: {OUT_PATH}")
+    print(f"[export_tickers_us] Setores salvos: {SECTORS_PATH}")

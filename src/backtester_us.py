@@ -25,8 +25,22 @@ logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(Path(__file__).parent))
 CACHE_DIR = ROOT / "output" / "backtest_cache_us"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+from filters import apply_sector_limit
+
+TAX_RATE = 0.25         # mesma aliquota dos loaders US (ebit * 0.75)
+MAX_PER_SECTOR = 3      # mesmo teto do main_sp500.py / main_smallcap.py
+
+# Guarda de outlier: EV/EBIT abaixo de 1 nao existe em empresa sa — e EBIT contaminado
+# por ganho nao-operacional. NAO usar teto de ROIC aqui: ROIC alto sozinho e sinal de
+# empresa otima, nao de dado ruim (a Apple opera acima de 100% por causa das recompras,
+# que encolhem o patrimonio liquido).
+MIN_EV_EBIT = 1.0
+
+EQUITY_ROWS = ("Stockholders Equity", "Total Equity Gross Minority Interest")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -64,11 +78,15 @@ def _save_cache(ticker: str, data: dict, cache_dir: Path):
 # ── Fetch fundamental data por ticker ─────────────────────────────────────────
 
 def _fetch_fundamentals(ticker: str, cache_dir: Path) -> dict:
+    """
+    Versao 3: inclui patrimonio liquido (equity), para calcular capital investido com
+    divida liquida e descartar PL negativo na data do rebalance.
+    """
     cached = _load_cache(ticker, cache_dir)
-    if cached and cached.get("_v") == 2:
+    if cached and cached.get("_v") == 3:
         return cached
 
-    result = {"ebit_q": {}, "ebit_a": {}, "inv_cap": {}, "net_debt": {}, "shares": {}, "_v": 2}
+    result = {"ebit_q": {}, "ebit_a": {}, "inv_cap": {}, "net_debt": {}, "shares": {}, "equity": {}, "_v": 3}
     try:
         t = yf.Ticker(ticker)
 
@@ -81,17 +99,21 @@ def _fetch_fundamentals(ticker: str, cache_dir: Path) -> dict:
                 if v is not None:
                     result["ebit_q"][str(col.date())] = v
 
+        bs_rows = [
+            ("Invested Capital", "inv_cap"),
+            ("Net Debt", "net_debt"),
+            ("Ordinary Shares Number", "shares"),
+        ] + [(row, "equity") for row in EQUITY_ROWS]  # 1o nome vence; 2o so preenche lacunas
+
         if not qbs.empty:
-            for row, key in [
-                ("Invested Capital", "inv_cap"),
-                ("Net Debt", "net_debt"),
-                ("Ordinary Shares Number", "shares"),
-            ]:
+            for row, key in bs_rows:
                 if row in qbs.index:
                     for col, val in qbs.loc[row].items():
                         v = _safe_float(val)
                         if v is not None:
-                            result[key][str(col.date())] = v
+                            date_str = str(col.date())
+                            if date_str not in result[key]:
+                                result[key][date_str] = v
 
         af = t.financials
         abs_ = t.balance_sheet
@@ -103,11 +125,7 @@ def _fetch_fundamentals(ticker: str, cache_dir: Path) -> dict:
                     result["ebit_a"][str(col.date())] = v
 
         if not abs_.empty:
-            for row, key in [
-                ("Invested Capital", "inv_cap"),
-                ("Net Debt", "net_debt"),
-                ("Ordinary Shares Number", "shares"),
-            ]:
+            for row, key in bs_rows:
                 if row in abs_.index:
                     for col, val in abs_.loc[row].items():
                         v = _safe_float(val)
@@ -197,22 +215,33 @@ def compute_metrics_at(ticker: str, cutoff: date, fundamentals: dict,
                        price: float | None) -> dict | None:
     fund = fundamentals.get(ticker, {})
     ebit = _ttm_ebit_at(fund, cutoff)
-    inv_cap = _latest_before(fund.get("inv_cap", {}), cutoff)
     net_debt = _latest_before(fund.get("net_debt", {}), cutoff)
     shares = _latest_before(fund.get("shares", {}), cutoff)
+    equity = _latest_before(fund.get("equity", {}), cutoff)
+
+    # Capital investido = patrimonio liquido + divida LIQUIDA. A linha "Invested Capital"
+    # do yfinance usa divida BRUTA e ignora o caixa, o que infla o capital de empresas
+    # cheias de caixa (metade do S&P 500) e corta o ROIC delas pela metade.
+    if equity is not None and net_debt is not None:
+        inv_cap = equity + net_debt
+    else:
+        inv_cap = _latest_before(fund.get("inv_cap", {}), cutoff)
 
     if ebit is None or ebit <= 0: return None
     if inv_cap is None or inv_cap <= 0: return None
     if price is None or price <= 0: return None
     if shares is None or shares <= 0: return None
+    # PL negativo na data do rebalance: empresa tecnicamente insolvente. Point-in-time.
+    if equity is not None and equity <= 0: return None
 
     market_cap = price * shares
     ev = market_cap + (net_debt or 0)
     if ev <= 0: return None
 
     ev_ebit = ev / ebit
-    roic = (ebit / inv_cap) * 100
+    roic = (ebit * (1 - TAX_RATE) / inv_cap) * 100   # NOPAT, igual aos loaders US
     if ev_ebit <= 0 or roic <= 0: return None
+    if ev_ebit < MIN_EV_EBIT: return None
 
     return {"TICKER": ticker, "EV/EBIT": round(ev_ebit, 2), "ROIC": round(roic, 2), "preco": round(price, 2)}
 
@@ -220,7 +249,8 @@ def compute_metrics_at(ticker: str, cutoff: date, fundamentals: dict,
 # ── Ranking numa data ─────────────────────────────────────────────────────────
 
 def rank_at_date(tickers: list[str], cutoff: date, fundamentals: dict,
-                 prices_df: pd.DataFrame, top_n: int = 20) -> list[dict]:
+                 prices_df: pd.DataFrame, top_n: int = 20,
+                 setor_map: dict[str, str] | None = None) -> list[dict]:
     price_row = prices_df[prices_df.index.date <= cutoff]
     if price_row.empty: return []
     price_row = price_row.iloc[-1]
@@ -238,8 +268,14 @@ def rank_at_date(tickers: list[str], cutoff: date, fundamentals: dict,
     df["rank_ev"] = df["EV/EBIT"].rank(ascending=True, method="min")
     df["rank_roic"] = df["ROIC"].rank(ascending=False, method="min")
     df["mf_score"] = df["rank_ev"] + df["rank_roic"]
-    top = df.nsmallest(top_n, "mf_score").reset_index(drop=True)
-    return top.to_dict(orient="records")
+
+    if not setor_map:
+        top = df.nsmallest(top_n, "mf_score").reset_index(drop=True)
+        return top.to_dict(orient="records")
+
+    ranked = df.sort_values("mf_score").to_dict(orient="records")
+    kept, _ = apply_sector_limit(ranked, setor_map, max_per_sector=MAX_PER_SECTOR, desired_n=top_n)
+    return kept
 
 
 # ── Loop principal ─────────────────────────────────────────────────────────────
@@ -247,7 +283,8 @@ def rank_at_date(tickers: list[str], cutoff: date, fundamentals: dict,
 def run_backtest(tickers: list[str], start: str = "2023-01-01", end: str | None = None,
                  top_n: int = 15, hold_buffer: float = 2.0,
                  benchmark: str = "^GSPC", benchmark_name: str = "S&P 500",
-                 cache_dir: Path = CACHE_DIR) -> dict:
+                 cache_dir: Path = CACHE_DIR,
+                 setor_map: dict[str, str] | None = None) -> dict:
     end = end or str(date.today())
     buffer_n = int(top_n * hold_buffer)
     bm_col = "BENCHMARK"
@@ -275,7 +312,8 @@ def run_backtest(tickers: list[str], start: str = "2023-01-01", end: str | None 
         cutoff = rebal_dt.date()
         next_dt = rebal_dates[i + 1]
 
-        all_ranked = rank_at_date(tickers, cutoff, fundamentals, prices_df, top_n=buffer_n)
+        all_ranked = rank_at_date(tickers, cutoff, fundamentals, prices_df,
+                                  top_n=buffer_n, setor_map=setor_map)
         buffer_set = {r["TICKER"] for r in all_ranked}
         ranked_tickers = [r["TICKER"] for r in all_ranked]
 
@@ -348,7 +386,7 @@ def run_backtest(tickers: list[str], start: str = "2023-01-01", end: str | None 
             "tbill_retorno_mes_pct": round(tbill_ret, 2) if tbill_ret is not None else None,
             "detalhes": [
                 {"ticker": r["TICKER"], "ev_ebit": r["EV/EBIT"], "roic": r["ROIC"],
-                 "mf_score": r.get("mf_score"), "preco": r.get("preco")}
+                 "mf_score": r.get("mf_score"), "preco": r.get("preco"), "setor": r.get("setor")}
                 for r in top_detail
             ],
         })
@@ -420,6 +458,8 @@ if __name__ == "__main__":
     parser.add_argument("--benchmark", default="SPY", help="ETF de benchmark total return (ex: SPY, IJR)")
     parser.add_argument("--benchmark-name", default="S&P 500 (SPY)", help="Nome legível do benchmark")
     parser.add_argument("--cache-dir", default=str(CACHE_DIR))
+    parser.add_argument("--sectors", default=None,
+                        help="JSON ticker->setor GICS. Ativa o teto de 3 por setor, igual a carteira ao vivo")
     parser.add_argument("--output", default=str(ROOT / "output" / "backtest_us.json"))
     args = parser.parse_args()
 
@@ -429,10 +469,19 @@ if __name__ == "__main__":
     cache_dir = Path(args.cache_dir)
     cache_dir.mkdir(parents=True, exist_ok=True)
 
+    setor_map = None
+    if args.sectors and Path(args.sectors).exists():
+        with open(args.sectors, encoding="utf-8") as f:
+            setor_map = json.load(f)
+        print(f"[backtest_us] Teto de {MAX_PER_SECTOR} por setor ativo ({len(setor_map)} tickers mapeados)")
+    else:
+        print("[backtest_us] Sem mapa de setores — teto por setor desativado")
+
     result = run_backtest(
         tickers, start=args.start, end=args.end, top_n=args.top,
         hold_buffer=args.hold_buffer, benchmark=args.benchmark,
         benchmark_name=args.benchmark_name, cache_dir=cache_dir,
+        setor_map=setor_map,
     )
 
     with open(args.output, "w", encoding="utf-8") as f:

@@ -34,11 +34,11 @@ from filters import apply_sector_limit
 TAX_RATE = 0.34         # mesma alíquota do yf_fetcher (ROIC sobre NOPAT)
 MAX_PER_SECTOR = 5      # mesmo limite de concentração do main.py
 
-# Guarda de outlier: numeros bons demais quase sempre sao EBIT contaminado por ganho
-# nao-operacional (ex.: AMER3 pos-RJ, cujo EBIT de 2024 embute o perdao de divida e
-# produzia EV/EBIT 0,16 e ROIC 163%). Sem isso, o lixo lidera o ranking.
+# Guarda de outlier: EV/EBIT abaixo de 1 nao existe em empresa sa — e EBIT contaminado
+# por ganho nao-operacional (o EBIT de 2024 da AMER3 embute o perdao de divida da RJ e
+# dava EV/EBIT 0,16). Sem isso, o lixo lidera o ranking.
+# NAO usar teto de ROIC: ROIC alto sozinho e sinal de empresa otima, nao de dado ruim.
 MIN_EV_EBIT = 1.0
-MAX_ROIC = 100.0
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -282,7 +282,7 @@ def compute_metrics_at(
 
     if ev_ebit <= 0 or roic <= 0:
         return None
-    if ev_ebit < MIN_EV_EBIT or roic > MAX_ROIC:
+    if ev_ebit < MIN_EV_EBIT:
         return None
 
     return {

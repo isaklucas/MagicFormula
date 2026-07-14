@@ -1,9 +1,9 @@
 import pandas as pd
 
-# Guarda de outlier: numeros bons demais quase sempre sao EBIT contaminado por ganho
-# nao-operacional (ex.: AMER3 pos-RJ, com o perdao de divida embutido no EBIT de 2024).
+# Guarda de outlier: EV/EBIT abaixo de 1 nao existe em empresa sa — e EBIT contaminado
+# por ganho nao-operacional (ex.: AMER3 pos-RJ, com o perdao de divida embutido no EBIT).
+# NAO usar teto de ROIC: ROIC alto sozinho e sinal de empresa otima, nao de dado ruim.
 MIN_EV_EBIT = 1.0
-MAX_ROIC = 100.0
 
 # Bancos e seguradoras: a Magic Formula (EV/EBIT, ROIC) não se aplica ao balanço deles.
 # CSAN (Cosan), EGIE (Engie) e TASA (Taurus) já estiveram aqui por engano — são
@@ -146,7 +146,7 @@ def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
     else:
         m_pl = pd.Series(False, index=df.index)
 
-    m_out = (df["EV/EBIT"].fillna(99) < MIN_EV_EBIT) | (df["ROIC"].fillna(0) > MAX_ROIC)
+    m_out = df["EV/EBIT"].fillna(99) < MIN_EV_EBIT
 
     mask_keep = ~m_fin & ~m_liq & ~m_ev & ~m_roic & ~m_div & ~m_pl & ~m_out
 
@@ -169,11 +169,7 @@ def apply_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
             motivo = f"Patrimônio líquido negativo (P/VP {pvp:.2f} ≤ 0)"
         elif m_out[idx]:
             ev = _safe_float(row.get("EV/EBIT"), 0)
-            roic = _safe_float(row.get("ROIC"), 0)
-            if ev < MIN_EV_EBIT:
-                motivo = f"Outlier: EV/EBIT {ev:.2f} < {MIN_EV_EBIT} (EBIT provavelmente contaminado)"
-            else:
-                motivo = f"Outlier: ROIC {roic:.0f}% > {MAX_ROIC:.0f}% (EBIT provavelmente contaminado)"
+            motivo = f"Outlier: EV/EBIT {ev:.2f} < {MIN_EV_EBIT} (EBIT provavelmente contaminado)"
         else:
             div = _safe_float(row.get("DIVIDA LIQUIDA / EBIT"), 0)
             motivo = f"Dívida/EBIT {div:.1f}x ≥ 5"

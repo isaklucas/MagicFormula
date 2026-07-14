@@ -19,10 +19,13 @@ EXCLUDED_SECTORS = {
     "Real Estate", "Mortgage Finance",
 }
 
+# min_ev_ebit e guarda de outlier: EV/EBIT abaixo de 1 nao existe em empresa sa, e EBIT
+# contaminado por ganho nao-operacional. Mesmo limite do pipeline BR. Nao ha teto de
+# ROIC: ROIC alto sozinho e empresa otima (a Apple passa de 100% por causa das recompras).
 FILTERS = {
     "min_liq_usd": 500_000,     # Small caps: threshold menor
     "max_ev_ebit": 50,
-    "min_ev_ebit": 0,
+    "min_ev_ebit": 1.0,
     "max_div_ebit": 5,
 }
 
@@ -54,8 +57,8 @@ def apply_filters(records: list) -> tuple[list, list[dict]]:
         if not ev or not roic:
             removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": "EV/EBIT ou ROIC indisponível"})
             continue
-        if ev <= FILTERS["min_ev_ebit"] or ev > FILTERS["max_ev_ebit"]:
-            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"EV/EBIT {ev:.1f}x fora do range (0, {FILTERS['max_ev_ebit']}]"})
+        if ev < FILTERS["min_ev_ebit"] or ev > FILTERS["max_ev_ebit"]:
+            removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"EV/EBIT {ev:.1f}x fora do range [{FILTERS['min_ev_ebit']}, {FILTERS['max_ev_ebit']}]"})
             continue
         if roic <= 0:
             removidos.append({"ticker": ticker, "etapa": "Filtros básicos", "motivo": f"ROIC {roic:.1f}% ≤ 0"})
