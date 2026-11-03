@@ -27,7 +27,6 @@ Sem CSVs → fallback automático para Funds Explorer + yfinance.
 ## Passo 1 — Executar pipeline Python
 
 ```powershell
-cd D:\Diana\MagicFormula
 python src/fii_main.py
 ```
 
@@ -107,7 +106,6 @@ Colete todos os JSONs dos agentes em um dict `analyses` com formato `{"TICKER11"
 
 Salve em arquivo:
 ```powershell
-cd D:\Diana\MagicFormula
 python -c "
 import json, sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -120,7 +118,6 @@ print('Salvo output/fii_analyses.json')
 
 Rode o validador:
 ```powershell
-cd D:\Diana\MagicFormula
 python -c "
 import json, sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -149,7 +146,6 @@ sys.exit(invalidas)
 ## Passo 5 — Gerar relatório HTML com IA
 
 ```powershell
-cd D:\Diana\MagicFormula
 python src/fii_report.py --analysis-file output/fii_analyses.json
 ```
 
@@ -196,7 +192,6 @@ Relatório: output\fii_relatorio.html
 ## Passo 7 — Deploy GitHub Pages
 
 ```powershell
-cd D:\Diana\MagicFormula
 copy /Y output\fii_relatorio.html docs\fii.html
 ```
 

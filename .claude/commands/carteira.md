@@ -47,7 +47,7 @@ ETFs entram só na alocação, sem análise de troca.
 ## Passo 1 — Coletar dados
 
 ```bash
-cd D:\Diana\MagicFormula && python src/carteira_main.py
+python src/carteira_main.py
 ```
 
 Saída: `output/carteira_candidates.json`, com uma entrada por ação/FII/FIAgro. Cada entrada traz:
@@ -63,7 +63,7 @@ Confira a data do screener no resumo. Se for de mais de 7 dias atrás, avise o u
 ## Passo 2 — Gerar prompts
 
 ```bash
-cd D:\Diana\MagicFormula && python src/carteira_prompts.py
+python src/carteira_prompts.py
 ```
 
 Cria `output/carteira_prompts/<TICKER>.txt` e limpa `output/carteira_out/`.
@@ -76,7 +76,7 @@ Dispare **um Agent por ticker** (subagent_type: "claude"), todos em uma única m
 
 Prompt de cada agente:
 ```
-Leia D:\Diana\MagicFormula\output\carteira_prompts\{TICKER}.txt e siga EXATAMENTE as instruções (análise + busca web). Grave apenas o JSON válido (UTF-8) em D:\Diana\MagicFormula\output\carteira_out\{TICKER}.json com a ferramenta Write. Responda só "OK {TICKER} <recomendacao> <score> <troca_por ou ->".
+Leia output\carteira_prompts\{TICKER}.txt e siga EXATAMENTE as instruções (análise + busca web). Grave apenas o JSON válido (UTF-8) em output\carteira_out\{TICKER}.json com a ferramenta Write. Responda só "OK {TICKER} <recomendacao> <score> <troca_por ou ->".
 ```
 
 ---
@@ -84,7 +84,7 @@ Leia D:\Diana\MagicFormula\output\carteira_prompts\{TICKER}.txt e siga EXATAMENT
 ## Passo 4 — EVAL anti-alucinação
 
 ```bash
-cd D:\Diana\MagicFormula && python src/carteira_eval.py
+python src/carteira_eval.py
 ```
 
 O comando junta `output/carteira_out/*.json` em `output/carteira_analyses.json` e valida:
@@ -101,7 +101,7 @@ O comando junta `output/carteira_out/*.json` em `output/carteira_analyses.json` 
 ## Passo 4b — Alocador de carteira (concentração)
 
 ```bash
-cd D:\Diana\MagicFormula && python src/carteira_alocacao.py
+python src/carteira_alocacao.py
 ```
 
 Os agentes decidem cada ativo isoladamente. Sem esse passo, todos tendem a escolher o mesmo destino, o de maior score. O alocador resolve as trocas para a carteira inteira:
@@ -120,7 +120,7 @@ Para reprocessar só alguns ativos: `python src/carteira_prompts.py --only T1,T2
 ## Passo 5 — Relatório local
 
 ```bash
-cd D:\Diana\MagicFormula && python src/carteira_report.py && start output\carteira.html
+python src/carteira_report.py && start output\carteira.html
 ```
 
 ---

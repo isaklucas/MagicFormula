@@ -101,7 +101,7 @@ Colete todos os JSONs dos agentes em um dict `analyses` com formato `{"TICKER": 
 
 Salve em arquivo:
 ```bash
-cd D:\Diana\MagicFormula && python -c "
+python -c "
 import json, sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 analyses = <COLE_AQUI_O_DICT_PYTHON_DE_ANALISES>
@@ -113,7 +113,7 @@ print('Salvo output/analyses.json')
 
 Rode o validador:
 ```bash
-cd D:\Diana\MagicFormula && python -c "
+python -c "
 import json, sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.path.insert(0, 'src')
@@ -152,7 +152,7 @@ Com análises validadas:
 O arquivo `output/analyses.json` já foi salvo no Passo 4. Use-o diretamente:
 
 ```bash
-cd D:\Diana\MagicFormula && python src/report.py --json output/candidates.json --analysis-file output/analyses.json --top 15
+python src/report.py --json output/candidates.json --analysis-file output/analyses.json --top 15
 ```
 
 Abra no browser:
@@ -185,17 +185,17 @@ Clique no ticker no relatório para ver detalhes + abrir StatusInvest.
 Copia o relatório para `docs/index.html` e faz push:
 
 ```bash
-cd D:\Diana\MagicFormula && copy /Y output\relatorio.html docs\index.html
+copy /Y output\relatorio.html docs\index.html
 ```
 
 **Se navbar.py foi alterado nesta sessão** (novo link, renome), atualize todos os outros relatórios sem regenerar dados:
 ```bash
-cd D:\Diana\MagicFormula && python src/patch_navbar.py
+python src/patch_navbar.py
 ```
 
 Commit — **apenas os arquivos listados abaixo**, nada mais:
 ```bash
-cd D:\Diana\MagicFormula && git add docs/index.html && git commit -m "Magic Formula BR — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
+git add docs/index.html && git commit -m "Magic Formula BR — $(Get-Date -Format 'yyyy-MM-dd')" && git push origin master
 ```
 
 Se patch_navbar.py foi rodado, inclua também os demais HTMLs de docs/ que foram modificados (apenas navbar, sem regenerar):

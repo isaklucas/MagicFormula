@@ -43,3 +43,6 @@ output/
 # Carteira pessoal do usuário (export StatusInvest) — NUNCA commitar
 data/carteira*.xlsx
 data/carteira*.csv
+# Qualquer planilha solta em data/ pode ser export pessoal — só a de setores B3 é pública
+data/*.xlsx
+!data/EmpresasB3Porsetor.xlsx

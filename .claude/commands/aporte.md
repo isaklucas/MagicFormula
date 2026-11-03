@@ -36,7 +36,7 @@ Opções:
 **0.3 Verificar o frescor dos dados:**
 
 ```bash
-cd D:\Diana\MagicFormula && python src/aporte_check.py
+python src/aporte_check.py
 ```
 
 | Exit | Significado | Ação |
@@ -54,7 +54,7 @@ Mostre ao usuário a saída do check (datas do export, da análise e dos screene
 ## Passo 1 — Divisão por classe + candidatos
 
 ```bash
-cd D:\Diana\MagicFormula && python src/aporte_main.py --valor <VALOR>
+python src/aporte_main.py --valor <VALOR>
 ```
 
 O script faz quatro coisas:
@@ -68,13 +68,13 @@ Mostre ao usuário a divisão por classe (antes → depois).
 ## Passo 2 — Agentes (um por classe, em paralelo)
 
 ```
-Leia D:\Diana\MagicFormula\output\aporte_prompts\{CLASSE}.txt e siga EXATAMENTE as instruções (alocação + busca web). Grave apenas o JSON válido (UTF-8) em D:\Diana\MagicFormula\output\aporte_out\{CLASSE}.json com a ferramenta Write. Responda só "OK {CLASSE} <ticker:valor, ...>".
+Leia output\aporte_prompts\{CLASSE}.txt e siga EXATAMENTE as instruções (alocação + busca web). Grave apenas o JSON válido (UTF-8) em output\aporte_out\{CLASSE}.json com a ferramenta Write. Responda só "OK {CLASSE} <ticker:valor, ...>".
 ```
 
 ## Passo 3 — EVAL + plano de ordens
 
 ```bash
-cd D:\Diana\MagicFormula && python src/aporte_eval.py
+python src/aporte_eval.py
 ```
 
 O EVAL verifica:
@@ -92,7 +92,7 @@ Depois calcula as cotas inteiras e o troco, e grava `output/aporte_plano.json`.
 ## Passo 4 — Relatório
 
 ```bash
-cd D:\Diana\MagicFormula && python src/aporte_report.py && start output\aporte.html
+python src/aporte_report.py && start output\aporte.html
 ```
 
 ## Passo 5 — Resumo no terminal

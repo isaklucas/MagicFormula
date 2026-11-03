@@ -94,7 +94,7 @@ Retorne EXATAMENTE este JSON (sem markdown, sem texto fora):
 Colete todos os JSONs em dict `analyses`.
 
 ```bash
-cd D:\Diana\MagicFormula && python -c "
+python -c "
 import json, sys, io, os
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.path.insert(0, 'src')

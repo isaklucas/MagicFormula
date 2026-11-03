@@ -179,7 +179,7 @@ copy /Y output\relatorio_us.html docs\us.html
 
 **Se navbar.py foi alterado nesta sessão** (novo link, renome), atualize todos os outros relatórios sem regenerar dados:
 ```bash
-cd D:\Diana\MagicFormula && python src/patch_navbar.py
+python src/patch_navbar.py
 ```
 
 Commit — **apenas os arquivos listados abaixo**, nada mais:
