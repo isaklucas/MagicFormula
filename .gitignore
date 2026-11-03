@@ -39,3 +39,7 @@ desktop.ini
 data/fii_cache/
 nul
 output/
+
+# Carteira pessoal do usuário (export StatusInvest) — NUNCA commitar
+data/carteira*.xlsx
+data/carteira*.csv
